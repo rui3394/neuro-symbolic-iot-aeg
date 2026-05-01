@@ -1,0 +1,26 @@
+{
+  "candidates": [
+    {
+      "candidate_id": "cand_001",
+      "target_name": "toy_02_filter_chars",
+      "target_source": "ip",
+      "candidate_kind": "benign_local_test_value",
+      "candidate_value": "LOCAL_TEST_VALUE",
+      "encoding": "plain",
+      "max_len": 32,
+      "constraints_claimed": {
+        "respects_max_len": true,
+        "avoids_observed_sanitizer_candidates": true,
+        "satisfies_branch_conditions": false
+      },
+      "safety": {
+        "local_toy_only": true,
+        "contains_shell_metacharacters": false,
+        "contains_network_target": false,
+        "contains_file_operation": false,
+        "contains_executable_code": false
+      },
+      "requires_symbolic_verification": true
+    }
+  ]
+}

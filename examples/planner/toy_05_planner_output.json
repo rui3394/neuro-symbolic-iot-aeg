@@ -1,0 +1,12 @@
+{
+  "planner_version": "0.1",
+  "target_name": "toy_05_safe_case",
+  "decision": "no_source_to_sink",
+  "rationale_summary": "The sink is reachable, but the configured source is not present in the sink argument.",
+  "candidate_plans": [],
+  "safety": {
+    "contains_concrete_payload": false,
+    "contains_executable_code": false,
+    "requires_human_review": true
+  }
+}

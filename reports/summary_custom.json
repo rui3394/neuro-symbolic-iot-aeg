@@ -1,0 +1,25 @@
+{
+  "error_count": 2,
+  "ok_targets": 0,
+  "sanitizer_like_observed_count": 0,
+  "source_to_sink_confirmed_count": 0,
+  "targets": [
+    {
+      "binary": "datasets/toy_cgi/build/toy_01",
+      "name": "toy_01_basic_cmd",
+      "report_path": "reports/toy_01_basic_cmd_analysis.json",
+      "sanitizer_like_observed": false,
+      "source_to_sink_confirmed": false,
+      "status": "error"
+    },
+    {
+      "binary": "datasets/toy_cgi/build/toy_02",
+      "name": "toy_02_filter_chars",
+      "report_path": "reports/toy_02_filter_chars_analysis.json",
+      "sanitizer_like_observed": false,
+      "source_to_sink_confirmed": false,
+      "status": "error"
+    }
+  ],
+  "total_targets": 2
+}

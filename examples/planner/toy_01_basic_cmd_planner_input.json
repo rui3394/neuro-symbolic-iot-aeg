@@ -1,0 +1,61 @@
+{
+  "constraint_summaries": [
+    {
+      "description": "input modeling constraint used for stable symbolic observation",
+      "kind": "input_modeling",
+      "raw": "<Bool !(sym_ip_7_504[495:488] == 0)>"
+    },
+    {
+      "description": "input modeling constraint used for stable symbolic observation",
+      "kind": "input_modeling",
+      "raw": "<Bool !(sym_ip_7_504[503:496] == 0)>"
+    },
+    {
+      "description": "input modeling constraint used for stable symbolic observation",
+      "kind": "input_modeling",
+      "raw": "<Bool !(sym_ip_7_504[487:480] == 0)>"
+    },
+    {
+      "description": "C string modeling constraint",
+      "kind": "string_modeling",
+      "raw": "<Bool (if sym_ip_7_504[471:464] == 0 then 0x7ffffffeffa2 else (if sym_ip_7_504[463:456] == 0 then 0x7ffffffeffa3 else (if sym_ip_7_504[455:448] == 0 then 0x7ffffffeffa4 else (if sym_ip_7_504[447:440] == 0 then 0x7ffffffeffa5 else (if sym_ip...<truncated>"
+    },
+    {
+      "description": "C string modeling constraint",
+      "kind": "string_modeling",
+      "raw": "<Bool sym_ip_7_504[31:24] == 0 || sym_ip_7_504[39:32] == 0 || sym_ip_7_504[55:48] == 0 || sym_ip_7_504[71:64] == 0 || sym_ip_7_504[87:80] == 0 || sym_ip_7_504[103:96] == 0 || sym_ip_7_504[119:112] == 0 || sym_ip_7_504[135:128] == 0 || sym_i...<truncated>"
+    }
+  ],
+  "observations": {
+    "branch_condition_count": 0,
+    "input_modeling_count": 4,
+    "sanitizer_candidate_count": 0,
+    "sanitizer_like_observed": false,
+    "source_to_sink_confirmed": true,
+    "string_modeling_count": 2,
+    "unknown_source_count": 0
+  },
+  "scope": {
+    "allowed_action": "structured_candidate_planning_only",
+    "disallowed_actions": [
+      "no_execution",
+      "no_network",
+      "no_real_device",
+      "no_poc_generation"
+    ],
+    "environment": "local_toy_binary"
+  },
+  "sink": {
+    "address": "0x401070",
+    "name": "system",
+    "source_reaches_sink_arg": true
+  },
+  "source": {
+    "max_len": 64,
+    "name": "ip",
+    "runtime_binding": "argv[1]",
+    "source_type": "http_param",
+    "symbolic_name": "sym_ip"
+  },
+  "target_name": "toy_01_basic_cmd"
+}

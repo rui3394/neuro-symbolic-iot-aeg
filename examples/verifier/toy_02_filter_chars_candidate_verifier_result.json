@@ -1,0 +1,27 @@
+{
+  "executed": false,
+  "results": [
+    {
+      "accepted_by_contract": true,
+      "candidate_id": "cand_001",
+      "reason": "candidate execution is disabled in current skeleton",
+      "status": "deferred",
+      "verified": false
+    }
+  ],
+  "safety": {
+    "executed_input": false,
+    "generated_payload": false,
+    "generated_poc": false
+  },
+  "summary": {
+    "accepted_by_contract": 1,
+    "deferred_count": 1,
+    "rejected_count": 0,
+    "status": "contract_ready",
+    "total_candidates": 1,
+    "verified_count": 0
+  },
+  "target_name": "toy_02_filter_chars",
+  "verification_mode": "local_toy_candidate_check"
+}

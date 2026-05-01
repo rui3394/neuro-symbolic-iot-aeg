@@ -1,0 +1,21 @@
+name: toy_01_basic_cmd
+binary: datasets/toy_cgi/build/toy_01
+arch: auto
+
+http:
+  method: GET
+  path: /cgi-bin/ping
+  params:
+    ip:
+      source: true
+      max_len: 64
+
+analysis:
+  vulnerability_type: command_injection
+  sinks:
+    - system
+    - popen
+    - snprintf
+
+mode:
+  dry_run: true

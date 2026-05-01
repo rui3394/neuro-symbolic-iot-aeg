@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NS-AEG Planner Input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "target_name",
+    "source",
+    "sink",
+    "observations",
+    "constraint_summaries",
+    "scope"
+  ],
+  "properties": {
+    "target_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "source_type",
+        "symbolic_name",
+        "runtime_binding",
+        "max_len"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "http_param"
+          ]
+        },
+        "symbolic_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runtime_binding": {
+          "type": "string",
+          "pattern": "^argv\\[[0-9]+\\]$"
+        },
+        "max_len": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "sink": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "address",
+        "source_reaches_sink_arg"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "enum": [
+            "system",
+            "popen",
+            "snprintf"
+          ]
+        },
+        "address": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_reaches_sink_arg": {
+          "type": "boolean"
+        }
+      }
+    },
+    "observations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_to_sink_confirmed",
+        "sanitizer_like_observed",
+        "sanitizer_candidate_count",
+        "branch_condition_count",
+        "input_modeling_count",
+        "string_modeling_count",
+        "unknown_source_count"
+      ],
+      "properties": {
+        "source_to_sink_confirmed": {
+          "type": "boolean"
+        },
+        "sanitizer_like_observed": {
+          "type": "boolean"
+        },
+        "sanitizer_candidate_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "branch_condition_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "input_modeling_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "string_modeling_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unknown_source_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "constraint_summaries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "kind",
+          "description",
+          "raw"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "sanitizer_candidate",
+              "branch_condition",
+              "input_modeling",
+              "string_modeling",
+              "unknown"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "raw": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "environment",
+        "allowed_action",
+        "disallowed_actions"
+      ],
+      "properties": {
+        "environment": {
+          "type": "string",
+          "enum": [
+            "local_toy_binary"
+          ]
+        },
+        "allowed_action": {
+          "type": "string",
+          "enum": [
+            "structured_candidate_planning_only"
+          ]
+        },
+        "disallowed_actions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "no_execution",
+              "no_network",
+              "no_real_device",
+              "no_poc_generation"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

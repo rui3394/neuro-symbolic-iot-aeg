@@ -1,0 +1,12 @@
+{
+  "candidate_plans": [],
+  "decision": "no_source_to_sink",
+  "planner_version": "0.1",
+  "rationale_summary": "No source-to-sink flow was confirmed in the analysis report.",
+  "safety": {
+    "contains_concrete_payload": false,
+    "contains_executable_code": false,
+    "requires_human_review": true
+  },
+  "target_name": "toy_05_safe_case"
+}

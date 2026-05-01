@@ -1,0 +1,19 @@
+[project]
+name = "neuro-symbolic-iot-aeg"
+version = "0.1.0"
+description = "Minimal first-stage skeleton for IoT CGI target configuration dry-runs."
+requires-python = ">=3.10"
+dependencies = [
+    "pyyaml",
+    "pytest",
+]
+
+[project.optional-dependencies]
+angr = ["angr"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]

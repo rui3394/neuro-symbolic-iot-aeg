@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NS-AEG Candidate Verifier Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "target_name",
+    "binary",
+    "source",
+    "sink",
+    "verification_mode",
+    "candidates",
+    "safety"
+  ],
+  "properties": {
+    "target_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "binary": {
+      "type": "string"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "runtime_binding",
+        "max_len"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "runtime_binding": {
+          "type": "string"
+        },
+        "max_len": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "sink": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "address"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "address": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "verification_mode": {
+      "type": "string",
+      "enum": [
+        "local_toy_candidate_check",
+        "abstract_contract_only"
+      ]
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "$ref": "candidate.schema.json"
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_toy_only",
+        "executes_candidate",
+        "generates_payload",
+        "generates_poc"
+      ],
+      "properties": {
+        "local_toy_only": {
+          "const": true
+        },
+        "executes_candidate": {
+          "const": false
+        },
+        "generates_payload": {
+          "const": false
+        },
+        "generates_poc": {
+          "const": false
+        }
+      }
+    }
+  }
+}

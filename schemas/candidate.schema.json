@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NS-AEG Candidate Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "candidate_id",
+    "target_name",
+    "target_source",
+    "candidate_kind",
+    "candidate_value",
+    "encoding",
+    "max_len",
+    "constraints_claimed",
+    "safety",
+    "requires_symbolic_verification"
+  ],
+  "properties": {
+    "candidate_id": {
+      "type": "string",
+      "pattern": "^cand_[0-9]+$"
+    },
+    "target_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "candidate_kind": {
+      "type": "string",
+      "enum": [
+        "benign_local_test_value",
+        "abstract_placeholder",
+        "human_supplied_test_value"
+      ]
+    },
+    "candidate_value": {
+      "type": "string"
+    },
+    "encoding": {
+      "type": "string",
+      "enum": [
+        "plain",
+        "hex",
+        "escaped"
+      ]
+    },
+    "max_len": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "constraints_claimed": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "respects_max_len",
+        "avoids_observed_sanitizer_candidates",
+        "satisfies_branch_conditions"
+      ],
+      "properties": {
+        "respects_max_len": {
+          "type": "boolean"
+        },
+        "avoids_observed_sanitizer_candidates": {
+          "type": "boolean"
+        },
+        "satisfies_branch_conditions": {
+          "type": "boolean"
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_toy_only",
+        "contains_shell_metacharacters",
+        "contains_network_target",
+        "contains_file_operation",
+        "contains_executable_code"
+      ],
+      "properties": {
+        "local_toy_only": {
+          "const": true
+        },
+        "contains_shell_metacharacters": {
+          "const": false
+        },
+        "contains_network_target": {
+          "const": false
+        },
+        "contains_file_operation": {
+          "const": false
+        },
+        "contains_executable_code": {
+          "const": false
+        }
+      }
+    },
+    "requires_symbolic_verification": {
+      "const": true
+    }
+  }
+}

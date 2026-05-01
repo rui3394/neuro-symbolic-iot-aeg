@@ -1,0 +1,24 @@
+{
+  "executed": false,
+  "mode": "skeleton_only",
+  "results": [
+    {
+      "candidate_id": "cand_001",
+      "reason": "abstract plan only; no concrete candidate input is available",
+      "requires_future_symbolic_verification": true,
+      "status": "not_executed"
+    }
+  ],
+  "safety": {
+    "executed_input": false,
+    "generated_payload": false,
+    "generated_poc": false
+  },
+  "summary": {
+    "deferred_requests": 1,
+    "executed_requests": 0,
+    "status": "skeleton_ready",
+    "total_requests": 1
+  },
+  "target_name": "toy_01_basic_cmd"
+}

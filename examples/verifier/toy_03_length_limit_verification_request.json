@@ -1,0 +1,26 @@
+{
+  "decision": "candidate_plan_available",
+  "planner_version": "0.1",
+  "requests": [
+    {
+      "abstract_input_shape": {
+        "forbidden_byte_classes": [
+          "observed_fixed_test_byte_or_class"
+        ],
+        "max_len": 32,
+        "notes": "abstract only; no concrete input generated",
+        "required_prefix": null
+      },
+      "candidate_id": "cand_001",
+      "requires_symbolic_verification": true,
+      "target_source": "ip",
+      "verification_mode": "abstract_plan_only"
+    }
+  ],
+  "safety": {
+    "contains_concrete_payload": false,
+    "contains_executable_code": false,
+    "verification_executes_input": false
+  },
+  "target_name": "toy_03_length_limit"
+}

@@ -1,0 +1,56 @@
+{
+  "constraint_summaries": [
+    {
+      "description": "input modeling constraint used for stable symbolic observation",
+      "kind": "input_modeling",
+      "raw": "<Bool !(sym_ip_59_248[239:232] == 0)>"
+    },
+    {
+      "description": "input modeling constraint used for stable symbolic observation",
+      "kind": "input_modeling",
+      "raw": "<Bool !(sym_ip_59_248[247:240] == 0)>"
+    },
+    {
+      "description": "input modeling constraint used for stable symbolic observation",
+      "kind": "input_modeling",
+      "raw": "<Bool !(sym_ip_59_248[231:224] == 0)>"
+    },
+    {
+      "description": "C string modeling constraint",
+      "kind": "string_modeling",
+      "raw": "<Bool (if sym_ip_59_248[215:208] == 0 then 0x7ffffffeffc2 else (if sym_ip_59_248[207:200] == 0 then 0x7ffffffeffc3 else (if sym_ip_59_248[199:192] == 0 then 0x7ffffffeffc4 else (if sym_ip_59_248[191:184] == 0 then 0x7ffffffeffc5 else (if sy...<truncated>"
+    }
+  ],
+  "observations": {
+    "branch_condition_count": 0,
+    "input_modeling_count": 4,
+    "sanitizer_candidate_count": 0,
+    "sanitizer_like_observed": false,
+    "source_to_sink_confirmed": false,
+    "string_modeling_count": 1,
+    "unknown_source_count": 0
+  },
+  "scope": {
+    "allowed_action": "structured_candidate_planning_only",
+    "disallowed_actions": [
+      "no_execution",
+      "no_network",
+      "no_real_device",
+      "no_poc_generation"
+    ],
+    "environment": "local_toy_binary"
+  },
+  "sink": {
+    "address": "0x401080",
+    "name": "system",
+    "source_reaches_sink_arg": false
+  },
+  "source": {
+    "max_len": 32,
+    "name": "ip",
+    "runtime_binding": "argv[1]",
+    "source_type": "http_param",
+    "symbolic_name": "sym_ip"
+  },
+  "target_name": "toy_05_safe_case"
+}

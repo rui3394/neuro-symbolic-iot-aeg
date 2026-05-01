@@ -1,0 +1,66 @@
+{
+  "constraint_summaries": [
+    {
+      "description": "observed sanitizer candidate constraint",
+      "kind": "sanitizer_candidate",
+      "raw": "<Bool !(sym_ip_20_248[247:240] == 59)>"
+    },
+    {
+      "description": "observed sanitizer candidate constraint",
+      "kind": "sanitizer_candidate",
+      "raw": "<Bool !(sym_ip_20_248[239:232] == 59)>"
+    },
+    {
+      "description": "observed sanitizer candidate constraint",
+      "kind": "sanitizer_candidate",
+      "raw": "<Bool !(sym_ip_20_248[231:224] == 59)>"
+    },
+    {
+      "description": "input modeling constraint used for stable symbolic observation",
+      "kind": "input_modeling",
+      "raw": "<Bool !(sym_ip_20_248[239:232] == 0)>"
+    },
+    {
+      "description": "input modeling constraint used for stable symbolic observation",
+      "kind": "input_modeling",
+      "raw": "<Bool !(sym_ip_20_248[247:240] == 0)>"
+    },
+    {
+      "description": "input modeling constraint used for stable symbolic observation",
+      "kind": "input_modeling",
+      "raw": "<Bool !(sym_ip_20_248[231:224] == 0)>"
+    }
+  ],
+  "observations": {
+    "branch_condition_count": 0,
+    "input_modeling_count": 4,
+    "sanitizer_candidate_count": 5,
+    "sanitizer_like_observed": true,
+    "source_to_sink_confirmed": true,
+    "string_modeling_count": 0,
+    "unknown_source_count": 0
+  },
+  "scope": {
+    "allowed_action": "structured_candidate_planning_only",
+    "disallowed_actions": [
+      "no_execution",
+      "no_network",
+      "no_real_device",
+      "no_poc_generation"
+    ],
+    "environment": "local_toy_binary"
+  },
+  "sink": {
+    "address": "0x401090",
+    "name": "system",
+    "source_reaches_sink_arg": true
+  },
+  "source": {
+    "max_len": 32,
+    "name": "ip",
+    "runtime_binding": "argv[1]",
+    "source_type": "http_param",
+    "symbolic_name": "sym_ip"
+  },
+  "target_name": "toy_02_filter_chars"
+}

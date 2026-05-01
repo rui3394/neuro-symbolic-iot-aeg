@@ -1,0 +1,11 @@
+{
+  "decision": "no_source_to_sink",
+  "planner_version": "0.1",
+  "requests": [],
+  "safety": {
+    "contains_concrete_payload": false,
+    "contains_executable_code": false,
+    "verification_executes_input": false
+  },
+  "target_name": "toy_05_safe_case"
+}

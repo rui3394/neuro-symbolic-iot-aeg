@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NS-AEG Candidate Verifier Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "target_name",
+    "verification_mode",
+    "executed",
+    "results",
+    "summary",
+    "safety"
+  ],
+  "properties": {
+    "target_name": {
+      "type": "string"
+    },
+    "verification_mode": {
+      "type": "string",
+      "enum": [
+        "local_toy_candidate_check",
+        "abstract_contract_only"
+      ]
+    },
+    "executed": {
+      "const": false
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "candidate_id",
+          "accepted_by_contract",
+          "verified",
+          "status",
+          "reason"
+        ],
+        "properties": {
+          "candidate_id": {
+            "type": "string"
+          },
+          "accepted_by_contract": {
+            "type": "boolean"
+          },
+          "verified": {
+            "const": false
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "deferred",
+              "rejected_by_contract"
+            ]
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total_candidates",
+        "accepted_by_contract",
+        "verified_count",
+        "deferred_count",
+        "rejected_count",
+        "status"
+      ],
+      "properties": {
+        "total_candidates": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "accepted_by_contract": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "verified_count": {
+          "const": 0
+        },
+        "deferred_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rejected_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "contract_ready",
+            "deferred",
+            "rejected_by_contract",
+            "no_candidates",
+            "error"
+          ]
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "executed_input",
+        "generated_payload",
+        "generated_poc"
+      ],
+      "properties": {
+        "executed_input": {
+          "const": false
+        },
+        "generated_payload": {
+          "const": false
+        },
+        "generated_poc": {
+          "const": false
+        }
+      }
+    }
+  }
+}

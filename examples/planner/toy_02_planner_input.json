@@ -1,0 +1,46 @@
+{
+  "target_name": "toy_02_filter_chars",
+  "source": {
+    "name": "ip",
+    "source_type": "http_param",
+    "symbolic_name": "sym_ip",
+    "runtime_binding": "argv[1]",
+    "max_len": 32
+  },
+  "sink": {
+    "name": "system",
+    "address": "0x401090",
+    "source_reaches_sink_arg": true
+  },
+  "observations": {
+    "source_to_sink_confirmed": true,
+    "sanitizer_like_observed": true,
+    "sanitizer_candidate_count": 5,
+    "branch_condition_count": 0,
+    "input_modeling_count": 4,
+    "string_modeling_count": 0,
+    "unknown_source_count": 0
+  },
+  "constraint_summaries": [
+    {
+      "kind": "sanitizer_candidate",
+      "description": "source byte is constrained not to equal the observed fixed test byte",
+      "raw": "<Bool !(sym_ip_20_248[247:240] == 59)>"
+    },
+    {
+      "kind": "input_modeling",
+      "description": "observation mode requires an initial non-null symbolic prefix",
+      "raw": "<Bool !(sym_ip_20_248[247:240] == 0)>"
+    }
+  ],
+  "scope": {
+    "environment": "local_toy_binary",
+    "allowed_action": "structured_candidate_planning_only",
+    "disallowed_actions": [
+      "no_execution",
+      "no_network",
+      "no_real_device",
+      "no_poc_generation"
+    ]
+  }
+}

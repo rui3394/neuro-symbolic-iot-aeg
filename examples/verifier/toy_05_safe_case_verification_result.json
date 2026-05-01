@@ -1,0 +1,17 @@
+{
+  "executed": false,
+  "mode": "skeleton_only",
+  "results": [],
+  "safety": {
+    "executed_input": false,
+    "generated_payload": false,
+    "generated_poc": false
+  },
+  "summary": {
+    "deferred_requests": 0,
+    "executed_requests": 0,
+    "status": "no_verification_needed",
+    "total_requests": 0
+  },
+  "target_name": "toy_05_safe_case"
+}

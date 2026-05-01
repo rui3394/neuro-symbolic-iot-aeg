@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NS-AEG Planner Output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "planner_version",
+    "target_name",
+    "decision",
+    "rationale_summary",
+    "candidate_plans",
+    "safety"
+  ],
+  "properties": {
+    "planner_version": {
+      "type": "string",
+      "enum": [
+        "0.1"
+      ]
+    },
+    "target_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision": {
+      "type": "string",
+      "enum": [
+        "candidate_plan_available",
+        "no_source_to_sink",
+        "insufficient_information"
+      ]
+    },
+    "rationale_summary": {
+      "type": "string"
+    },
+    "candidate_plans": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "candidate_id",
+          "target_source",
+          "intent",
+          "constraints_considered",
+          "abstract_input_shape",
+          "requires_symbolic_verification"
+        ],
+        "properties": {
+          "candidate_id": {
+            "type": "string",
+            "pattern": "^cand_[0-9]+$"
+          },
+          "target_source": {
+            "type": "string"
+          },
+          "intent": {
+            "type": "string",
+            "enum": [
+              "reach_sink_under_observed_constraints"
+            ]
+          },
+          "constraints_considered": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "abstract_input_shape": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "max_len",
+              "required_prefix",
+              "forbidden_byte_classes",
+              "notes"
+            ],
+            "properties": {
+              "max_len": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "required_prefix": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "forbidden_byte_classes": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "notes": {
+                "type": "string"
+              }
+            }
+          },
+          "requires_symbolic_verification": {
+            "const": true
+          }
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contains_concrete_payload",
+        "contains_executable_code",
+        "requires_human_review"
+      ],
+      "properties": {
+        "contains_concrete_payload": {
+          "const": false
+        },
+        "contains_executable_code": {
+          "const": false
+        },
+        "requires_human_review": {
+          "const": true
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+target,binary,source_to_sink_confirmed,sanitizer_like_observed,sanitizer_candidate_count,input_modeling_count,branch_condition_count,status,report_path
+toy_01_basic_cmd,datasets/toy_cgi/build/toy_01,True,False,0,4,0,ok,reports/toy_01_basic_cmd_analysis.json
+toy_02_filter_chars,datasets/toy_cgi/build/toy_02,True,True,5,4,0,ok,reports/toy_02_filter_chars_analysis.json
+toy_03_length_limit,datasets/toy_cgi/build/toy_03,True,True,1,4,0,ok,reports/toy_03_length_limit_analysis.json
+toy_04_branch_check,datasets/toy_cgi/build/toy_04,True,False,0,2,2,ok,reports/toy_04_branch_check_analysis.json
+toy_05_safe_case,datasets/toy_cgi/build/toy_05,False,False,0,4,0,not_source_to_sink,reports/toy_05_safe_case_analysis.json

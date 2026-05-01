@@ -1,0 +1,30 @@
+{
+  "planner_version": "0.1",
+  "target_name": "toy_02_filter_chars",
+  "decision": "candidate_plan_available",
+  "rationale_summary": "Source data reaches the sink argument and local sanitizer-candidate constraints were observed.",
+  "candidate_plans": [
+    {
+      "candidate_id": "cand_001",
+      "target_source": "ip",
+      "intent": "reach_sink_under_observed_constraints",
+      "constraints_considered": [
+        "avoid observed sanitizer candidate constraints"
+      ],
+      "abstract_input_shape": {
+        "max_len": 32,
+        "required_prefix": null,
+        "forbidden_byte_classes": [
+          "observed_fixed_test_byte"
+        ],
+        "notes": "abstract only; no concrete input generated"
+      },
+      "requires_symbolic_verification": true
+    }
+  ],
+  "safety": {
+    "contains_concrete_payload": false,
+    "contains_executable_code": false,
+    "requires_human_review": true
+  }
+}

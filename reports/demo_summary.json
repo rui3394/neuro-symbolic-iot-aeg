@@ -1,0 +1,42 @@
+{
+  "artifacts": {
+    "planner_dir": "examples/planner",
+    "summary_csv": "reports/summary.csv",
+    "summary_json": "reports/summary.json",
+    "summary_md": "reports/summary.md",
+    "verifier_dir": "examples/verifier"
+  },
+  "expected_results": {
+    "error_count": 0,
+    "sanitizer_like_observed_count": 2,
+    "source_to_sink_confirmed_count": 4,
+    "total_targets": 5
+  },
+  "status": "ok",
+  "steps": {
+    "mock_planner": {
+      "built": 7,
+      "errors": 0,
+      "ok": true
+    },
+    "planner_inputs": {
+      "built": 5,
+      "errors": 0,
+      "ok": true
+    },
+    "toy_dataset": {
+      "ok": true,
+      "summary_json": "reports/summary.json"
+    },
+    "verification_requests": {
+      "built": 7,
+      "errors": 0,
+      "ok": true
+    },
+    "verifier_skeleton": {
+      "built": 5,
+      "errors": 0,
+      "ok": true
+    }
+  }
+}

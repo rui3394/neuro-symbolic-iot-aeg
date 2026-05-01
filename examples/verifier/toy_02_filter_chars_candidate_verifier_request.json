@@ -1,0 +1,44 @@
+{
+  "binary": "datasets/toy_cgi/build/toy_02",
+  "candidates": [
+    {
+      "candidate_id": "cand_001",
+      "candidate_kind": "benign_local_test_value",
+      "candidate_value": "LOCAL_TEST_VALUE",
+      "constraints_claimed": {
+        "avoids_observed_sanitizer_candidates": true,
+        "respects_max_len": true,
+        "satisfies_branch_conditions": false
+      },
+      "encoding": "plain",
+      "max_len": 32,
+      "requires_symbolic_verification": true,
+      "safety": {
+        "contains_executable_code": false,
+        "contains_file_operation": false,
+        "contains_network_target": false,
+        "contains_shell_metacharacters": false,
+        "local_toy_only": true
+      },
+      "target_name": "toy_02_filter_chars",
+      "target_source": "ip"
+    }
+  ],
+  "safety": {
+    "executes_candidate": false,
+    "generates_payload": false,
+    "generates_poc": false,
+    "local_toy_only": true
+  },
+  "sink": {
+    "address": "0x401090",
+    "name": "system"
+  },
+  "source": {
+    "max_len": 32,
+    "name": "ip",
+    "runtime_binding": "argv[1]"
+  },
+  "target_name": "toy_02_filter_chars",
+  "verification_mode": "local_toy_candidate_check"
+}

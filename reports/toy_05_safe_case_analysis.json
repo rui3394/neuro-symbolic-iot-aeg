@@ -1,0 +1,96 @@
+{
+  "angr_loader": {
+    "arch": "AMD64",
+    "base_addr": "0x400000",
+    "bits": 64,
+    "entry": "0x4010b0",
+    "error": null,
+    "loaded": true,
+    "main_object": "toy_05",
+    "missing_plt": [],
+    "plt": {
+      "snprintf": "0x4010a0",
+      "system": "0x401080"
+    }
+  },
+  "constraint_observation": {
+    "branch_condition_constraints": [],
+    "branch_condition_count": 0,
+    "created": true,
+    "error": null,
+    "input_constraints": [
+      "first 4 symbolic bytes are non-null"
+    ],
+    "input_modeling_constraints": [
+      "<Bool !(sym_ip_59_248[239:232] == 0)>",
+      "<Bool !(sym_ip_59_248[247:240] == 0)>",
+      "<Bool !(sym_ip_59_248[231:224] == 0)>"
+    ],
+    "input_modeling_count": 4,
+    "reachable": true,
+    "runtime_binding": "argv[1]",
+    "sanitizer_candidate_constraints": [],
+    "sanitizer_candidate_count": 0,
+    "sanitizer_like_observed": false,
+    "source_name": "ip",
+    "source_related_count": 5,
+    "string_modeling_constraints": [
+      "<Bool (if sym_ip_59_248[215:208] == 0 then 0x7ffffffeffc2 else (if sym_ip_59_248[207:200] == 0 then 0x7ffffffeffc3 else (if sym_ip_59_248[199:192] == 0 then 0x7ffffffeffc4 else (if sym_ip_59_248[191:184] == 0 then 0x7ffffffeffc5 else (if sy...<truncated>"
+    ],
+    "string_modeling_count": 1,
+    "symbolic_var": "sym_ip",
+    "target_addr": "0x401080",
+    "target_sink": "system",
+    "total_constraints": 6,
+    "unknown_source_constraints": [],
+    "unknown_source_count": 0
+  },
+  "report_path": "reports/toy_05_safe_case_analysis.json",
+  "source_model": {
+    "error": null,
+    "sources": [
+      {
+        "max_len": 32,
+        "name": "ip",
+        "runtime_binding": "argv[1]",
+        "source_type": "http_param",
+        "symbolic_name": "sym_ip"
+      }
+    ]
+  },
+  "summary": {
+    "sanitizer_like_observed": false,
+    "source_to_sink_confirmed": false,
+    "status": "not_source_to_sink"
+  },
+  "symbolic_reachability": {
+    "created": true,
+    "error": null,
+    "input_constraints": [
+      "first 4 symbolic bytes are non-null"
+    ],
+    "reachable": true,
+    "runtime_binding": "argv[1]",
+    "sink_arg_symbolic": true,
+    "sink_arg_variables": [
+      "mem_7ffffffefe69_58_440"
+    ],
+    "source_name": "ip",
+    "source_var_in_sink_arg": false,
+    "symbolic_var": "sym_ip",
+    "target_addr": "0x401080",
+    "target_sink": "system"
+  },
+  "target": {
+    "arch": "auto",
+    "binary": "datasets/toy_cgi/build/toy_05",
+    "configured_sinks": [
+      "system",
+      "snprintf"
+    ],
+    "http_method": "GET",
+    "http_path": "/cgi-bin/ping",
+    "name": "toy_05_safe_case",
+    "vulnerability_type": "safe_path_observation"
+  }
+}
