@@ -1,0 +1,28 @@
+{
+  "choice_keys": [
+    "finish_reason",
+    "index",
+    "message"
+  ],
+  "choices_count": 1,
+  "content_len": 545,
+  "content_preview": "{\"candidates\":[{\"candidate_id\":\"c1\",\"strategy\":\"benign_marker\",\"inputs\":{\"ip\":\"127.0.0.1__NS_AEG_MARKER__\"},\"assumptions\":[\"benign source probe\"],\"safety\":{\"benign\":true,\"weaponized\":false}},{\"candidate_id\":\"c2\",\"strategy\":\"benign_marker\",\"inputs\":{\"ip\":\"10.0.0.1__NS_AEG_MARKER__\"},\"assumptions\":[\"benign source probe\"],\"safety\":{\"benign\":true,\"weaponized\":false}},{\"candidate_id\":\"c3\",\"strategy\":\"benign_marker\",\"inputs\":{\"ip\":\"192.168.1.1__NS_AEG_MARKER__\"},\"assumptions\":[\"benign source probe\"],\"",
+  "finish_reason": "stop",
+  "message_keys": [
+    "content",
+    "reasoning_content",
+    "role",
+    "tool_calls"
+  ],
+  "reasoning_content_len": 4085,
+  "reasoning_content_present": true,
+  "response_keys": [
+    "choices",
+    "created",
+    "id",
+    "model",
+    "object",
+    "usage"
+  ],
+  "status_code": 200
+}

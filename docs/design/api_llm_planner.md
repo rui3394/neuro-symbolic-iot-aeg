@@ -21,7 +21,60 @@ export NS_AEG_LLM_API_KEY=<your-token>
 export NS_AEG_LLM_MODEL=<your-model>
 ```
 
+The provider sends a minimal request body by default:
+
+- `model`
+- `messages`
+- `temperature`
+- `max_tokens`
+
+It does not send `response_format`, `tools`, `tool_choice`, `stream`, or `max_completion_tokens` by default. If a provider explicitly supports JSON mode, opt in with:
+
+```bash
+export NS_AEG_LLM_RESPONSE_FORMAT=json_object
+```
+
+Planner generation defaults to `max_tokens=8192` because reasoning models may spend part of the output budget on `reasoning_content`. Override it if the debug file shows `finish_reason=length`:
+
+```bash
+export NS_AEG_LLM_MAX_TOKENS=12000
+```
+
 No API key is stored in code, tests, docs, generated artifacts, or logs.
+
+## MiMo Compatibility Check
+
+Before running full candidate generation, use the ping command:
+
+```bash
+.venv/bin/python -m ns_aeg.planner.api_planner --ping
+```
+
+The ping sends only:
+
+```text
+Return only this JSON: {"ok": true}
+```
+
+and validates that the provider response can be parsed as `{"ok": true}`.
+
+If debugging is needed:
+
+```bash
+export NS_AEG_LLM_DEBUG=1
+.venv/bin/python -m ns_aeg.planner.api_planner --ping
+```
+
+or:
+
+```bash
+.venv/bin/python -m ns_aeg.planner.api_planner \
+  --task examples/dangerous_tasks/toy_01_task.real.json \
+  --out examples/candidates/toy_01_candidates.llm.generated.json \
+  --debug-response
+```
+
+This writes redacted diagnostics to `reports/llm_debug/last_response.redacted.json`. The file includes response shape, finish reason, message keys, content length, and reasoning-content length. It does not include the API key or Authorization header.
 
 ## Offline By Default
 
@@ -74,3 +127,6 @@ The API planner does not execute target binaries, does not execute `system` or `
 
 The provider currently supports OpenAI-compatible Chat Completions only. It does not use Responses API. Live API tests are opt-in with `NS_AEG_RUN_LLM_TESTS=1` and require base URL, API key, and model environment variables.
 
+Some reasoning models may return `reasoning_content` alongside an empty `message.content`. The planner does not use `reasoning_content` as final candidate JSON. If this happens, the error reports whether reasoning content was present and the redacted debug file should be inspected.
+
+If `finish_reason=length`, the provider truncated the final answer. The local parser will reject the incomplete JSON. Increase `NS_AEG_LLM_MAX_TOKENS` or use a smaller/non-reasoning model.

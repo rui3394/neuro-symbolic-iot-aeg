@@ -1,0 +1,87 @@
+{
+  "best_candidate_id": "c1",
+  "best_status": "sat",
+  "candidate_count": 3,
+  "candidate_source": "examples/candidates/toy_01_candidates.llm.generated.json",
+  "generated_at": "2026-05-02T12:57:04.589103+00:00",
+  "limitations": [
+    "API LLM planner outputs are locally validated as benign candidates before verification",
+    "candidate verification does not concretely execute target binaries or system/popen",
+    "symbolic mode is currently scoped to local toy argv-based CGI binaries"
+  ],
+  "marker_observed_count": 3,
+  "mode": "symbolic",
+  "planner": {
+    "mode": "benign_candidate_generation",
+    "model": "mimo-v2.5-pro",
+    "name": "api_llm_planner",
+    "provider": "openai_compatible",
+    "version": "0.1"
+  },
+  "sat_count": 3,
+  "selected_sink": {
+    "address": "0x4011f9",
+    "arg_index": 0,
+    "callers": [
+      "main"
+    ],
+    "external_address": "0x3",
+    "function": "system",
+    "sink_id": "sink_2:system",
+    "type": "command_execution"
+  },
+  "sink_reached_count": 3,
+  "source_bound_count": 3,
+  "status_counts": {
+    "sat": 3
+  },
+  "task_id": "dangerous_path:toy_01_basic_cmd:toy_01",
+  "timeout_count": 0,
+  "total_candidates": 3,
+  "unsupported_count": 0,
+  "validation": {
+    "candidate_count": 3,
+    "candidates": [
+      {
+        "candidate_id": "c1",
+        "checks": {
+          "contains_benign_marker": true,
+          "contains_dangerous_chars": false,
+          "covers_all_sources": true,
+          "weaponized_false": true,
+          "within_max_len": true
+        },
+        "errors": [],
+        "validation_passed": true
+      },
+      {
+        "candidate_id": "c2",
+        "checks": {
+          "contains_benign_marker": true,
+          "contains_dangerous_chars": false,
+          "covers_all_sources": true,
+          "weaponized_false": true,
+          "within_max_len": true
+        },
+        "errors": [],
+        "validation_passed": true
+      },
+      {
+        "candidate_id": "c3",
+        "checks": {
+          "contains_benign_marker": true,
+          "contains_dangerous_chars": false,
+          "covers_all_sources": true,
+          "weaponized_false": true,
+          "within_max_len": true
+        },
+        "errors": [],
+        "validation_passed": true
+      }
+    ],
+    "validation_failed_count": 0,
+    "validation_passed_count": 3
+  },
+  "validation_failed_count": 0,
+  "validation_passed_count": 3
+}

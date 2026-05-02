@@ -97,12 +97,51 @@ export NS_AEG_LLM_MODEL=<your-model>
 export NS_AEG_RUN_LLM_TESTS=1
 ```
 
+The recommended base URL is `https://token-plan-cn.xiaomimimo.com/v1`. The planner calls `{base_url}/chat/completions` and sends only `model`, `messages`, `temperature`, and `max_tokens` by default. It does not send `response_format` unless explicitly requested:
+
+```bash
+export NS_AEG_LLM_RESPONSE_FORMAT=json_object
+```
+
+Planner generation defaults to `max_tokens=8192`. If `reports/llm_debug/last_response.redacted.json` shows `finish_reason=length`, increase the budget:
+
+```bash
+export NS_AEG_LLM_MAX_TOKENS=12000
+```
+
+First run a minimal ping:
+
+```bash
+.venv/bin/python -m ns_aeg.planner.api_planner --ping
+```
+
+If the provider returns empty `message.content`, enable redacted diagnostics:
+
+```bash
+export NS_AEG_LLM_DEBUG=1
+.venv/bin/python -m ns_aeg.planner.api_planner --ping
+```
+
+The debug file is `reports/llm_debug/last_response.redacted.json`. It records response keys, finish reason, message keys, content length, and reasoning-content length, but not the API key or Authorization header.
+
 Run the API planner:
 
 ```bash
 .venv/bin/python -m ns_aeg.planner.api_planner \
   --task examples/dangerous_tasks/toy_01_task.real.json \
-  --out examples/candidates/toy_01_candidates.llm.generated.json
+  --out examples/candidates/toy_01_candidates.llm.generated.json \
+  --debug-response
+```
+
+Verify an existing LLM candidate set without another API call:
+
+```bash
+.venv/bin/python -m ns_aeg.pipeline.run_planner_verifier \
+  --task examples/dangerous_tasks/toy_01_task.real.json \
+  --planner llm \
+  --candidates examples/candidates/toy_01_candidates.llm.generated.json \
+  --mode symbolic \
+  --out-dir reports/planner_runs/toy_01_llm_symbolic
 ```
 
 Run the LLM planner pipeline:
@@ -114,6 +153,22 @@ Run the LLM planner pipeline:
   --mode symbolic \
   --out-dir reports/planner_runs/toy_01_llm_symbolic
 ```
+
+To compare models, keep the same task and change only `NS_AEG_LLM_MODEL` and output paths:
+
+```bash
+export NS_AEG_LLM_MODEL=mimo-v2.5-pro
+.venv/bin/python -m ns_aeg.planner.api_planner \
+  --task examples/dangerous_tasks/toy_01_task.real.json \
+  --out examples/candidates/toy_01_candidates.mimo-v2.5-pro.json
+
+export NS_AEG_LLM_MODEL=mimo-v2.5
+.venv/bin/python -m ns_aeg.planner.api_planner \
+  --task examples/dangerous_tasks/toy_01_task.real.json \
+  --out examples/candidates/toy_01_candidates.mimo-v2.5.json
+```
+
+Then run `run_planner_verifier --candidates ...` for each file. Summaries record provider, base URL host, model, max tokens, temperature, validation counts, and symbolic status counts.
 
 Do not commit API keys or generated logs containing secrets. The project does not print API keys.
 
@@ -131,7 +186,8 @@ Do not commit API keys or generated logs containing secrets. The project does no
 - PyGhidra mismatch: ensure the installed PyGhidra version can initialize the configured Ghidra.
 - API key missing: set `NS_AEG_LLM_API_KEY` or use `--offline-example`.
 - API timeout: retry with a reachable OpenAI-compatible endpoint and model.
+- Empty content with reasoning content: inspect `reports/llm_debug/last_response.redacted.json`; the planner does not use `reasoning_content` as candidate JSON.
+- Truncated content: if `finish_reason=length`, increase `NS_AEG_LLM_MAX_TOKENS` or use a smaller/non-reasoning model.
 - JSON parse failure: the provider did not return valid candidate JSON; no candidate is passed to the verifier.
 - angr cannot find binary: verify `task.binary.path` points to an existing toy binary.
 - symbolic mode unsupported: the current backend is scoped to toy argv-based CGI binaries.
-

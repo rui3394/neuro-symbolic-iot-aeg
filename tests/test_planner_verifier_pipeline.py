@@ -6,6 +6,7 @@ from pathlib import Path
 
 import pytest
 
+from ns_aeg.planner.api_planner import generate_candidate_set_for_task_path
 from ns_aeg.pipeline.run_planner_verifier import run_pipeline, select_best_result
 
 
@@ -22,6 +23,7 @@ def test_planner_verifier_pipeline_dry_run_writes_batch_artifacts(tmp_path: Path
     assert summary["task_id"] == "dangerous_path:toy_01_basic_cmd:toy_01"
     assert summary["mode"] == "dry-run"
     assert summary["total_candidates"] >= 4
+    assert summary["validation_passed_count"] == summary["total_candidates"]
     assert summary["status_counts"]["unknown"] >= 1
     assert summary["best_candidate_id"] is None
     assert (out_dir / "candidates.json").exists()
@@ -43,9 +45,34 @@ def test_planner_verifier_pipeline_llm_offline_dry_run(tmp_path: Path) -> None:
 
     assert summary["planner"]["name"] == "api_llm_planner_offline"
     assert summary["total_candidates"] >= 3
+    assert summary["candidate_count"] == summary["total_candidates"]
+    assert summary["validation_failed_count"] == 0
     assert summary["status_counts"]["unknown"] >= 1
     assert (out_dir / "candidates.json").exists()
     assert (out_dir / "summary.json").exists()
+
+
+def test_planner_verifier_pipeline_reads_existing_llm_candidates(tmp_path: Path) -> None:
+    candidate_set = generate_candidate_set_for_task_path(
+        "examples/dangerous_tasks/toy_01_task.example.json",
+        offline_example=True,
+    )
+    candidates_path = tmp_path / "candidates.json"
+    candidates_path.write_text(json.dumps(candidate_set), encoding="utf-8")
+    out_dir = tmp_path / "run"
+
+    summary = run_pipeline(
+        task_path="examples/dangerous_tasks/toy_01_task.example.json",
+        planner="llm",
+        mode="dry-run",
+        out_dir=str(out_dir),
+        candidates_path=str(candidates_path),
+    )
+
+    assert summary["candidate_source"] == str(candidates_path)
+    assert summary["planner"]["name"] == "api_llm_planner_offline"
+    assert summary["validation_passed_count"] == summary["total_candidates"]
+    assert summary["validation_failed_count"] == 0
 
 
 def test_select_best_result_prefers_sat_then_reachability_then_marker() -> None:

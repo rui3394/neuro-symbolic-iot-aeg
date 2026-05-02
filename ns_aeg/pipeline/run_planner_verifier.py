@@ -9,7 +9,9 @@ from pathlib import Path
 from typing import Any
 
 from ns_aeg.planner.api_planner import ApiPlannerError
+from ns_aeg.planner.api_planner import build_candidate_validation_report
 from ns_aeg.planner.api_planner import generate_candidate_set as generate_llm_candidate_set
+from ns_aeg.planner.api_planner import validate_candidate_set as validate_llm_candidate_set
 from ns_aeg.planner.rule_planner import RulePlannerError
 from ns_aeg.planner.rule_planner import generate_candidate_set as generate_rule_candidate_set
 from ns_aeg.tasks.loader import TaskLoadError, load_dangerous_path_task
@@ -36,6 +38,7 @@ def run_pipeline(
     mode: str,
     out_dir: str,
     offline_example: bool = False,
+    candidates_path: str | None = None,
 ) -> dict[str, Any]:
     if planner not in SUPPORTED_PLANNERS:
         raise PlannerVerifierPipelineError(f"unsupported planner: {planner}")
@@ -44,11 +47,16 @@ def run_pipeline(
 
     task = load_dangerous_path_task(task_path)
     config = task_to_verifier_config(task)
-    candidate_set = _generate_candidate_set(
-        task,
-        planner=planner,
-        offline_example=offline_example,
+    candidate_set = (
+        _load_candidate_set(candidates_path)
+        if candidates_path
+        else _generate_candidate_set(
+            task,
+            planner=planner,
+            offline_example=offline_example,
+        )
     )
+    _validate_candidate_set_for_pipeline(candidate_set, task, planner)
 
     output_dir = Path(out_dir)
     verifications_dir = output_dir / "verifications"
@@ -67,6 +75,7 @@ def run_pipeline(
         candidate_set=candidate_set,
         mode=mode,
         results=results,
+        candidates_path=candidates_path,
     )
     _write_json(summary, output_dir / "summary.json")
     _write_json(build_best_candidate_payload(candidate_set, results), output_dir / "best_candidate.json")
@@ -79,16 +88,23 @@ def build_summary(
     candidate_set: dict[str, Any],
     mode: str,
     results: list[dict[str, Any]],
+    candidates_path: str | None = None,
 ) -> dict[str, Any]:
     status_counts = Counter(str(result.get("status") or "unknown") for result in results)
     best = select_best_result(results)
     selected_sink = _first_selected_sink(results)
     planner_meta = dict(candidate_set.get("planner") or {})
+    validation = dict(candidate_set.get("validation") or {})
     return {
         "task_id": str(task.get("task_id") or "unknown_task"),
         "planner": planner_meta,
         "mode": mode,
+        "candidate_source": candidates_path or "generated",
         "total_candidates": len(candidate_set.get("candidates") or []),
+        "candidate_count": validation.get("candidate_count", len(candidate_set.get("candidates") or [])),
+        "validation": validation,
+        "validation_passed_count": validation.get("validation_passed_count", 0),
+        "validation_failed_count": validation.get("validation_failed_count", 0),
         "status_counts": dict(sorted(status_counts.items())),
         "sat_count": status_counts.get("sat", 0),
         "timeout_count": status_counts.get("timeout", 0),
@@ -149,6 +165,10 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="for --planner llm, do not call a remote API; use deterministic benign candidates.",
     )
+    parser.add_argument(
+        "--candidates",
+        help="existing candidate set JSON path; skips planner generation and validates locally.",
+    )
     parser.add_argument("--out-dir", required=True, help="output directory for batch artifacts.")
     args = parser.parse_args(argv)
 
@@ -159,6 +179,7 @@ def main(argv: list[str] | None = None) -> int:
             mode=args.mode,
             out_dir=args.out_dir,
             offline_example=args.offline_example,
+            candidates_path=args.candidates,
         )
     except (
         TaskLoadError,
@@ -191,6 +212,32 @@ def _generate_candidate_set(
     if planner == "llm":
         return generate_llm_candidate_set(task, offline_example=offline_example)
     raise PlannerVerifierPipelineError(f"unsupported planner: {planner}")
+
+
+def _load_candidate_set(path: str) -> dict[str, Any]:
+    candidate_path = Path(path)
+    if not candidate_path.exists():
+        raise PlannerVerifierPipelineError(f"candidate set JSON does not exist: {path}")
+    try:
+        data = json.loads(candidate_path.read_text(encoding="utf-8"))
+    except Exception as exc:
+        raise PlannerVerifierPipelineError(f"failed to read candidate set JSON: {path}: {exc}") from exc
+    if not isinstance(data, dict):
+        raise PlannerVerifierPipelineError("candidate set JSON must be an object")
+    if not isinstance(data.get("candidates"), list):
+        raise PlannerVerifierPipelineError("candidate set JSON must contain a candidates list")
+    return data
+
+
+def _validate_candidate_set_for_pipeline(
+    candidate_set: dict[str, Any],
+    task: dict[str, Any],
+    planner: str,
+) -> None:
+    if planner == "llm":
+        validate_llm_candidate_set(candidate_set, task)
+        return
+    candidate_set["validation"] = build_candidate_validation_report(candidate_set, task)
 
 
 def _verify_one_candidate(

@@ -1,0 +1,54 @@
+{
+  "candidates": [
+    {
+      "assumptions": [
+        "benign source probe"
+      ],
+      "candidate_id": "c1",
+      "inputs": {
+        "ip": "127.0.0.1__NS_AEG_MARKER__"
+      },
+      "safety": {
+        "benign": true,
+        "weaponized": false
+      },
+      "strategy": "benign_marker"
+    },
+    {
+      "assumptions": [
+        "benign source probe"
+      ],
+      "candidate_id": "c2",
+      "inputs": {
+        "ip": "10.0.0.1__NS_AEG_MARKER__"
+      },
+      "safety": {
+        "benign": true,
+        "weaponized": false
+      },
+      "strategy": "benign_marker"
+    },
+    {
+      "assumptions": [
+        "benign source probe"
+      ],
+      "candidate_id": "c3",
+      "inputs": {
+        "ip": "192.168.1.1__NS_AEG_MARKER__"
+      },
+      "safety": {
+        "benign": true,
+        "weaponized": false
+      },
+      "strategy": "benign_marker"
+    }
+  ],
+  "planner": {
+    "mode": "benign_candidate_generation",
+    "model": "mimo-v2.5-pro",
+    "name": "api_llm_planner",
+    "provider": "openai_compatible",
+    "version": "0.1"
+  },
+  "task_id": "dangerous_path:toy_01_basic_cmd:toy_01"
+}

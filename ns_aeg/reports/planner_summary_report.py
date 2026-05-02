@@ -41,10 +41,22 @@ def generate_summary_markdown(summary: dict[str, Any]) -> str:
         f"- Planner: `{_display(planner.get('name'))}`",
         f"- Planner version: `{_display(planner.get('version'))}`",
         f"- Planner mode: `{_display(planner.get('mode'))}`",
+        f"- Planner provider: `{_display(planner.get('provider'))}`",
+        f"- Base URL host: `{_display(planner.get('base_url_host'))}`",
+        f"- Model: `{_display(planner.get('model'))}`",
+        f"- Max tokens: `{_display(planner.get('max_tokens'))}`",
+        f"- Temperature: `{_display(planner.get('temperature'))}`",
         f"- Verification mode: `{_display(summary.get('mode'))}`",
+        f"- Candidate source: `{_display(summary.get('candidate_source'))}`",
         f"- Total candidates: `{_display(summary.get('total_candidates'))}`",
         f"- Best candidate: `{_display(summary.get('best_candidate_id'))}`",
         f"- Best status: `{_display(summary.get('best_status'))}`",
+        "",
+        "## Candidate Validation",
+        "",
+        f"- Candidate count: `{_display(summary.get('candidate_count'))}`",
+        f"- Validation passed: `{_display(summary.get('validation_passed_count'))}`",
+        f"- Validation failed: `{_display(summary.get('validation_failed_count'))}`",
         "",
         "## Status Counts",
         "",
@@ -148,4 +160,3 @@ def _display(value: Any) -> str:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

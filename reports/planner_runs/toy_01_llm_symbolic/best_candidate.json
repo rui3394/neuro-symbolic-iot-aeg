@@ -1,0 +1,19 @@
+{
+  "best_candidate": {
+    "assumptions": [
+      "benign source probe"
+    ],
+    "candidate_id": "c1",
+    "inputs": {
+      "ip": "127.0.0.1__NS_AEG_MARKER__"
+    },
+    "safety": {
+      "benign": true,
+      "weaponized": false
+    },
+    "strategy": "benign_marker"
+  },
+  "best_candidate_id": "c1",
+  "best_status": "sat",
+  "reason": "selected by status=sat, sink_reached, then marker_observed priority"
+}
