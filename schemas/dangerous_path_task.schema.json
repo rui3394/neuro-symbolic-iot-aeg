@@ -1,0 +1,272 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NS-AEG Dangerous Path Task",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "task_id",
+    "binary",
+    "entry",
+    "sources",
+    "sinks",
+    "sanitizers",
+    "evidence",
+    "expected",
+    "provenance"
+  ],
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "binary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "name",
+        "arch"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "arch": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "function",
+        "address"
+      ],
+      "properties": {
+        "function": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "address": {
+          "$ref": "#/$defs/addressOrNull"
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "sinks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/sink"
+      }
+    },
+    "sanitizers": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "strings",
+        "decompiled_snippets"
+      ],
+      "properties": {
+        "strings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/stringLiteral"
+          }
+        },
+        "decompiled_snippets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/decompiledSnippet"
+          }
+        }
+      }
+    },
+    "expected": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "oracle",
+        "benign_marker"
+      ],
+      "properties": {
+        "oracle": {
+          "type": "string",
+          "const": "source_reaches_sink"
+        },
+        "benign_marker": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "facts_path",
+        "target_path"
+      ],
+      "properties": {
+        "facts_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_path": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  },
+  "$defs": {
+    "addressOrNull": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^0x[0-9a-fA-F]+$"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "type",
+        "name",
+        "carrier",
+        "max_len",
+        "symbolic"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "carrier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "max_len": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "symbolic": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "sink": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sink_id",
+        "type",
+        "function",
+        "address",
+        "arg_index",
+        "callers"
+      ],
+      "properties": {
+        "sink_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "function": {
+          "type": "string",
+          "minLength": 1
+        },
+        "address": {
+          "$ref": "#/$defs/addressOrNull"
+        },
+        "external_address": {
+          "$ref": "#/$defs/addressOrNull"
+        },
+        "arg_index": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "callers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "stringLiteral": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "address",
+        "value"
+      ],
+      "properties": {
+        "address": {
+          "$ref": "#/$defs/addressOrNull"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "decompiledSnippet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "function",
+        "entry",
+        "text"
+      ],
+      "properties": {
+        "function": {
+          "type": "string",
+          "minLength": 1
+        },
+        "entry": {
+          "$ref": "#/$defs/addressOrNull"
+        },
+        "text": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

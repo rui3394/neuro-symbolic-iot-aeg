@@ -1,0 +1,20 @@
+{
+  "best_candidate": {
+    "assumptions": [
+      "LLM planner offline-example uses deterministic benign probes",
+      "benign marker is required for source-to-sink evidence"
+    ],
+    "candidate_id": "toy_01_llm_offline_001",
+    "inputs": {
+      "ip": "127.0.0.1__NS_AEG_MARKER__"
+    },
+    "safety": {
+      "benign": true,
+      "weaponized": false
+    },
+    "strategy": "llm_benign_marker_direct"
+  },
+  "best_candidate_id": "toy_01_llm_offline_001",
+  "best_status": "sat",
+  "reason": "selected by status=sat, sink_reached, then marker_observed priority"
+}

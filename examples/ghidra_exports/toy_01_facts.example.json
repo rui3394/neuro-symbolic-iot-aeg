@@ -1,0 +1,135 @@
+{
+  "binary": {
+    "architecture": "x86",
+    "compiler_spec_id": "gcc",
+    "image_base": "0x400000",
+    "language_id": "x86:LE:64:default",
+    "name": "toy_01",
+    "path": "datasets/toy_cgi/build/toy_01"
+  },
+  "dangerous_sinks": [
+    {
+      "address": "0x401080",
+      "callers": [
+        "main"
+      ],
+      "category": "string_formatting",
+      "description": "Formats data into a bounded destination buffer.",
+      "imported": true,
+      "name": "snprintf",
+      "source": "import"
+    },
+    {
+      "address": "0x401070",
+      "callers": [
+        "main"
+      ],
+      "category": "command_execution",
+      "description": "Executes a shell command string supplied by the caller.",
+      "imported": true,
+      "name": "system",
+      "source": "import"
+    }
+  ],
+  "decompiled_snippets": [
+    {
+      "entry": "0x401176",
+      "function": "main",
+      "text": "int main(int argc, char **argv) { const char *ip = argc > 1 ? argv[1] : \"127.0.0.1\"; snprintf(command, 256, \"echo NS_AEG_MARKER_START && echo target=%s && echo NS_AEG_MARKER_END\", ip); system(command); }"
+    }
+  ],
+  "externals": [
+    {
+      "address": null,
+      "external": true,
+      "name": "__libc_start_main",
+      "namespace": "libc.so.6"
+    },
+    {
+      "address": "0x401080",
+      "external": true,
+      "name": "snprintf",
+      "namespace": "libc.so.6"
+    },
+    {
+      "address": "0x401070",
+      "external": true,
+      "name": "system",
+      "namespace": "libc.so.6"
+    }
+  ],
+  "extraction": {
+    "errors": [],
+    "exporter": "ns_aeg.ghidra.export_facts:0.1",
+    "ghidra_available": true,
+    "mode": "example",
+    "status": "ok",
+    "warnings": []
+  },
+  "functions": [
+    {
+      "entry": "0x401090",
+      "name": "_start"
+    },
+    {
+      "entry": "0x401176",
+      "name": "main"
+    },
+    {
+      "entry": "0x401070",
+      "name": "system@plt"
+    },
+    {
+      "entry": "0x401080",
+      "name": "snprintf@plt"
+    }
+  ],
+  "imports": [
+    {
+      "address": null,
+      "external": true,
+      "name": "__libc_start_main",
+      "namespace": "libc.so.6"
+    },
+    {
+      "address": "0x401080",
+      "external": true,
+      "name": "snprintf",
+      "namespace": "libc.so.6"
+    },
+    {
+      "address": "0x401070",
+      "external": true,
+      "name": "system",
+      "namespace": "libc.so.6"
+    }
+  ],
+  "schema_version": "ghidra_facts_v1",
+  "strings": [
+    {
+      "address": "0x402008",
+      "value": "127.0.0.1"
+    },
+    {
+      "address": "0x402018",
+      "value": "echo NS_AEG_MARKER_START && echo target=%s && echo NS_AEG_MARKER_END"
+    }
+  ],
+  "xrefs": [
+    {
+      "from_address": "0x4011ea",
+      "from_function": "main",
+      "to_address": "0x401080",
+      "to_sink": "snprintf",
+      "type": "UNCONDITIONAL_CALL"
+    },
+    {
+      "from_address": "0x4011f9",
+      "from_function": "main",
+      "to_address": "0x401070",
+      "to_sink": "system",
+      "type": "UNCONDITIONAL_CALL"
+    }
+  ]
+}
+

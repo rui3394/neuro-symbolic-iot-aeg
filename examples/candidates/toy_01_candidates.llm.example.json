@@ -1,0 +1,57 @@
+{
+  "candidates": [
+    {
+      "assumptions": [
+        "LLM planner offline-example uses deterministic benign probes",
+        "benign marker is required for source-to-sink evidence"
+      ],
+      "candidate_id": "toy_01_llm_offline_001",
+      "inputs": {
+        "ip": "127.0.0.1__NS_AEG_MARKER__"
+      },
+      "safety": {
+        "benign": true,
+        "weaponized": false
+      },
+      "strategy": "llm_benign_marker_direct"
+    },
+    {
+      "assumptions": [
+        "LLM planner offline-example uses deterministic benign probes",
+        "benign marker is required for source-to-sink evidence"
+      ],
+      "candidate_id": "toy_01_llm_offline_002",
+      "inputs": {
+        "ip": "__NS_AEG_MARKER__"
+      },
+      "safety": {
+        "benign": true,
+        "weaponized": false
+      },
+      "strategy": "llm_marker_only"
+    },
+    {
+      "assumptions": [
+        "LLM planner offline-example uses deterministic benign probes",
+        "benign marker is required for source-to-sink evidence"
+      ],
+      "candidate_id": "toy_01_llm_offline_003",
+      "inputs": {
+        "ip": "SAFE__NS_AEG_MARKER__"
+      },
+      "safety": {
+        "benign": true,
+        "weaponized": false
+      },
+      "strategy": "llm_safe_prefix_marker"
+    }
+  ],
+  "planner": {
+    "mode": "benign_candidate_generation",
+    "model": "deterministic",
+    "name": "api_llm_planner_offline",
+    "provider": "offline_example",
+    "version": "0.1"
+  },
+  "task_id": "dangerous_path:toy_01_basic_cmd:toy_01"
+}

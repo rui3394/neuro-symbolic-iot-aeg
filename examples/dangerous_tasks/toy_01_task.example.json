@@ -1,0 +1,73 @@
+{
+  "binary": {
+    "arch": "x86",
+    "name": "toy_01",
+    "path": "datasets/toy_cgi/build/toy_01"
+  },
+  "entry": {
+    "address": "0x401176",
+    "function": "main"
+  },
+  "evidence": {
+    "decompiled_snippets": [
+      {
+        "entry": "0x401176",
+        "function": "main",
+        "text": "int main(int argc, char **argv) { const char *ip = argc > 1 ? argv[1] : \"127.0.0.1\"; snprintf(command, 256, \"echo NS_AEG_MARKER_START && echo target=%s && echo NS_AEG_MARKER_END\", ip); system(command); }"
+      }
+    ],
+    "strings": [
+      {
+        "address": "0x402008",
+        "value": "127.0.0.1"
+      },
+      {
+        "address": "0x402018",
+        "value": "echo NS_AEG_MARKER_START && echo target=%s && echo NS_AEG_MARKER_END"
+      }
+    ]
+  },
+  "expected": {
+    "benign_marker": "__NS_AEG_MARKER__",
+    "oracle": "source_reaches_sink"
+  },
+  "provenance": {
+    "facts_path": "examples/ghidra_exports/toy_01_facts.example.json",
+    "target_path": "configs/toy_01.yaml"
+  },
+  "sanitizers": [],
+  "sinks": [
+    {
+      "address": "0x401080",
+      "arg_index": 2,
+      "callers": [
+        "main"
+      ],
+      "function": "snprintf",
+      "sink_id": "sink_1:snprintf",
+      "type": "string_formatting"
+    },
+    {
+      "address": "0x401070",
+      "arg_index": 0,
+      "callers": [
+        "main"
+      ],
+      "function": "system",
+      "sink_id": "sink_2:system",
+      "type": "command_execution"
+    }
+  ],
+  "sources": [
+    {
+      "carrier": "argv[1]",
+      "max_len": 64,
+      "name": "ip",
+      "source_id": "source_1:ip",
+      "symbolic": "sym_ip",
+      "type": "http_param"
+    }
+  ],
+  "task_id": "dangerous_path:toy_01_basic_cmd:toy_01"
+}
+

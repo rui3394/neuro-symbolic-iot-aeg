@@ -1,0 +1,38 @@
+{
+  "best_candidate_id": "toy_01_rule_001",
+  "best_status": "sat",
+  "generated_at": "2026-05-02T08:24:40.308816+00:00",
+  "limitations": [
+    "rule planner is a benign deterministic baseline, not an exploit generator",
+    "candidate verification does not concretely execute target binaries or system/popen",
+    "symbolic mode is currently scoped to local toy argv-based CGI binaries"
+  ],
+  "marker_observed_count": 4,
+  "mode": "symbolic",
+  "planner": {
+    "mode": "benign_baseline",
+    "name": "rule_based_planner",
+    "version": "0.1"
+  },
+  "sat_count": 4,
+  "selected_sink": {
+    "address": "0x4011f9",
+    "arg_index": 0,
+    "callers": [
+      "main"
+    ],
+    "external_address": "0x3",
+    "function": "system",
+    "sink_id": "sink_2:system",
+    "type": "command_execution"
+  },
+  "sink_reached_count": 4,
+  "source_bound_count": 4,
+  "status_counts": {
+    "sat": 4
+  },
+  "task_id": "dangerous_path:toy_01_basic_cmd:toy_01",
+  "timeout_count": 0,
+  "total_candidates": 4,
+  "unsupported_count": 0
+}

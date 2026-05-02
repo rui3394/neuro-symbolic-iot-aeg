@@ -1,0 +1,8 @@
+{
+  "candidate_id": "toy_01_cand_001",
+  "inputs": {
+    "ip": "127.0.0.1__NS_AEG_MARKER__"
+  },
+  "strategy": "benign_marker_source_probe"
+}
+

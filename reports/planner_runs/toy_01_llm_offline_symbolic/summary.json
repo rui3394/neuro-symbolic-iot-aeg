@@ -1,0 +1,40 @@
+{
+  "best_candidate_id": "toy_01_llm_offline_001",
+  "best_status": "sat",
+  "generated_at": "2026-05-02T08:37:11.097007+00:00",
+  "limitations": [
+    "API LLM planner outputs are locally validated as benign candidates before verification",
+    "candidate verification does not concretely execute target binaries or system/popen",
+    "symbolic mode is currently scoped to local toy argv-based CGI binaries"
+  ],
+  "marker_observed_count": 3,
+  "mode": "symbolic",
+  "planner": {
+    "mode": "benign_candidate_generation",
+    "model": "deterministic",
+    "name": "api_llm_planner_offline",
+    "provider": "offline_example",
+    "version": "0.1"
+  },
+  "sat_count": 3,
+  "selected_sink": {
+    "address": "0x4011f9",
+    "arg_index": 0,
+    "callers": [
+      "main"
+    ],
+    "external_address": "0x3",
+    "function": "system",
+    "sink_id": "sink_2:system",
+    "type": "command_execution"
+  },
+  "sink_reached_count": 3,
+  "source_bound_count": 3,
+  "status_counts": {
+    "sat": 3
+  },
+  "task_id": "dangerous_path:toy_01_basic_cmd:toy_01",
+  "timeout_count": 0,
+  "total_candidates": 3,
+  "unsupported_count": 0
+}

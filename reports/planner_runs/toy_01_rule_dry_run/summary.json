@@ -1,0 +1,28 @@
+{
+  "best_candidate_id": null,
+  "best_status": null,
+  "generated_at": "2026-05-02T08:24:47.709513+00:00",
+  "limitations": [
+    "rule planner is a benign deterministic baseline, not an exploit generator",
+    "candidate verification does not concretely execute target binaries or system/popen",
+    "symbolic mode is currently scoped to local toy argv-based CGI binaries"
+  ],
+  "marker_observed_count": 0,
+  "mode": "dry-run",
+  "planner": {
+    "mode": "benign_baseline",
+    "name": "rule_based_planner",
+    "version": "0.1"
+  },
+  "sat_count": 0,
+  "selected_sink": null,
+  "sink_reached_count": 0,
+  "source_bound_count": 0,
+  "status_counts": {
+    "unknown": 4
+  },
+  "task_id": "dangerous_path:toy_01_basic_cmd:toy_01",
+  "timeout_count": 0,
+  "total_candidates": 4,
+  "unsupported_count": 0
+}

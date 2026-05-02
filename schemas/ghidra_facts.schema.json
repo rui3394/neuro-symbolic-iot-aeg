@@ -1,0 +1,355 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NS-AEG Ghidra Facts",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "binary",
+    "functions",
+    "imports",
+    "externals",
+    "dangerous_sinks",
+    "xrefs",
+    "strings",
+    "decompiled_snippets",
+    "extraction"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "ghidra_facts_v1"
+    },
+    "binary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "name",
+        "architecture",
+        "language_id",
+        "compiler_spec_id",
+        "image_base"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "architecture": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "language_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "compiler_spec_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "image_base": {
+          "$ref": "#/$defs/addressOrNull"
+        }
+      }
+    },
+    "functions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/function"
+      }
+    },
+    "imports": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/external"
+      }
+    },
+    "externals": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/external"
+      }
+    },
+    "dangerous_sinks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/dangerousSink"
+      }
+    },
+    "xrefs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/xref"
+      }
+    },
+    "strings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/stringLiteral"
+      }
+    },
+    "decompiled_snippets": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/decompiledSnippet"
+      }
+    },
+    "extraction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "ghidra_available",
+        "mode",
+        "exporter",
+        "warnings",
+        "errors"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "ok",
+            "partial",
+            "error"
+          ]
+        },
+        "ghidra_available": {
+          "type": "boolean"
+        },
+        "mode": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "exporter": {
+          "type": "string",
+          "minLength": 1
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "addressOrNull": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^0x[0-9a-fA-F]+$"
+    },
+    "function": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "entry"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "entry": {
+          "$ref": "#/$defs/addressOrNull"
+        }
+      }
+    },
+    "external": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "address",
+        "namespace",
+        "external"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "address": {
+          "$ref": "#/$defs/addressOrNull"
+        },
+        "namespace": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "external": {
+          "type": "boolean"
+        }
+      }
+    },
+    "dangerousSink": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "category",
+        "address",
+        "imported",
+        "source",
+        "description",
+        "callers"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "category": {
+          "type": "string",
+          "minLength": 1
+        },
+        "address": {
+          "$ref": "#/$defs/addressOrNull"
+        },
+        "external_address": {
+          "$ref": "#/$defs/addressOrNull"
+        },
+        "imported": {
+          "type": "boolean"
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "function",
+            "import",
+            "external"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "callers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "callsites": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/callsite"
+          }
+        }
+      }
+    },
+    "callsite": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "address",
+        "caller",
+        "caller_entry"
+      ],
+      "properties": {
+        "address": {
+          "$ref": "#/$defs/addressOrNull"
+        },
+        "caller": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "caller_entry": {
+          "$ref": "#/$defs/addressOrNull"
+        }
+      }
+    },
+    "xref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "from_function",
+        "from_address",
+        "to_sink",
+        "to_address",
+        "type"
+      ],
+      "properties": {
+        "from_function": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "from_address": {
+          "$ref": "#/$defs/addressOrNull"
+        },
+        "to_sink": {
+          "type": "string",
+          "minLength": 1
+        },
+        "to_address": {
+          "$ref": "#/$defs/addressOrNull"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "stringLiteral": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "address",
+        "value"
+      ],
+      "properties": {
+        "address": {
+          "$ref": "#/$defs/addressOrNull"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "decompiledSnippet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "function",
+        "entry",
+        "text"
+      ],
+      "properties": {
+        "function": {
+          "type": "string",
+          "minLength": 1
+        },
+        "entry": {
+          "$ref": "#/$defs/addressOrNull"
+        },
+        "text": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

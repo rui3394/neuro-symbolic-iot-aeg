@@ -1,0 +1,62 @@
+{
+  "benign_marker": "__NS_AEG_MARKER__",
+  "binary": {
+    "arch": "x86",
+    "name": "toy_01",
+    "path": "/home/kali/projects/neuro-symbolic-iot-aeg/datasets/toy_cgi/build/toy_01"
+  },
+  "candidate_id": "toy_01_rule_003",
+  "checked_sinks": [
+    {
+      "address": "0x4011ea",
+      "arg_index": 2,
+      "callers": [
+        "main"
+      ],
+      "function": "snprintf",
+      "sink_id": "sink_1:snprintf"
+    },
+    {
+      "address": "0x4011f9",
+      "arg_index": 0,
+      "callers": [
+        "main"
+      ],
+      "function": "system",
+      "sink_id": "sink_2:system"
+    }
+  ],
+  "checked_sources": [
+    {
+      "benign_marker_present": true,
+      "candidate_input_len": 21,
+      "candidate_input_present": true,
+      "carrier": "argv[1]",
+      "name": "ip",
+      "source_id": "source_1:ip",
+      "symbolic": "sym_ip"
+    }
+  ],
+  "entry": {
+    "address": "0x401176",
+    "function": "main"
+  },
+  "evidence": {
+    "decompiled_snippet_count": 1,
+    "string_count": 81
+  },
+  "executed": false,
+  "limitations": [
+    "symbolic execution backend not fully wired for task mode yet"
+  ],
+  "mode": "task_adapter_dry_run",
+  "oracle": "source_reaches_sink",
+  "provenance": {
+    "candidate_id": "toy_01_rule_003",
+    "planner": "rule",
+    "task_path": "examples/dangerous_tasks/toy_01_task.real.json"
+  },
+  "reason": "task adapter dry-run completed; candidate inputs mapped to task sources",
+  "status": "unknown",
+  "task_id": "dangerous_path:toy_01_basic_cmd:toy_01"
+}
