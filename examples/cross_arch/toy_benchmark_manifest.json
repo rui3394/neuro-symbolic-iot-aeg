@@ -1,0 +1,557 @@
+{
+  "cases": [
+    {
+      "arch": "x86_64",
+      "binary_path": "datasets/toy_cgi/build_cross/x86_64/toy_01",
+      "build_status": "built",
+      "compiler": "gcc",
+      "expected_behavior": "sat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_01.yaml",
+      "toy_id": "toy_01"
+    },
+    {
+      "arch": "x86_64",
+      "binary_path": "datasets/toy_cgi/build_cross/x86_64/toy_02",
+      "build_status": "built",
+      "compiler": "gcc",
+      "expected_behavior": "sat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_02.yaml",
+      "toy_id": "toy_02"
+    },
+    {
+      "arch": "x86_64",
+      "binary_path": "datasets/toy_cgi/build_cross/x86_64/toy_03",
+      "build_status": "built",
+      "compiler": "gcc",
+      "expected_behavior": "planner_reject_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_03.yaml",
+      "toy_id": "toy_03"
+    },
+    {
+      "arch": "x86_64",
+      "binary_path": "datasets/toy_cgi/build_cross/x86_64/toy_04",
+      "build_status": "built",
+      "compiler": "gcc",
+      "expected_behavior": "unsat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_04.yaml",
+      "toy_id": "toy_04"
+    },
+    {
+      "arch": "x86_64",
+      "binary_path": "datasets/toy_cgi/build_cross/x86_64/toy_05",
+      "build_status": "built",
+      "compiler": "gcc",
+      "expected_behavior": "unsat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_05.yaml",
+      "toy_id": "toy_05"
+    },
+    {
+      "arch": "x86_64",
+      "binary_path": "datasets/toy_cgi/build_cross/x86_64/toy_06",
+      "build_status": "built",
+      "compiler": "gcc",
+      "expected_behavior": "sat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_06.yaml",
+      "toy_id": "toy_06"
+    },
+    {
+      "arch": "x86_64",
+      "binary_path": "datasets/toy_cgi/build_cross/x86_64/toy_07",
+      "build_status": "built",
+      "compiler": "gcc",
+      "expected_behavior": "unsat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_07.yaml",
+      "toy_id": "toy_07"
+    },
+    {
+      "arch": "x86_64",
+      "binary_path": "datasets/toy_cgi/build_cross/x86_64/toy_08",
+      "build_status": "built",
+      "compiler": "gcc",
+      "expected_behavior": "truncation_negative_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_08.yaml",
+      "toy_id": "toy_08"
+    },
+    {
+      "arch": "x86_64",
+      "binary_path": "datasets/toy_cgi/build_cross/x86_64/toy_09",
+      "build_status": "built",
+      "compiler": "gcc",
+      "expected_behavior": "sat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_09.yaml",
+      "toy_id": "toy_09"
+    },
+    {
+      "arch": "x86_64",
+      "binary_path": "datasets/toy_cgi/build_cross/x86_64/toy_10",
+      "build_status": "built",
+      "compiler": "gcc",
+      "expected_behavior": "sat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_10.yaml",
+      "toy_id": "toy_10"
+    },
+    {
+      "arch": "x86_64",
+      "binary_path": "datasets/toy_cgi/build_cross/x86_64/toy_11",
+      "build_status": "built",
+      "compiler": "gcc",
+      "expected_behavior": "truncation_negative_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_11.yaml",
+      "toy_id": "toy_11"
+    },
+    {
+      "arch": "arm32",
+      "binary_path": "datasets/toy_cgi/build_cross/arm32/toy_01",
+      "build_status": "built",
+      "compiler": "arm-linux-gnueabihf-gcc",
+      "expected_behavior": "sat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_01.yaml",
+      "toy_id": "toy_01"
+    },
+    {
+      "arch": "arm32",
+      "binary_path": "datasets/toy_cgi/build_cross/arm32/toy_02",
+      "build_status": "built",
+      "compiler": "arm-linux-gnueabihf-gcc",
+      "expected_behavior": "sat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_02.yaml",
+      "toy_id": "toy_02"
+    },
+    {
+      "arch": "arm32",
+      "binary_path": "datasets/toy_cgi/build_cross/arm32/toy_03",
+      "build_status": "built",
+      "compiler": "arm-linux-gnueabihf-gcc",
+      "expected_behavior": "planner_reject_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_03.yaml",
+      "toy_id": "toy_03"
+    },
+    {
+      "arch": "arm32",
+      "binary_path": "datasets/toy_cgi/build_cross/arm32/toy_04",
+      "build_status": "built",
+      "compiler": "arm-linux-gnueabihf-gcc",
+      "expected_behavior": "unsat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_04.yaml",
+      "toy_id": "toy_04"
+    },
+    {
+      "arch": "arm32",
+      "binary_path": "datasets/toy_cgi/build_cross/arm32/toy_05",
+      "build_status": "built",
+      "compiler": "arm-linux-gnueabihf-gcc",
+      "expected_behavior": "unsat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_05.yaml",
+      "toy_id": "toy_05"
+    },
+    {
+      "arch": "arm32",
+      "binary_path": "datasets/toy_cgi/build_cross/arm32/toy_06",
+      "build_status": "built",
+      "compiler": "arm-linux-gnueabihf-gcc",
+      "expected_behavior": "sat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_06.yaml",
+      "toy_id": "toy_06"
+    },
+    {
+      "arch": "arm32",
+      "binary_path": "datasets/toy_cgi/build_cross/arm32/toy_07",
+      "build_status": "built",
+      "compiler": "arm-linux-gnueabihf-gcc",
+      "expected_behavior": "unsat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_07.yaml",
+      "toy_id": "toy_07"
+    },
+    {
+      "arch": "arm32",
+      "binary_path": "datasets/toy_cgi/build_cross/arm32/toy_08",
+      "build_status": "built",
+      "compiler": "arm-linux-gnueabihf-gcc",
+      "expected_behavior": "truncation_negative_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_08.yaml",
+      "toy_id": "toy_08"
+    },
+    {
+      "arch": "arm32",
+      "binary_path": "datasets/toy_cgi/build_cross/arm32/toy_09",
+      "build_status": "built",
+      "compiler": "arm-linux-gnueabihf-gcc",
+      "expected_behavior": "sat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_09.yaml",
+      "toy_id": "toy_09"
+    },
+    {
+      "arch": "arm32",
+      "binary_path": "datasets/toy_cgi/build_cross/arm32/toy_10",
+      "build_status": "built",
+      "compiler": "arm-linux-gnueabihf-gcc",
+      "expected_behavior": "sat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_10.yaml",
+      "toy_id": "toy_10"
+    },
+    {
+      "arch": "arm32",
+      "binary_path": "datasets/toy_cgi/build_cross/arm32/toy_11",
+      "build_status": "built",
+      "compiler": "arm-linux-gnueabihf-gcc",
+      "expected_behavior": "truncation_negative_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_11.yaml",
+      "toy_id": "toy_11"
+    },
+    {
+      "arch": "aarch64",
+      "binary_path": "datasets/toy_cgi/build_cross/aarch64/toy_01",
+      "build_status": "built",
+      "compiler": "aarch64-linux-gnu-gcc",
+      "expected_behavior": "sat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_01.yaml",
+      "toy_id": "toy_01"
+    },
+    {
+      "arch": "aarch64",
+      "binary_path": "datasets/toy_cgi/build_cross/aarch64/toy_02",
+      "build_status": "built",
+      "compiler": "aarch64-linux-gnu-gcc",
+      "expected_behavior": "sat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_02.yaml",
+      "toy_id": "toy_02"
+    },
+    {
+      "arch": "aarch64",
+      "binary_path": "datasets/toy_cgi/build_cross/aarch64/toy_03",
+      "build_status": "built",
+      "compiler": "aarch64-linux-gnu-gcc",
+      "expected_behavior": "planner_reject_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_03.yaml",
+      "toy_id": "toy_03"
+    },
+    {
+      "arch": "aarch64",
+      "binary_path": "datasets/toy_cgi/build_cross/aarch64/toy_04",
+      "build_status": "built",
+      "compiler": "aarch64-linux-gnu-gcc",
+      "expected_behavior": "unsat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_04.yaml",
+      "toy_id": "toy_04"
+    },
+    {
+      "arch": "aarch64",
+      "binary_path": "datasets/toy_cgi/build_cross/aarch64/toy_05",
+      "build_status": "built",
+      "compiler": "aarch64-linux-gnu-gcc",
+      "expected_behavior": "unsat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_05.yaml",
+      "toy_id": "toy_05"
+    },
+    {
+      "arch": "aarch64",
+      "binary_path": "datasets/toy_cgi/build_cross/aarch64/toy_06",
+      "build_status": "built",
+      "compiler": "aarch64-linux-gnu-gcc",
+      "expected_behavior": "sat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_06.yaml",
+      "toy_id": "toy_06"
+    },
+    {
+      "arch": "aarch64",
+      "binary_path": "datasets/toy_cgi/build_cross/aarch64/toy_07",
+      "build_status": "built",
+      "compiler": "aarch64-linux-gnu-gcc",
+      "expected_behavior": "unsat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_07.yaml",
+      "toy_id": "toy_07"
+    },
+    {
+      "arch": "aarch64",
+      "binary_path": "datasets/toy_cgi/build_cross/aarch64/toy_08",
+      "build_status": "built",
+      "compiler": "aarch64-linux-gnu-gcc",
+      "expected_behavior": "truncation_negative_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_08.yaml",
+      "toy_id": "toy_08"
+    },
+    {
+      "arch": "aarch64",
+      "binary_path": "datasets/toy_cgi/build_cross/aarch64/toy_09",
+      "build_status": "built",
+      "compiler": "aarch64-linux-gnu-gcc",
+      "expected_behavior": "sat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_09.yaml",
+      "toy_id": "toy_09"
+    },
+    {
+      "arch": "aarch64",
+      "binary_path": "datasets/toy_cgi/build_cross/aarch64/toy_10",
+      "build_status": "built",
+      "compiler": "aarch64-linux-gnu-gcc",
+      "expected_behavior": "sat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_10.yaml",
+      "toy_id": "toy_10"
+    },
+    {
+      "arch": "aarch64",
+      "binary_path": "datasets/toy_cgi/build_cross/aarch64/toy_11",
+      "build_status": "built",
+      "compiler": "aarch64-linux-gnu-gcc",
+      "expected_behavior": "truncation_negative_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_11.yaml",
+      "toy_id": "toy_11"
+    },
+    {
+      "arch": "mipsel",
+      "binary_path": "datasets/toy_cgi/build_cross/mipsel/toy_01",
+      "build_status": "built",
+      "compiler": "mipsel-linux-gnu-gcc",
+      "expected_behavior": "sat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_01.yaml",
+      "toy_id": "toy_01"
+    },
+    {
+      "arch": "mipsel",
+      "binary_path": "datasets/toy_cgi/build_cross/mipsel/toy_02",
+      "build_status": "built",
+      "compiler": "mipsel-linux-gnu-gcc",
+      "expected_behavior": "sat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_02.yaml",
+      "toy_id": "toy_02"
+    },
+    {
+      "arch": "mipsel",
+      "binary_path": "datasets/toy_cgi/build_cross/mipsel/toy_03",
+      "build_status": "built",
+      "compiler": "mipsel-linux-gnu-gcc",
+      "expected_behavior": "planner_reject_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_03.yaml",
+      "toy_id": "toy_03"
+    },
+    {
+      "arch": "mipsel",
+      "binary_path": "datasets/toy_cgi/build_cross/mipsel/toy_04",
+      "build_status": "built",
+      "compiler": "mipsel-linux-gnu-gcc",
+      "expected_behavior": "unsat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_04.yaml",
+      "toy_id": "toy_04"
+    },
+    {
+      "arch": "mipsel",
+      "binary_path": "datasets/toy_cgi/build_cross/mipsel/toy_05",
+      "build_status": "built",
+      "compiler": "mipsel-linux-gnu-gcc",
+      "expected_behavior": "unsat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_05.yaml",
+      "toy_id": "toy_05"
+    },
+    {
+      "arch": "mipsel",
+      "binary_path": "datasets/toy_cgi/build_cross/mipsel/toy_06",
+      "build_status": "built",
+      "compiler": "mipsel-linux-gnu-gcc",
+      "expected_behavior": "sat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_06.yaml",
+      "toy_id": "toy_06"
+    },
+    {
+      "arch": "mipsel",
+      "binary_path": "datasets/toy_cgi/build_cross/mipsel/toy_07",
+      "build_status": "built",
+      "compiler": "mipsel-linux-gnu-gcc",
+      "expected_behavior": "unsat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_07.yaml",
+      "toy_id": "toy_07"
+    },
+    {
+      "arch": "mipsel",
+      "binary_path": "datasets/toy_cgi/build_cross/mipsel/toy_08",
+      "build_status": "built",
+      "compiler": "mipsel-linux-gnu-gcc",
+      "expected_behavior": "truncation_negative_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_08.yaml",
+      "toy_id": "toy_08"
+    },
+    {
+      "arch": "mipsel",
+      "binary_path": "datasets/toy_cgi/build_cross/mipsel/toy_09",
+      "build_status": "built",
+      "compiler": "mipsel-linux-gnu-gcc",
+      "expected_behavior": "sat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_09.yaml",
+      "toy_id": "toy_09"
+    },
+    {
+      "arch": "mipsel",
+      "binary_path": "datasets/toy_cgi/build_cross/mipsel/toy_10",
+      "build_status": "built",
+      "compiler": "mipsel-linux-gnu-gcc",
+      "expected_behavior": "sat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_10.yaml",
+      "toy_id": "toy_10"
+    },
+    {
+      "arch": "mipsel",
+      "binary_path": "datasets/toy_cgi/build_cross/mipsel/toy_11",
+      "build_status": "built",
+      "compiler": "mipsel-linux-gnu-gcc",
+      "expected_behavior": "truncation_negative_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_11.yaml",
+      "toy_id": "toy_11"
+    },
+    {
+      "arch": "mips",
+      "binary_path": "datasets/toy_cgi/build_cross/mips/toy_01",
+      "build_status": "built",
+      "compiler": "mips-linux-gnu-gcc",
+      "expected_behavior": "sat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_01.yaml",
+      "toy_id": "toy_01"
+    },
+    {
+      "arch": "mips",
+      "binary_path": "datasets/toy_cgi/build_cross/mips/toy_02",
+      "build_status": "built",
+      "compiler": "mips-linux-gnu-gcc",
+      "expected_behavior": "sat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_02.yaml",
+      "toy_id": "toy_02"
+    },
+    {
+      "arch": "mips",
+      "binary_path": "datasets/toy_cgi/build_cross/mips/toy_03",
+      "build_status": "built",
+      "compiler": "mips-linux-gnu-gcc",
+      "expected_behavior": "planner_reject_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_03.yaml",
+      "toy_id": "toy_03"
+    },
+    {
+      "arch": "mips",
+      "binary_path": "datasets/toy_cgi/build_cross/mips/toy_04",
+      "build_status": "built",
+      "compiler": "mips-linux-gnu-gcc",
+      "expected_behavior": "unsat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_04.yaml",
+      "toy_id": "toy_04"
+    },
+    {
+      "arch": "mips",
+      "binary_path": "datasets/toy_cgi/build_cross/mips/toy_05",
+      "build_status": "built",
+      "compiler": "mips-linux-gnu-gcc",
+      "expected_behavior": "unsat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_05.yaml",
+      "toy_id": "toy_05"
+    },
+    {
+      "arch": "mips",
+      "binary_path": "datasets/toy_cgi/build_cross/mips/toy_06",
+      "build_status": "built",
+      "compiler": "mips-linux-gnu-gcc",
+      "expected_behavior": "sat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_06.yaml",
+      "toy_id": "toy_06"
+    },
+    {
+      "arch": "mips",
+      "binary_path": "datasets/toy_cgi/build_cross/mips/toy_07",
+      "build_status": "built",
+      "compiler": "mips-linux-gnu-gcc",
+      "expected_behavior": "unsat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_07.yaml",
+      "toy_id": "toy_07"
+    },
+    {
+      "arch": "mips",
+      "binary_path": "datasets/toy_cgi/build_cross/mips/toy_08",
+      "build_status": "built",
+      "compiler": "mips-linux-gnu-gcc",
+      "expected_behavior": "truncation_negative_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_08.yaml",
+      "toy_id": "toy_08"
+    },
+    {
+      "arch": "mips",
+      "binary_path": "datasets/toy_cgi/build_cross/mips/toy_09",
+      "build_status": "built",
+      "compiler": "mips-linux-gnu-gcc",
+      "expected_behavior": "sat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_09.yaml",
+      "toy_id": "toy_09"
+    },
+    {
+      "arch": "mips",
+      "binary_path": "datasets/toy_cgi/build_cross/mips/toy_10",
+      "build_status": "built",
+      "compiler": "mips-linux-gnu-gcc",
+      "expected_behavior": "sat_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_10.yaml",
+      "toy_id": "toy_10"
+    },
+    {
+      "arch": "mips",
+      "binary_path": "datasets/toy_cgi/build_cross/mips/toy_11",
+      "build_status": "built",
+      "compiler": "mips-linux-gnu-gcc",
+      "expected_behavior": "truncation_negative_expected",
+      "notes": "ok",
+      "target_yaml": "configs/toy_11.yaml",
+      "toy_id": "toy_11"
+    }
+  ],
+  "generated_at": "2026-05-03T12:49:50.041610+00:00",
+  "generated_by": "tools/build_cross_arch_toys.sh",
+  "schema_version": "cross_arch_toy_benchmark_manifest_v1"
+}

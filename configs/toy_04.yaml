@@ -12,6 +12,11 @@ http:
 
 analysis:
   vulnerability_type: command_path_observation
+  expected_behavior: unsat_expected
+  branch_condition:
+    source: ip
+    required_prefix: AB
+    description: benign marker rule candidates do not satisfy this branch guard
   sinks:
     - system
     - snprintf

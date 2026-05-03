@@ -1,0 +1,580 @@
+{
+  "binary": {
+    "architecture": "x86",
+    "compiler_spec_id": "gcc",
+    "image_base": "0x400000",
+    "language_id": "x86:LE:64:default",
+    "name": "toy_03",
+    "path": "/home/kali/projects/neuro-symbolic-iot-aeg/datasets/toy_cgi/build/toy_03"
+  },
+  "dangerous_sinks": [
+    {
+      "address": "0x401270",
+      "callers": [
+        "main"
+      ],
+      "callsites": [
+        {
+          "address": "0x401270",
+          "caller": "main",
+          "caller_entry": "0x401196"
+        }
+      ],
+      "category": "string_formatting",
+      "description": "Formats data into a bounded destination buffer.",
+      "external_address": "0x5",
+      "imported": true,
+      "name": "snprintf",
+      "source": "import"
+    },
+    {
+      "address": "0x40127f",
+      "callers": [
+        "main"
+      ],
+      "callsites": [
+        {
+          "address": "0x40127f",
+          "caller": "main",
+          "caller_entry": "0x401196"
+        }
+      ],
+      "category": "command_execution",
+      "description": "Executes a shell command string supplied by the caller.",
+      "external_address": "0x4",
+      "imported": true,
+      "name": "system",
+      "source": "import"
+    }
+  ],
+  "decompiled_snippets": [
+    {
+      "entry": "0x401196",
+      "function": "main",
+      "text": "\nint main(int argc,char **argv)\n\n{\n  long lVar1;\n  bool bVar2;\n  int iVar3;\n  long in_FS_OFFSET;\n  char **argv_local;\n  int argc_local;\n  int ok;\n  int i;\n  char *ip;\n  char command [256];\n  \n  lVar1 = *(long *)(in_FS_OFFSET + 0x28);\n  ip = \"127.0.0.1\";\n  bVar2 = false;\n  if (1 < argc) {\n    ip = argv[1];\n  }\n  i = 0;\n  do {\n    if (0xf < i) {\nLAB_00401233:\n      if (bVar2) {\n        snprintf(command,0x100,\n                 \"echo NS_AEG_MARKER_START && echo target=%s && echo NS_AEG_MARKER_END\",ip);\n        iVar3 = system(command);\n      }\n      else {\n        puts(\"NS_AEG_LENGTH_FILTERED\");\n        iVar3 = 3;\n      }\n      if (lVar1 != *(long *)(in_FS_OFFSET + 0x28)) {\n                    /* WARNING: Subroutine does not return */\n        __stack_chk_fail();\n      }\n      return iVar3;\n    }\n    if (ip[i] == '\\0') {\n      bVar2 = true;\n      goto LAB_00401233;\n    }\n    i = i + 1;\n  } while( true );\n}\n\n"
+    }
+  ],
+  "externals": [
+    {
+      "address": "0x6",
+      "external": true,
+      "name": "__gmon_start__",
+      "namespace": "<EXTERNAL>"
+    },
+    {
+      "address": "0x1",
+      "external": true,
+      "name": "__libc_start_main",
+      "namespace": "<EXTERNAL>"
+    },
+    {
+      "address": "0x3",
+      "external": true,
+      "name": "__stack_chk_fail",
+      "namespace": "<EXTERNAL>"
+    },
+    {
+      "address": "0x2",
+      "external": true,
+      "name": "puts",
+      "namespace": "<EXTERNAL>"
+    },
+    {
+      "address": "0x5",
+      "external": true,
+      "name": "snprintf",
+      "namespace": "<EXTERNAL>"
+    },
+    {
+      "address": "0x4",
+      "external": true,
+      "name": "system",
+      "namespace": "<EXTERNAL>"
+    }
+  ],
+  "extraction": {
+    "errors": [],
+    "exporter": "ns_aeg.ghidra.export_facts:0.1",
+    "ghidra_available": true,
+    "mode": "pyghidra",
+    "status": "ok",
+    "warnings": [
+      "pyghidra backend: installed (/home/kali/projects/neuro-symbolic-iot-aeg/.venv/lib/python3.10/site-packages/pyghidra/__init__.py)"
+    ]
+  },
+  "functions": [
+    {
+      "entry": "0x401000",
+      "name": "_init"
+    },
+    {
+      "entry": "0x401020",
+      "name": "FUN_00401020"
+    },
+    {
+      "entry": "0x401070",
+      "name": "puts"
+    },
+    {
+      "entry": "0x401080",
+      "name": "__stack_chk_fail"
+    },
+    {
+      "entry": "0x401090",
+      "name": "system"
+    },
+    {
+      "entry": "0x4010a0",
+      "name": "snprintf"
+    },
+    {
+      "entry": "0x4010b0",
+      "name": "_start"
+    },
+    {
+      "entry": "0x4010e0",
+      "name": "_dl_relocate_static_pie"
+    },
+    {
+      "entry": "0x4010f0",
+      "name": "deregister_tm_clones"
+    },
+    {
+      "entry": "0x401120",
+      "name": "register_tm_clones"
+    },
+    {
+      "entry": "0x401160",
+      "name": "__do_global_dtors_aux"
+    },
+    {
+      "entry": "0x401190",
+      "name": "frame_dummy"
+    },
+    {
+      "entry": "0x401196",
+      "name": "main"
+    },
+    {
+      "entry": "0x40129c",
+      "name": "_fini"
+    },
+    {
+      "entry": "0x405000",
+      "name": "__libc_start_main"
+    },
+    {
+      "entry": "0x405008",
+      "name": "puts"
+    },
+    {
+      "entry": "0x405010",
+      "name": "__stack_chk_fail"
+    },
+    {
+      "entry": "0x405018",
+      "name": "system"
+    },
+    {
+      "entry": "0x405020",
+      "name": "snprintf"
+    },
+    {
+      "entry": "0x405028",
+      "name": "__gmon_start__"
+    }
+  ],
+  "imports": [
+    {
+      "address": "0x6",
+      "external": true,
+      "name": "__gmon_start__",
+      "namespace": "<EXTERNAL>"
+    },
+    {
+      "address": "0x1",
+      "external": true,
+      "name": "__libc_start_main",
+      "namespace": "<EXTERNAL>"
+    },
+    {
+      "address": "0x3",
+      "external": true,
+      "name": "__stack_chk_fail",
+      "namespace": "<EXTERNAL>"
+    },
+    {
+      "address": "0x2",
+      "external": true,
+      "name": "puts",
+      "namespace": "<EXTERNAL>"
+    },
+    {
+      "address": "0x5",
+      "external": true,
+      "name": "snprintf",
+      "namespace": "<EXTERNAL>"
+    },
+    {
+      "address": "0x4",
+      "external": true,
+      "name": "system",
+      "namespace": "<EXTERNAL>"
+    }
+  ],
+  "schema_version": "ghidra_facts_v1",
+  "strings": [
+    {
+      "address": "0x400318",
+      "value": "/lib64/ld-linux-x86-64.so.2"
+    },
+    {
+      "address": "0x400479",
+      "value": "__libc_start_main"
+    },
+    {
+      "address": "0x40048b",
+      "value": "puts"
+    },
+    {
+      "address": "0x400490",
+      "value": "system"
+    },
+    {
+      "address": "0x400497",
+      "value": "snprintf"
+    },
+    {
+      "address": "0x4004a0",
+      "value": "__stack_chk_fail"
+    },
+    {
+      "address": "0x4004b1",
+      "value": "libc.so.6"
+    },
+    {
+      "address": "0x4004bb",
+      "value": "GLIBC_2.4"
+    },
+    {
+      "address": "0x4004c5",
+      "value": "GLIBC_2.2.5"
+    },
+    {
+      "address": "0x4004d1",
+      "value": "GLIBC_2.34"
+    },
+    {
+      "address": "0x4004dc",
+      "value": "__gmon_start__"
+    },
+    {
+      "address": "0x402008",
+      "value": "127.0.0.1"
+    },
+    {
+      "address": "0x402012",
+      "value": "NS_AEG_LENGTH_FILTERED"
+    },
+    {
+      "address": "0x402030",
+      "value": "echo NS_AEG_MARKER_START && echo target=%s && echo NS_AEG_MARKER_END"
+    },
+    {
+      "address": "0x4020b9",
+      "value": "zR"
+    },
+    {
+      "address": "0x0",
+      "value": "GCC: (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0"
+    },
+    {
+      "address": "0x0",
+      "value": "toy_03_length_limit.c"
+    },
+    {
+      "address": "0x0",
+      "value": "long long int"
+    },
+    {
+      "address": "0x1",
+      "value": ".symtab"
+    },
+    {
+      "address": "0x9",
+      "value": ".strtab"
+    },
+    {
+      "address": "0x11",
+      "value": ".shstrtab"
+    },
+    {
+      "address": "0x1b",
+      "value": ".interp"
+    },
+    {
+      "address": "0x23",
+      "value": ".note.gnu.property"
+    },
+    {
+      "address": "0x36",
+      "value": ".note.gnu.build-id"
+    },
+    {
+      "address": "0x49",
+      "value": ".note.ABI-tag"
+    },
+    {
+      "address": "0x57",
+      "value": ".gnu.hash"
+    },
+    {
+      "address": "0x61",
+      "value": ".dynsym"
+    },
+    {
+      "address": "0x69",
+      "value": ".dynstr"
+    },
+    {
+      "address": "0x71",
+      "value": ".gnu.version"
+    },
+    {
+      "address": "0x7e",
+      "value": ".gnu.version_r"
+    },
+    {
+      "address": "0x8d",
+      "value": ".rela.dyn"
+    },
+    {
+      "address": "0x97",
+      "value": ".rela.plt"
+    },
+    {
+      "address": "0xa1",
+      "value": ".init"
+    },
+    {
+      "address": "0xa7",
+      "value": ".plt.sec"
+    },
+    {
+      "address": "0xb0",
+      "value": ".text"
+    },
+    {
+      "address": "0xb6",
+      "value": ".fini"
+    },
+    {
+      "address": "0xbc",
+      "value": ".rodata"
+    },
+    {
+      "address": "0xc4",
+      "value": ".eh_frame_hdr"
+    },
+    {
+      "address": "0xd2",
+      "value": ".eh_frame"
+    },
+    {
+      "address": "0xdc",
+      "value": ".init_array"
+    },
+    {
+      "address": "0xe8",
+      "value": ".fini_array"
+    },
+    {
+      "address": "0xf4",
+      "value": ".dynamic"
+    },
+    {
+      "address": "0xfd",
+      "value": ".got"
+    },
+    {
+      "address": "0x102",
+      "value": ".got.plt"
+    },
+    {
+      "address": "0x10b",
+      "value": ".data"
+    },
+    {
+      "address": "0x111",
+      "value": ".bss"
+    },
+    {
+      "address": "0x116",
+      "value": ".comment"
+    },
+    {
+      "address": "0x11f",
+      "value": ".debug_aranges"
+    },
+    {
+      "address": "0x12e",
+      "value": ".debug_info"
+    },
+    {
+      "address": "0x13a",
+      "value": ".debug_abbrev"
+    },
+    {
+      "address": "0x148",
+      "value": ".debug_line"
+    },
+    {
+      "address": "0x154",
+      "value": ".debug_str"
+    },
+    {
+      "address": "0x15f",
+      "value": ".debug_line_str"
+    },
+    {
+      "address": "0x1",
+      "value": "crt1.o"
+    },
+    {
+      "address": "0x8",
+      "value": "__abi_tag"
+    },
+    {
+      "address": "0x12",
+      "value": "crtstuff.c"
+    },
+    {
+      "address": "0x1d",
+      "value": "deregister_tm_clones"
+    },
+    {
+      "address": "0x32",
+      "value": "__do_global_dtors_aux"
+    },
+    {
+      "address": "0x48",
+      "value": "completed.0"
+    },
+    {
+      "address": "0x54",
+      "value": "__do_global_dtors_aux_fini_array_entry"
+    },
+    {
+      "address": "0x7b",
+      "value": "frame_dummy"
+    },
+    {
+      "address": "0x87",
+      "value": "__frame_dummy_init_array_entry"
+    },
+    {
+      "address": "0xa6",
+      "value": "toy_03_length_limit.c"
+    },
+    {
+      "address": "0xbc",
+      "value": "__FRAME_END__"
+    },
+    {
+      "address": "0xca",
+      "value": "_DYNAMIC"
+    },
+    {
+      "address": "0xd3",
+      "value": "__GNU_EH_FRAME_HDR"
+    },
+    {
+      "address": "0xe6",
+      "value": "_GLOBAL_OFFSET_TABLE_"
+    },
+    {
+      "address": "0xfc",
+      "value": "__libc_start_main@GLIBC_2.34"
+    },
+    {
+      "address": "0x119",
+      "value": "puts@GLIBC_2.2.5"
+    },
+    {
+      "address": "0x12a",
+      "value": "_edata"
+    },
+    {
+      "address": "0x131",
+      "value": "_fini"
+    },
+    {
+      "address": "0x137",
+      "value": "__stack_chk_fail@GLIBC_2.4"
+    },
+    {
+      "address": "0x152",
+      "value": "system@GLIBC_2.2.5"
+    },
+    {
+      "address": "0x165",
+      "value": "snprintf@GLIBC_2.2.5"
+    },
+    {
+      "address": "0x17a",
+      "value": "__data_start"
+    },
+    {
+      "address": "0x187",
+      "value": "__gmon_start__"
+    },
+    {
+      "address": "0x196",
+      "value": "__dso_handle"
+    },
+    {
+      "address": "0x1a3",
+      "value": "_IO_stdin_used"
+    },
+    {
+      "address": "0x1b2",
+      "value": "_end"
+    },
+    {
+      "address": "0x1b7",
+      "value": "_dl_relocate_static_pie"
+    },
+    {
+      "address": "0x1cf",
+      "value": "__bss_start"
+    },
+    {
+      "address": "0x1db",
+      "value": "main"
+    },
+    {
+      "address": "0x1e0",
+      "value": "__TMC_END__"
+    },
+    {
+      "address": "0x1ec",
+      "value": "_init"
+    }
+  ],
+  "xrefs": [
+    {
+      "from_address": "0x401270",
+      "from_function": "main",
+      "to_address": "0x4010a0",
+      "to_sink": "snprintf",
+      "type": "UNCONDITIONAL_CALL"
+    },
+    {
+      "from_address": "0x40127f",
+      "from_function": "main",
+      "to_address": "0x401090",
+      "to_sink": "system",
+      "type": "UNCONDITIONAL_CALL"
+    }
+  ]
+}

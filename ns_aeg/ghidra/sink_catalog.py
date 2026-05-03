@@ -60,6 +60,12 @@ DANGEROUS_SINKS: tuple[SinkDefinition, ...] = (
         description="Appends a string into a destination without a size argument.",
         argument_roles=("destination", "source"),
     ),
+    SinkDefinition(
+        name="memcpy",
+        category="memory_copy",
+        description="Copies bytes from a source buffer into a destination buffer.",
+        argument_roles=("destination", "source", "size"),
+    ),
 )
 
 _BY_NAME = {sink.name: sink for sink in DANGEROUS_SINKS}
@@ -82,4 +88,3 @@ def normalize_symbol_name(symbol: str) -> str:
     if symbol.endswith("@plt"):
         symbol = symbol[: -len("@plt")]
     return symbol.split("@", 1)[0]
-

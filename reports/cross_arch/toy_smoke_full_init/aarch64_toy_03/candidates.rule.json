@@ -1,0 +1,69 @@
+{
+  "candidates": [],
+  "planner": {
+    "mode": "sanitizer_aware_benign_baseline",
+    "name": "rule_based_planner",
+    "version": "0.1"
+  },
+  "planning_diagnostics": {
+    "marker_len": 17,
+    "notes": [
+      "benign marker length is incompatible with length_window sanitizer (marker_len=17, requires_nul_within=16)",
+      "no valid candidates generated because sanitizer constraints are incompatible with the benign marker strategy"
+    ],
+    "rejected_count": 4,
+    "sanitizer_count": 1,
+    "sanitizer_types": [
+      "length_window"
+    ]
+  },
+  "rejected_candidates": [
+    {
+      "details": {
+        "marker_len": 17,
+        "requires_nul_within": 16
+      },
+      "reason": "marker_length_exceeds_required_window",
+      "sanitizer": "length_window",
+      "source": "ip",
+      "strategy": "benign_marker_direct"
+    },
+    {
+      "details": {
+        "marker_len": 17,
+        "requires_nul_within": 16
+      },
+      "reason": "marker_length_exceeds_required_window",
+      "sanitizer": "length_window",
+      "source": "ip",
+      "strategy": "marker_only"
+    },
+    {
+      "details": {
+        "marker_len": 17,
+        "requires_nul_within": 16
+      },
+      "reason": "marker_length_exceeds_required_window",
+      "sanitizer": "length_window",
+      "source": "ip",
+      "strategy": "prefix_with_marker"
+    },
+    {
+      "details": {
+        "marker_len": 17,
+        "requires_nul_within": 16
+      },
+      "reason": "marker_length_exceeds_required_window",
+      "sanitizer": "length_window",
+      "source": "ip",
+      "strategy": "length_boundary_safe"
+    }
+  ],
+  "task_id": "dangerous_path:toy_03_length_limit:toy_03",
+  "validation": {
+    "candidate_count": 0,
+    "candidates": [],
+    "validation_failed_count": 0,
+    "validation_passed_count": 0
+  }
+}

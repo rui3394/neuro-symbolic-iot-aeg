@@ -27,6 +27,7 @@ Ghidra real facts -> Dangerous Path Task -> Planner candidates -> Symbolic Verif
 - Planner-verifier batch pipeline.
 - Planner evaluation summary JSON and Markdown report.
 - API-based LLM planner interface with offline deterministic mode and OpenAI-compatible Chat Completions provider.
+- Generic sink argument inspection layer with ABI register mapping for AMD64, ARM32, AArch64, and MIPS32.
 
 ## Current toy_01 Result
 
@@ -45,13 +46,18 @@ The symbolic verifier result for `toy_01` is:
 - `sink_reached=true`
 - `source_bound=true`
 - `marker_observed=true`
+- `sink_argument.arch=AMD64`
+- `sink_argument.arg_index=0`
+- `sink_argument.location=register:rdi`
+- `sink_argument.contains_source=true`
+- `sink_argument.contains_marker=true`
 
 The rule planner baseline currently generates four benign candidates for `toy_01`; all four are `sat` in the symbolic planner-verifier pipeline.
 
 ## Current Limits
 
 - Symbolic backend support is primarily scoped to toy argv-based CGI binaries.
-- Sink argument inspection currently focuses on AMD64 first-argument register `rdi`.
+- Sink argument inspection is no longer hardcoded in the verifier main loop, but real regression is still focused on AMD64 toy binaries; i386 stack arguments and non-AMD64 real binaries remain future work.
 - `snprintf` is modeled with a minimal local SimProcedure for toy source propagation.
 - The system provides source-to-sink symbolic evidence, not full exploit verification.
 - The system does not execute `system` or `popen`.
@@ -61,9 +67,7 @@ The rule planner baseline currently generates four benign candidates for `toy_01
 
 ## Next Roadmap
 
-- Extend symbolic support to `toy_02` and `toy_03`.
-- Add sanitizer-aware candidate planning.
+- Extend non-AMD64 sink argument inspection from ABI mapping to real binary regression.
 - Compare LLM planner output against the rule planner baseline.
 - Add real firmware case studies.
 - Build dataset, baseline, and ablation evaluation scripts.
-

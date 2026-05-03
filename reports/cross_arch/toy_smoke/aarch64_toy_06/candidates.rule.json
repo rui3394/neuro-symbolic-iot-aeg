@@ -1,0 +1,133 @@
+{
+  "candidates": [
+    {
+      "assumptions": [
+        "source is argv/http parameter",
+        "benign marker is used for source-to-sink evidence"
+      ],
+      "candidate_id": "toy_06_rule_001",
+      "inputs": {
+        "ip": "127.0.0.1__NS_AEG_MARKER__"
+      },
+      "safety": {
+        "benign": true,
+        "weaponized": false
+      },
+      "strategy": "benign_marker_direct"
+    },
+    {
+      "assumptions": [
+        "source is argv/http parameter",
+        "benign marker is used for source-to-sink evidence"
+      ],
+      "candidate_id": "toy_06_rule_002",
+      "inputs": {
+        "ip": "__NS_AEG_MARKER__"
+      },
+      "safety": {
+        "benign": true,
+        "weaponized": false
+      },
+      "strategy": "marker_only"
+    },
+    {
+      "assumptions": [
+        "source is argv/http parameter",
+        "benign marker is used for source-to-sink evidence"
+      ],
+      "candidate_id": "toy_06_rule_003",
+      "inputs": {
+        "ip": "SAFE__NS_AEG_MARKER__"
+      },
+      "safety": {
+        "benign": true,
+        "weaponized": false
+      },
+      "strategy": "prefix_with_marker"
+    },
+    {
+      "assumptions": [
+        "source is argv/http parameter",
+        "benign marker is used for source-to-sink evidence"
+      ],
+      "candidate_id": "toy_06_rule_004",
+      "inputs": {
+        "ip": "AAAAAAAAAAAAAAA__NS_AEG_MARKER__"
+      },
+      "safety": {
+        "benign": true,
+        "weaponized": false
+      },
+      "strategy": "length_boundary_safe"
+    }
+  ],
+  "planner": {
+    "mode": "benign_baseline",
+    "name": "rule_based_planner",
+    "version": "0.1"
+  },
+  "planning_diagnostics": {
+    "marker_len": 17,
+    "notes": [],
+    "rejected_count": 0,
+    "sanitizer_count": 0,
+    "sanitizer_types": []
+  },
+  "rejected_candidates": [],
+  "task_id": "dangerous_path:toy_06_format_flow:toy_06",
+  "validation": {
+    "candidate_count": 4,
+    "candidates": [
+      {
+        "candidate_id": "toy_06_rule_001",
+        "checks": {
+          "contains_benign_marker": true,
+          "contains_dangerous_chars": false,
+          "covers_all_sources": true,
+          "weaponized_false": true,
+          "within_max_len": true
+        },
+        "errors": [],
+        "validation_passed": true
+      },
+      {
+        "candidate_id": "toy_06_rule_002",
+        "checks": {
+          "contains_benign_marker": true,
+          "contains_dangerous_chars": false,
+          "covers_all_sources": true,
+          "weaponized_false": true,
+          "within_max_len": true
+        },
+        "errors": [],
+        "validation_passed": true
+      },
+      {
+        "candidate_id": "toy_06_rule_003",
+        "checks": {
+          "contains_benign_marker": true,
+          "contains_dangerous_chars": false,
+          "covers_all_sources": true,
+          "weaponized_false": true,
+          "within_max_len": true
+        },
+        "errors": [],
+        "validation_passed": true
+      },
+      {
+        "candidate_id": "toy_06_rule_004",
+        "checks": {
+          "contains_benign_marker": true,
+          "contains_dangerous_chars": false,
+          "covers_all_sources": true,
+          "weaponized_false": true,
+          "within_max_len": true
+        },
+        "errors": [],
+        "validation_passed": true
+      }
+    ],
+    "validation_failed_count": 0,
+    "validation_passed_count": 4
+  }
+}

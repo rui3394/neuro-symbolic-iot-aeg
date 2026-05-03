@@ -1,0 +1,23 @@
+name: toy_06_format_flow
+binary: datasets/toy_cgi/build/toy_06
+arch: auto
+
+http:
+  method: GET
+  path: /cgi-bin/ping
+  params:
+    ip:
+      source: true
+      max_len: 32
+
+analysis:
+  vulnerability_type: command_path_observation
+  expected_behavior: sat_expected
+  format_flow:
+    description: source enters snprintf command buffer before system consumes that buffer
+  sinks:
+    - system
+    - snprintf
+
+mode:
+  dry_run: true

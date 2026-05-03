@@ -19,6 +19,21 @@
       "type": "string",
       "minLength": 1
     },
+    "scope": {
+      "type": "string",
+      "enum": [
+        "toy_benchmark",
+        "unknown",
+        "firmware",
+        "non_toy"
+      ]
+    },
+    "target_kind": {
+      "type": "string"
+    },
+    "allow_direct_main": {
+      "type": "boolean"
+    },
     "binary": {
       "type": "object",
       "additionalProperties": false,
@@ -78,7 +93,7 @@
     "sanitizers": {
       "type": "array",
       "items": {
-        "type": "object"
+        "$ref": "#/$defs/sanitizer"
       }
     },
     "evidence": {
@@ -228,6 +243,78 @@
           "items": {
             "type": "string"
           }
+        },
+        "callsites": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/callsite"
+          }
+        }
+      }
+    },
+    "callsite": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "address",
+        "caller",
+        "caller_entry"
+      ],
+      "properties": {
+        "address": {
+          "$ref": "#/$defs/addressOrNull"
+        },
+        "caller": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "caller_entry": {
+          "$ref": "#/$defs/addressOrNull"
+        }
+      }
+    },
+    "sanitizer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sanitizer_id",
+        "type"
+      ],
+      "properties": {
+        "sanitizer_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "blacklist",
+            "length_window"
+          ]
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "chars": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "max_prefix_len": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "requires_nul_within": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "description": {
+          "type": "string"
         }
       }
     },

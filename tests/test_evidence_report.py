@@ -97,6 +97,7 @@ def test_symbolic_json_generates_symbolic_evidence_section(tmp_path: Path) -> No
     assert "### Selected Entry" in markdown
     assert "Function: `main`" in markdown
     assert "constraints_added" in markdown
+    assert "## Evidence Strength" in markdown
     assert NO_COMMAND_EXECUTION_NOTICE in markdown
     assert NO_EXPLOIT_NOTICE in markdown
     assert "not full exploit verification" in markdown
@@ -122,6 +123,73 @@ def test_symbolic_missing_fields_still_generate_report() -> None:
     assert "Marker observed: `not available`" in markdown
     assert "Function: `system`" in markdown
     assert "Address: `not available`" in markdown
+
+
+def test_direct_main_evidence_strength_contains_caution_note() -> None:
+    markdown = generate_evidence_markdown(
+        {
+            "mode": "symbolic_task",
+            "status": "sat",
+            "task_id": "direct_main_task",
+            "evidence_strength": {
+                "startup_mode": "direct_main",
+                "level": "direct_main_symbolic",
+                "scope": "toy_benchmark",
+                "description": "Symbolic reachability began at main.",
+                "can_claim_full_startup_proof": False,
+                "requires_explicit_opt_in": False,
+            },
+        }
+    )
+
+    assert "## Evidence Strength" in markdown
+    assert "This is direct-main symbolic evidence." in markdown
+    assert "It bypasses startup/loader modeling." in markdown
+    assert "It does not prove full program startup reachability." in markdown
+    assert "It must not be used as a standalone real-firmware claim." in markdown
+
+
+def test_symbolic_report_renders_format_flow_section() -> None:
+    markdown = generate_evidence_markdown(
+        {
+            "mode": "symbolic_task",
+            "status": "sat",
+            "task_id": "format_flow_task",
+            "format_flow": {
+                "observed": True,
+                "status": "positive",
+                "format_write_count": 1,
+                "format_record_count": 1,
+                "memory_copy_count": 0,
+                "positive_write_count": 1,
+                "truncated_write_count": 0,
+                "marker_truncated": False,
+                "flows_to_command_sink": True,
+                "records": [
+                    {
+                        "flow_kind": "format_write",
+                        "format_sink": "snprintf",
+                        "format_function": "snprintf",
+                        "format_callsite": "0x1000",
+                        "dst_buffer": "0x2000",
+                        "size_value": 128,
+                        "copy_length": 32,
+                        "source_or_marker_written": True,
+                        "marker_truncated": False,
+                        "flows_to_command_sink": True,
+                        "evidence_strength": "bounded_auxiliary_evidence",
+                    }
+                ],
+                "limitations": ["final command evidence is determined at system(arg0)"],
+            },
+        }
+    )
+
+    assert "## Format/Memory Flow Evidence" in markdown
+    assert "Status: `positive`" in markdown
+    assert "snprintf" in markdown
+    assert "Marker truncated: `false`" in markdown
+    assert "Flows to command sink: `true`" in markdown
 
 
 def _load_verification() -> dict:

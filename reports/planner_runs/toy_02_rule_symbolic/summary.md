@@ -1,0 +1,63 @@
+# Planner Verification Summary
+
+## Summary
+
+- Task ID: `dangerous_path:toy_02_filter_chars:toy_02`
+- Planner: `rule_based_planner`
+- Planner version: `0.1`
+- Planner mode: `sanitizer_aware_benign_baseline`
+- Planner provider: `not available`
+- Base URL host: `not available`
+- Model: `not available`
+- Max tokens: `not available`
+- Temperature: `not available`
+- Verification mode: `symbolic`
+- Candidate source: `generated`
+- Total candidates: `4`
+- Best candidate: `toy_02_rule_001`
+- Best status: `sat`
+
+## Candidate Validation
+
+- Candidate count: `4`
+- Validation passed: `4`
+- Validation failed: `0`
+- Rejected candidates: `0`
+
+## Status Counts
+
+- sat: `4`
+
+## Planner Diagnostics
+
+- Sanitizer count: `1`
+- Sanitizer types: `blacklist`
+- Marker length: `17`
+- Rejected count: `0`
+
+## Evidence Counts
+
+- Sink reached count: `4`
+- Source bound count: `4`
+- Marker observed count: `4`
+
+## Selected Sink
+
+- Sink ID: `sink_2:system`
+- Function: `system`
+- Address: `0x40127a`
+- Type: `command_execution`
+- External address: `0x4`
+
+## Limitations
+
+- rule planner is a benign deterministic baseline, not an exploit generator
+- candidate verification does not concretely execute target binaries or system/popen
+- symbolic mode is currently scoped to local toy argv-based CGI binaries
+
+## Safety Note
+
+- No target binary was concretely executed.
+- No system/popen command was executed.
+- No weaponized exploit was generated.
+- Candidates are benign source-to-sink verification inputs.

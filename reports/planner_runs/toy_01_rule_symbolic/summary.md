@@ -6,14 +6,34 @@
 - Planner: `rule_based_planner`
 - Planner version: `0.1`
 - Planner mode: `benign_baseline`
+- Planner provider: `not available`
+- Base URL host: `not available`
+- Model: `not available`
+- Max tokens: `not available`
+- Temperature: `not available`
 - Verification mode: `symbolic`
+- Candidate source: `generated`
 - Total candidates: `4`
 - Best candidate: `toy_01_rule_001`
 - Best status: `sat`
 
+## Candidate Validation
+
+- Candidate count: `4`
+- Validation passed: `4`
+- Validation failed: `0`
+- Rejected candidates: `0`
+
 ## Status Counts
 
 - sat: `4`
+
+## Planner Diagnostics
+
+- Sanitizer count: `0`
+- Sanitizer types: `not available`
+- Marker length: `17`
+- Rejected count: `0`
 
 ## Evidence Counts
 

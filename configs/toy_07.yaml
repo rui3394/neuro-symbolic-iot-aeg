@@ -1,0 +1,25 @@
+name: toy_07_format_safe_negative
+binary: datasets/toy_cgi/build/toy_07
+arch: auto
+
+http:
+  method: GET
+  path: /cgi-bin/ping
+  params:
+    ip:
+      source: true
+      max_len: 32
+
+analysis:
+  vulnerability_type: safe_path_observation
+  expected_behavior: unsat_expected
+  safe_negative:
+    description: source reaches snprintf log buffer, but system uses a fixed benign command argument
+  format_flow:
+    description: format write is intentionally not used by the command execution sink
+  sinks:
+    - system
+    - snprintf
+
+mode:
+  dry_run: true

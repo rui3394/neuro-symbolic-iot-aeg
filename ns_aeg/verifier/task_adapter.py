@@ -25,6 +25,8 @@ class VerifierTaskConfig:
     oracle: str
     benign_marker: str
     evidence: dict[str, Any]
+    scope: str = "unknown"
+    allow_direct_main: bool = False
 
 
 def load_candidate(path: str) -> dict[str, Any]:
@@ -58,6 +60,7 @@ def task_to_verifier_config(task: dict[str, Any]) -> VerifierTaskConfig:
         raise ValueError("dangerous path task has no sinks")
 
     expected = task.get("expected") if isinstance(task.get("expected"), dict) else {}
+    scope = _task_scope(task)
     return VerifierTaskConfig(
         task_id=str(task.get("task_id") or "unknown_task"),
         binary=dict(task.get("binary") or {}),
@@ -67,6 +70,8 @@ def task_to_verifier_config(task: dict[str, Any]) -> VerifierTaskConfig:
         oracle=str(expected.get("oracle") or "source_reaches_sink"),
         benign_marker=str(expected.get("benign_marker") or "__NS_AEG_MARKER__"),
         evidence=dict(task.get("evidence") or {}),
+        scope=scope,
+        allow_direct_main=bool(task.get("allow_direct_main") is True),
     )
 
 
@@ -177,6 +182,17 @@ def _checked_sinks(sinks: list[dict[str, Any]]) -> list[dict[str, Any]]:
     ]
 
 
+def _task_scope(task: dict[str, Any]) -> str:
+    explicit = task.get("scope") or task.get("target_kind")
+    if explicit:
+        return str(explicit)
+    binary = task.get("binary") if isinstance(task.get("binary"), dict) else {}
+    binary_path = str(binary.get("path") or "")
+    if "datasets/toy_cgi" in binary_path or "build_cross" in binary_path or "examples/cross_arch" in binary_path:
+        return "toy_benchmark"
+    return "unknown"
+
+
 def _result(
     *,
     status: str,
@@ -216,4 +232,3 @@ def _result(
         "mode": "task_adapter_dry_run",
         "executed": False,
     }
-

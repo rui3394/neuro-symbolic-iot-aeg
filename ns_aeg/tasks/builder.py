@@ -72,7 +72,7 @@ def build_dangerous_path_task(
         "entry": _build_entry(facts),
         "sources": sources,
         "sinks": sinks,
-        "sanitizers": [],
+        "sanitizers": _build_sanitizers(target),
         "evidence": _build_evidence(facts),
         "expected": {
             "oracle": DEFAULT_ORACLE,
@@ -163,7 +163,14 @@ def basic_validate_dangerous_path_task(data: dict[str, Any]) -> list[str]:
         "sinks",
         {"sink_id", "type", "function", "address", "arg_index", "callers"},
         errors,
-        optional={"external_address"},
+        optional={"external_address", "callsites"},
+    )
+    _validate_items(
+        data.get("sanitizers"),
+        "sanitizers",
+        {"sanitizer_id", "type"},
+        errors,
+        optional={"source", "chars", "max_prefix_len", "requires_nul_within", "description"},
     )
 
     if isinstance(data.get("sources"), list) and not data["sources"]:
@@ -243,8 +250,35 @@ def _build_sinks(facts: dict[str, Any]) -> list[dict[str, Any]]:
         }
         if sink.get("external_address") is not None:
             task_sink["external_address"] = sink.get("external_address")
+        if isinstance(sink.get("callsites"), list):
+            task_sink["callsites"] = [
+                {
+                    "address": item.get("address"),
+                    "caller": item.get("caller"),
+                    "caller_entry": item.get("caller_entry"),
+                }
+                for item in sink["callsites"]
+                if isinstance(item, dict)
+            ]
         sinks.append(task_sink)
     return sinks
+
+
+def _build_sanitizers(target: TargetConfig) -> list[dict[str, Any]]:
+    sanitizers: list[dict[str, Any]] = []
+    for index, sanitizer in enumerate(target.sanitizers):
+        sanitizer_type = str(sanitizer.get("type") or "")
+        if not sanitizer_type:
+            continue
+        task_sanitizer: dict[str, Any] = {
+            "sanitizer_id": str(sanitizer.get("sanitizer_id") or f"sanitizer_{index + 1}:{sanitizer_type}"),
+            "type": sanitizer_type,
+        }
+        for key in ("source", "chars", "max_prefix_len", "requires_nul_within", "description"):
+            if key in sanitizer:
+                task_sanitizer[key] = sanitizer[key]
+        sanitizers.append(task_sanitizer)
+    return sanitizers
 
 
 def _build_binary(facts: dict[str, Any], target: TargetConfig) -> dict[str, Any]:

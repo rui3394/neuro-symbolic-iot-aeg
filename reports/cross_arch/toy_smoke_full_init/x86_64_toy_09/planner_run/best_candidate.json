@@ -1,0 +1,20 @@
+{
+  "best_candidate": {
+    "assumptions": [
+      "source is argv/http parameter",
+      "benign marker is used for source-to-sink evidence"
+    ],
+    "candidate_id": "toy_09_rule_001",
+    "inputs": {
+      "ip": "127.0.0.1__NS_AEG_MARKER__"
+    },
+    "safety": {
+      "benign": true,
+      "weaponized": false
+    },
+    "strategy": "benign_marker_direct"
+  },
+  "best_candidate_id": "toy_09_rule_001",
+  "best_status": "sat",
+  "reason": "selected by status=sat, sink_reached, then marker_observed priority"
+}

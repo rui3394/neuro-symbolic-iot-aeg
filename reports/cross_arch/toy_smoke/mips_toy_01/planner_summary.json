@@ -1,0 +1,138 @@
+{
+  "best_candidate_id": "toy_01_rule_001",
+  "best_status": "sat",
+  "candidate_count": 4,
+  "candidate_source": "reports/cross_arch/toy_smoke/mips_toy_01/candidates.rule.json",
+  "direct_main_evidence_count": 0,
+  "evidence_strength": {
+    "can_claim_full_startup_proof": true,
+    "description": "Symbolic reachability began from the program initialization path.",
+    "level": "full_program_startup_symbolic",
+    "requires_explicit_opt_in": false,
+    "scope": "toy_benchmark",
+    "startup_mode": "full_init"
+  },
+  "format_flow_inconclusive_count": 0,
+  "format_flow_negative_count": 0,
+  "format_flow_positive_count": 4,
+  "full_startup_proof_count": 4,
+  "generated_at": "2026-05-03T13:00:56.421894+00:00",
+  "inconclusive_count": 0,
+  "limitations": [
+    "rule planner is a benign deterministic baseline, not an exploit generator",
+    "candidate verification does not concretely execute target binaries or system/popen",
+    "symbolic mode is currently scoped to local toy argv-based CGI binaries"
+  ],
+  "marker_observed_count": 4,
+  "memcpy_positive_count": 0,
+  "memcpy_truncation_negative_count": 0,
+  "mode": "symbolic",
+  "planner": {
+    "mode": "benign_baseline",
+    "name": "rule_based_planner",
+    "version": "0.1"
+  },
+  "planner_diagnostics": {
+    "marker_len": 17,
+    "notes": [],
+    "rejected_count": 0,
+    "sanitizer_count": 0,
+    "sanitizer_types": []
+  },
+  "rejected_candidates": [],
+  "rejected_count": 0,
+  "safe_negative_count": 0,
+  "sat_count": 4,
+  "selected_sink": {
+    "address": "0x400834",
+    "arg_index": 0,
+    "callers": [
+      "main"
+    ],
+    "callsites": [
+      {
+        "address": "0x400834",
+        "caller": "main",
+        "caller_entry": "0x4007a0"
+      }
+    ],
+    "external_address": "0x3",
+    "function": "system",
+    "match_reason": "loader_external_symbol_address",
+    "matched_address": "0x500004",
+    "sink_id": "sink_2:system",
+    "type": "command_execution"
+  },
+  "selected_startup_mode": "full_init",
+  "sink_policy_inconclusive_count": 0,
+  "sink_policy_positive_count": 4,
+  "sink_policy_unsupported_count": 0,
+  "sink_reached_count": 4,
+  "source_bound_count": 4,
+  "status_counts": {
+    "sat": 4
+  },
+  "task_id": "dangerous_path:toy_01_basic_cmd:toy_01",
+  "timeout_count": 0,
+  "total_candidates": 4,
+  "truncation_false_positive_count": 0,
+  "truncation_negative_count": 0,
+  "unsupported_count": 0,
+  "validation": {
+    "candidate_count": 4,
+    "candidates": [
+      {
+        "candidate_id": "toy_01_rule_001",
+        "checks": {
+          "contains_benign_marker": true,
+          "contains_dangerous_chars": false,
+          "covers_all_sources": true,
+          "weaponized_false": true,
+          "within_max_len": true
+        },
+        "errors": [],
+        "validation_passed": true
+      },
+      {
+        "candidate_id": "toy_01_rule_002",
+        "checks": {
+          "contains_benign_marker": true,
+          "contains_dangerous_chars": false,
+          "covers_all_sources": true,
+          "weaponized_false": true,
+          "within_max_len": true
+        },
+        "errors": [],
+        "validation_passed": true
+      },
+      {
+        "candidate_id": "toy_01_rule_003",
+        "checks": {
+          "contains_benign_marker": true,
+          "contains_dangerous_chars": false,
+          "covers_all_sources": true,
+          "weaponized_false": true,
+          "within_max_len": true
+        },
+        "errors": [],
+        "validation_passed": true
+      },
+      {
+        "candidate_id": "toy_01_rule_004",
+        "checks": {
+          "contains_benign_marker": true,
+          "contains_dangerous_chars": false,
+          "covers_all_sources": true,
+          "weaponized_false": true,
+          "within_max_len": true
+        },
+        "errors": [],
+        "validation_passed": true
+      }
+    ],
+    "validation_failed_count": 0,
+    "validation_passed_count": 4
+  },
+  "validation_failed_count": 0,
+  "validation_passed_count": 4
+}

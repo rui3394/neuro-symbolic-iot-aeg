@@ -1,0 +1,88 @@
+{
+  "backend": "angr",
+  "benign_marker": "__NS_AEG_MARKER__",
+  "binary": {
+    "arch": "x86",
+    "name": "toy_03",
+    "path": "/home/kali/projects/neuro-symbolic-iot-aeg/datasets/toy_cgi/build/toy_03"
+  },
+  "candidate_id": "toy_03_rule_002",
+  "checked_sinks": [
+    {
+      "address": "0x401270",
+      "arg_index": 2,
+      "callers": [
+        "main"
+      ],
+      "external_address": "0x5",
+      "function": "snprintf",
+      "sink_id": "sink_1:snprintf"
+    },
+    {
+      "address": "0x40127f",
+      "arg_index": 0,
+      "callers": [
+        "main"
+      ],
+      "external_address": "0x4",
+      "function": "system",
+      "sink_id": "sink_2:system"
+    }
+  ],
+  "checked_sources": [
+    {
+      "carrier": "argv[1]",
+      "name": "ip",
+      "source_id": "source_1:ip",
+      "symbolic": "sym_ip"
+    }
+  ],
+  "constraints_summary": {
+    "candidate_input_len": 17,
+    "candidate_value_truncated": false,
+    "constraints_added": 32,
+    "symbolic_bytes": 32
+  },
+  "entry": {
+    "address": "0x401196",
+    "function": "main"
+  },
+  "executed": false,
+  "found_states": 0,
+  "limitations": [
+    "task symbolic mode is currently scoped to local toy argv-based CGI binaries",
+    "sink argument inspection currently supports AMD64 first-argument register rdi",
+    "snprintf is modeled with a minimal local SimProcedure for toy source propagation",
+    "this is source-to-sink reachability evidence, not exploit verification"
+  ],
+  "marker_observed": "unknown",
+  "mode": "symbolic_task",
+  "oracle": "source_reaches_sink",
+  "path_status": "unsat",
+  "provenance": {
+    "candidate_id": "toy_03_rule_002",
+    "planner": "rule",
+    "task_path": "examples/dangerous_tasks/toy_03_task.real.json"
+  },
+  "reason": "selected sink callsite was not reached",
+  "selected_entry": {
+    "address": "0x401196",
+    "function": "main"
+  },
+  "selected_sink": {
+    "address": "0x40127f",
+    "arg_index": 0,
+    "callers": [
+      "main"
+    ],
+    "external_address": "0x4",
+    "function": "system",
+    "sink_id": "sink_2:system",
+    "type": "command_execution"
+  },
+  "sink_reached": false,
+  "source_bound": "unknown",
+  "status": "unsat",
+  "steps": 230,
+  "task_id": "dangerous_path:toy_03_length_limit:toy_03"
+}

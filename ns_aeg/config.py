@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
@@ -25,6 +25,7 @@ class TargetConfig:
     vulnerability_type: str
     sinks: list[str]
     dry_run: bool
+    sanitizers: list[dict[str, Any]] = field(default_factory=list)
 
 
 def load_target_config(path: str) -> TargetConfig:
@@ -48,6 +49,7 @@ def load_target_config(path: str) -> TargetConfig:
         source_params=source_params,
         vulnerability_type=raw_config["analysis"]["vulnerability_type"],
         sinks=list(raw_config["analysis"]["sinks"]),
+        sanitizers=_extract_sanitizers(raw_config["analysis"].get("sanitizers")),
         dry_run=bool((raw_config.get("mode") or {}).get("dry_run", False)),
     )
 
@@ -81,6 +83,10 @@ def validate_config(config: Any) -> None:
     if not all(isinstance(sink, str) and sink for sink in sinks):
         raise ValueError("Field 'analysis.sinks' must contain non-empty strings.")
 
+    sanitizers = config["analysis"].get("sanitizers", [])
+    if sanitizers is not None and not isinstance(sanitizers, list):
+        raise ValueError("Field 'analysis.sanitizers' must be a list when provided.")
+
 
 def _extract_source_params(params: dict[str, Any]) -> list[SourceParam]:
     source_params: list[SourceParam] = []
@@ -88,6 +94,12 @@ def _extract_source_params(params: dict[str, Any]) -> list[SourceParam]:
         if isinstance(spec, dict) and spec.get("source") is True:
             source_params.append(SourceParam(name=name, max_len=spec.get("max_len")))
     return source_params
+
+
+def _extract_sanitizers(value: Any) -> list[dict[str, Any]]:
+    if not isinstance(value, list):
+        return []
+    return [dict(item) for item in value if isinstance(item, dict)]
 
 
 def _require(config: dict[str, Any], key: str, display_name: str | None = None) -> None:

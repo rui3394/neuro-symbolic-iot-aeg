@@ -1,0 +1,5 @@
+{
+  "best_candidate": null,
+  "best_candidate_id": null,
+  "reason": "no candidate satisfied sat, sink_reached, or marker_observed selection criteria"
+}

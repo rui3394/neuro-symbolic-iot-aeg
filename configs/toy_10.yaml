@@ -1,0 +1,23 @@
+name: toy_10_memcpy_flow_positive
+binary: datasets/toy_cgi/build/toy_10
+arch: auto
+
+http:
+  method: GET
+  path: /cgi-bin/ping
+  params:
+    ip:
+      source: true
+      max_len: 32
+
+analysis:
+  vulnerability_type: command_path_observation
+  expected_behavior: sat_expected
+  memory_flow:
+    description: memcpy copies source bytes into the command buffer before system consumes it
+  sinks:
+    - system
+    - memcpy
+
+mode:
+  dry_run: true

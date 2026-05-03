@@ -25,6 +25,7 @@ from ns_aeg.verifier.task_adapter import (
 
 SUPPORTED_PLANNERS = {"llm", "rule"}
 SUPPORTED_MODES = {"dry-run", "symbolic"}
+SUPPORTED_STARTUP_MODES = {"auto", "full-init", "direct-main"}
 
 
 class PlannerVerifierPipelineError(ValueError):
@@ -39,11 +40,15 @@ def run_pipeline(
     out_dir: str,
     offline_example: bool = False,
     candidates_path: str | None = None,
+    startup_mode: str = "auto",
+    allow_direct_main_for_non_toy: bool = False,
 ) -> dict[str, Any]:
     if planner not in SUPPORTED_PLANNERS:
         raise PlannerVerifierPipelineError(f"unsupported planner: {planner}")
     if mode not in SUPPORTED_MODES:
         raise PlannerVerifierPipelineError(f"unsupported verifier mode: {mode}")
+    if startup_mode not in SUPPORTED_STARTUP_MODES:
+        raise PlannerVerifierPipelineError(f"unsupported startup mode: {startup_mode}")
 
     task = load_dangerous_path_task(task_path)
     config = task_to_verifier_config(task)
@@ -65,7 +70,18 @@ def run_pipeline(
 
     results: list[dict[str, Any]] = []
     for candidate in candidate_set["candidates"]:
-        result = _verify_one_candidate(config, candidate, mode, task_path, planner)
+        if mode == "symbolic":
+            result = _verify_one_candidate(
+                config,
+                candidate,
+                mode,
+                task_path,
+                planner,
+                startup_mode=startup_mode,
+                allow_direct_main_for_non_toy=allow_direct_main_for_non_toy,
+            )
+        else:
+            result = _verify_one_candidate(config, candidate, mode, task_path, planner)
         results.append(result)
         candidate_id = _safe_filename(str(candidate.get("candidate_id") or "unknown_candidate"))
         write_json(result, str(verifications_dir / f"{candidate_id}.json"))
@@ -95,6 +111,13 @@ def build_summary(
     selected_sink = _first_selected_sink(results)
     planner_meta = dict(candidate_set.get("planner") or {})
     validation = dict(candidate_set.get("validation") or {})
+    planner_diagnostics = dict(candidate_set.get("planning_diagnostics") or {})
+    rejected_candidates = candidate_set.get("rejected_candidates")
+    rejected_count = (
+        len(rejected_candidates)
+        if isinstance(rejected_candidates, list)
+        else int(planner_diagnostics.get("rejected_count") or 0)
+    )
     return {
         "task_id": str(task.get("task_id") or "unknown_task"),
         "planner": planner_meta,
@@ -105,6 +128,9 @@ def build_summary(
         "validation": validation,
         "validation_passed_count": validation.get("validation_passed_count", 0),
         "validation_failed_count": validation.get("validation_failed_count", 0),
+        "planner_diagnostics": planner_diagnostics,
+        "rejected_count": rejected_count,
+        "rejected_candidates": rejected_candidates if isinstance(rejected_candidates, list) else [],
         "status_counts": dict(sorted(status_counts.items())),
         "sat_count": status_counts.get("sat", 0),
         "timeout_count": status_counts.get("timeout", 0),
@@ -115,6 +141,22 @@ def build_summary(
         "sink_reached_count": _count_truthy(results, "sink_reached"),
         "source_bound_count": _count_truthy(results, "source_bound"),
         "marker_observed_count": _count_truthy(results, "marker_observed"),
+        "safe_negative_count": _count_sink_policy_status(results, "negative_evidence"),
+        "sink_policy_positive_count": _count_sink_policy_status(results, "positive_evidence"),
+        "sink_policy_inconclusive_count": _count_sink_policy_status(results, "inconclusive"),
+        "sink_policy_unsupported_count": _count_sink_policy_status(results, "unsupported"),
+        "format_flow_positive_count": _count_format_flow_status(results, "positive"),
+        "format_flow_negative_count": _count_format_flow_status(results, "negative"),
+        "format_flow_inconclusive_count": _count_format_flow_status(results, "inconclusive"),
+        "truncation_negative_count": _count_marker_truncated(results),
+        "truncation_false_positive_count": _count_truncation_false_positive(task, results),
+        "memcpy_positive_count": _count_memory_flow_positive(results),
+        "memcpy_truncation_negative_count": _count_memory_flow_truncated(results),
+        "inconclusive_count": _count_inconclusive(results),
+        "selected_startup_mode": _first_startup_mode(results),
+        "evidence_strength": _first_evidence_strength(results),
+        "full_startup_proof_count": _count_full_startup_proofs(results),
+        "direct_main_evidence_count": _count_evidence_level(results, "direct_main_symbolic"),
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "limitations": _summary_limitations(planner_meta),
     }
@@ -170,6 +212,17 @@ def main(argv: list[str] | None = None) -> int:
         help="existing candidate set JSON path; skips planner generation and validates locally.",
     )
     parser.add_argument("--out-dir", required=True, help="output directory for batch artifacts.")
+    parser.add_argument(
+        "--startup-mode",
+        choices=sorted(SUPPORTED_STARTUP_MODES),
+        default="auto",
+        help="symbolic startup mode: full-init, direct-main, or auto fallback.",
+    )
+    parser.add_argument(
+        "--allow-direct-main-for-non-toy",
+        action="store_true",
+        help="allow direct-main symbolic startup for non-toy/unknown tasks. Use only for explicit debugging.",
+    )
     args = parser.parse_args(argv)
 
     try:
@@ -180,6 +233,8 @@ def main(argv: list[str] | None = None) -> int:
             out_dir=args.out_dir,
             offline_example=args.offline_example,
             candidates_path=args.candidates,
+            startup_mode=args.startup_mode,
+            allow_direct_main_for_non_toy=args.allow_direct_main_for_non_toy,
         )
     except (
         TaskLoadError,
@@ -237,7 +292,16 @@ def _validate_candidate_set_for_pipeline(
     if planner == "llm":
         validate_llm_candidate_set(candidate_set, task)
         return
-    candidate_set["validation"] = build_candidate_validation_report(candidate_set, task)
+    candidates = candidate_set.get("candidates") if isinstance(candidate_set.get("candidates"), list) else []
+    if candidates:
+        candidate_set["validation"] = build_candidate_validation_report(candidate_set, task)
+    else:
+        candidate_set["validation"] = {
+            "candidate_count": 0,
+            "validation_passed_count": 0,
+            "validation_failed_count": 0,
+            "candidates": [],
+        }
 
 
 def _verify_one_candidate(
@@ -246,11 +310,18 @@ def _verify_one_candidate(
     mode: str,
     task_path: str,
     planner: str,
+    startup_mode: str = "auto",
+    allow_direct_main_for_non_toy: bool = False,
 ) -> dict[str, Any]:
     candidate_id = str(candidate.get("candidate_id") or "unknown_candidate")
     try:
         if mode == "symbolic":
-            result = run_symbolic_task_verification(config, candidate)
+            result = run_symbolic_task_verification(
+                config,
+                candidate,
+                startup_mode=startup_mode,
+                allow_direct_main_for_non_toy=allow_direct_main_for_non_toy,
+            )
         else:
             result = verify_candidate_with_task_config(config, candidate)
         result["provenance"] = {
@@ -299,6 +370,114 @@ def _first_selected_sink(results: list[dict[str, Any]]) -> dict[str, Any] | None
         if isinstance(selected, dict) and selected:
             return selected
     return None
+
+
+def _first_startup_mode(results: list[dict[str, Any]]) -> str | None:
+    for result in results:
+        startup_debug = result.get("startup_debug")
+        if isinstance(startup_debug, dict) and startup_debug.get("selected_startup_mode"):
+            return str(startup_debug["selected_startup_mode"])
+    return None
+
+
+def _first_evidence_strength(results: list[dict[str, Any]]) -> dict[str, Any] | None:
+    for result in results:
+        evidence_strength = result.get("evidence_strength")
+        if isinstance(evidence_strength, dict) and evidence_strength:
+            return dict(evidence_strength)
+    return None
+
+
+def _count_full_startup_proofs(results: list[dict[str, Any]]) -> int:
+    return sum(
+        1
+        for result in results
+        if isinstance(result.get("evidence_strength"), dict)
+        and result["evidence_strength"].get("can_claim_full_startup_proof") is True
+    )
+
+
+def _count_evidence_level(results: list[dict[str, Any]], level: str) -> int:
+    return sum(
+        1
+        for result in results
+        if isinstance(result.get("evidence_strength"), dict)
+        and result["evidence_strength"].get("level") == level
+    )
+
+
+def _count_sink_policy_status(results: list[dict[str, Any]], status: str) -> int:
+    return sum(
+        1
+        for result in results
+        if isinstance(result.get("sink_policy"), dict)
+        and result["sink_policy"].get("policy_status") == status
+    )
+
+
+def _count_format_flow_status(results: list[dict[str, Any]], status: str) -> int:
+    return sum(
+        1
+        for result in results
+        if isinstance(result.get("format_flow"), dict)
+        and result["format_flow"].get("status") == status
+    )
+
+
+def _count_marker_truncated(results: list[dict[str, Any]]) -> int:
+    return sum(
+        1
+        for result in results
+        if isinstance(result.get("format_flow"), dict)
+        and result["format_flow"].get("marker_truncated") is True
+    )
+
+
+def _count_memory_flow_positive(results: list[dict[str, Any]]) -> int:
+    return sum(
+        1
+        for result in results
+        if isinstance(result.get("format_flow"), dict)
+        and int(result["format_flow"].get("memory_copy_count") or 0) > 0
+        and result["format_flow"].get("status") == "positive"
+    )
+
+
+def _count_memory_flow_truncated(results: list[dict[str, Any]]) -> int:
+    return sum(
+        1
+        for result in results
+        if isinstance(result.get("format_flow"), dict)
+        and int(result["format_flow"].get("memory_copy_count") or 0) > 0
+        and result["format_flow"].get("marker_truncated") is True
+    )
+
+
+def _count_inconclusive(results: list[dict[str, Any]]) -> int:
+    return sum(
+        1
+        for result in results
+        if result.get("status") == "unknown"
+        or (
+            isinstance(result.get("sink_policy"), dict)
+            and result["sink_policy"].get("policy_status") in {"inconclusive", "unsupported"}
+        )
+        or (
+            isinstance(result.get("format_flow"), dict)
+            and result["format_flow"].get("status") == "inconclusive"
+        )
+    )
+
+
+def _count_truncation_false_positive(task: dict[str, Any], results: list[dict[str, Any]]) -> int:
+    expected = (
+        task.get("expected_behavior")
+        or (task.get("metadata") if isinstance(task.get("metadata"), dict) else {}).get("expected_behavior")
+        or (task.get("analysis") if isinstance(task.get("analysis"), dict) else {}).get("expected_behavior")
+    )
+    if expected != "truncation_negative_expected":
+        return 0
+    return sum(1 for result in results if result.get("status") == "sat")
 
 
 def _candidate_by_id(candidate_set: dict[str, Any], candidate_id: Any) -> dict[str, Any] | None:

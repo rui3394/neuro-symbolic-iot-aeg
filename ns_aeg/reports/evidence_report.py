@@ -15,6 +15,11 @@ NO_COMMAND_EXECUTION_NOTICE = "No system/popen command was executed."
 NO_EXPLOIT_NOTICE = "No weaponized exploit was generated."
 SYMBOLIC_EVIDENCE_NOTICE = "This is angr-based symbolic reachability evidence."
 NOT_FULL_EXPLOIT_NOTICE = "This is source-to-sink symbolic evidence, not full exploit verification."
+DIRECT_MAIN_NOTICE = "This is direct-main symbolic evidence."
+DIRECT_MAIN_BYPASS_NOTICE = "It bypasses startup/loader modeling."
+DIRECT_MAIN_NO_FULL_PROOF_NOTICE = "It does not prove full program startup reachability."
+DIRECT_MAIN_TOY_NOTICE = "It is acceptable for controlled toy benchmark debugging."
+DIRECT_MAIN_FIRMWARE_NOTICE = "It must not be used as a standalone real-firmware claim."
 
 
 class EvidenceReportError(ValueError):
@@ -68,6 +73,9 @@ def generate_evidence_markdown(verification: dict[str, Any]) -> str:
     )
     lines.extend(_render_sinks(verification.get("checked_sinks")))
     lines.extend(_render_symbolic_evidence(verification))
+    lines.extend(_render_sink_policy(verification))
+    lines.extend(_render_format_flow(verification))
+    lines.extend(_render_evidence_strength(verification))
     lines.extend(
         [
             "",
@@ -240,6 +248,116 @@ def _render_symbolic_evidence(verification: dict[str, Any]) -> list[str]:
         ]
     )
     lines.extend(_render_constraints_summary(verification.get("constraints_summary")))
+    return lines
+
+
+def _render_evidence_strength(verification: dict[str, Any]) -> list[str]:
+    strength = verification.get("evidence_strength")
+    strength = strength if isinstance(strength, dict) else {}
+    if not strength and verification.get("mode") != "symbolic_task":
+        return []
+    startup_mode = str(strength.get("startup_mode") or NOT_AVAILABLE)
+    lines = [
+        "",
+        "## Evidence Strength",
+        "",
+        f"- Startup mode: `{_display(startup_mode)}`",
+        f"- Level: `{_display(strength.get('level'))}`",
+        f"- Scope: `{_display(strength.get('scope'))}`",
+        f"- Can claim full startup proof: `{_display_bool(strength.get('can_claim_full_startup_proof'))}`",
+        f"- Requires explicit opt-in: `{_display_bool(strength.get('requires_explicit_opt_in'))}`",
+        f"- Description: {_paragraph(strength.get('description'))}",
+    ]
+    if startup_mode == "full_init":
+        lines.append("- This is symbolic reachability evidence from the program initialization path.")
+    elif startup_mode == "direct_main":
+        lines.extend(
+            [
+                f"- {DIRECT_MAIN_NOTICE}",
+                f"- {DIRECT_MAIN_BYPASS_NOTICE}",
+                f"- {DIRECT_MAIN_NO_FULL_PROOF_NOTICE}",
+                f"- {DIRECT_MAIN_TOY_NOTICE}",
+                f"- {DIRECT_MAIN_FIRMWARE_NOTICE}",
+            ]
+        )
+    return lines
+
+
+def _render_sink_policy(verification: dict[str, Any]) -> list[str]:
+    policy = verification.get("sink_policy")
+    policy = policy if isinstance(policy, dict) else {}
+    if not policy and verification.get("mode") != "symbolic_task":
+        return []
+    return [
+        "",
+        "## Sink Policy",
+        "",
+        f"- Policy name: `{_display(policy.get('policy_name'))}`",
+        f"- Policy status: `{_display(policy.get('policy_status'))}`",
+        f"- Reason: `{_display(policy.get('reason'))}`",
+        f"- Source reaches sink: `{_display_tri_state(policy.get('source_reaches_sink'))}`",
+        f"- Marker reaches sink: `{_display_tri_state(policy.get('marker_reaches_sink'))}`",
+        f"- Fixed safe argument: `{_display_tri_state(policy.get('fixed_safe_argument'))}`",
+    ]
+
+
+def _render_format_flow(verification: dict[str, Any]) -> list[str]:
+    flow = verification.get("format_flow")
+    flow = flow if isinstance(flow, dict) else {}
+    if not flow and verification.get("mode") != "symbolic_task":
+        return []
+    lines = [
+        "",
+        "## Format/Memory Flow Evidence",
+        "",
+        f"- Observed: `{_display_bool(flow.get('observed'))}`",
+        f"- Status: `{_display(flow.get('status'))}`",
+        f"- Format write count: `{_display(flow.get('format_write_count'))}`",
+        f"- Format record count: `{_display(flow.get('format_record_count'))}`",
+        f"- Memory copy count: `{_display(flow.get('memory_copy_count'))}`",
+        f"- Positive write count: `{_display(flow.get('positive_write_count'))}`",
+        f"- Truncated write count: `{_display(flow.get('truncated_write_count'))}`",
+        f"- Marker truncated: `{_display_bool(flow.get('marker_truncated'))}`",
+        f"- Flows to command sink: `{_display_bool(flow.get('flows_to_command_sink'))}`",
+    ]
+    records = flow.get("records")
+    if isinstance(records, list) and records:
+        lines.extend(
+            [
+                "",
+                "| Flow Kind | Function | Callsite | Destination Buffer | Size | Copy Length | Source/Marker Written | Marker Truncated | Flows To Command Sink | Evidence Strength |",
+                "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+            ]
+        )
+        for item in records:
+            if not isinstance(item, dict):
+                continue
+            lines.append(
+                "| "
+                + " | ".join(
+                    [
+                        _display(item.get("flow_kind")),
+                        _display(item.get("format_function")),
+                        _display(item.get("format_callsite")),
+                        _display(item.get("dst_buffer")),
+                        _display(item.get("size_value")),
+                        _display(item.get("copy_length")),
+                        _display_bool(item.get("source_or_marker_written")),
+                        _display_bool(item.get("marker_truncated")),
+                        _display_bool(item.get("flows_to_command_sink")),
+                        _display(item.get("evidence_strength")),
+                    ]
+                )
+                + " |"
+            )
+    else:
+        lines.append("- Records: not available")
+    limitations = flow.get("limitations")
+    if isinstance(limitations, list) and limitations:
+        lines.append("")
+        lines.append("Limitations:")
+        for item in limitations:
+            lines.append(f"- {_display(item)}")
     return lines
 
 

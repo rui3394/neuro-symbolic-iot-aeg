@@ -51,7 +51,7 @@
   "found_states": 1,
   "limitations": [
     "task symbolic mode is currently scoped to local toy argv-based CGI binaries",
-    "sink argument inspection currently supports AMD64 first-argument register rdi",
+    "sink argument inspection uses ABI register mapping; stack arguments and some architectures are partial/unsupported",
     "snprintf is modeled with a minimal local SimProcedure for toy source propagation",
     "this is source-to-sink reachability evidence, not exploit verification"
   ],
@@ -81,6 +81,8 @@
     "type": "command_execution"
   },
   "sink_argument": {
+    "arch": "AMD64",
+    "arg_index": 0,
     "arg_register": "rdi",
     "arg_symbolic": true,
     "arg_variables": [
@@ -88,9 +90,16 @@
       "sym_ip_0_512"
     ],
     "concrete_preview": "127.0.0.1__NS_AEG_MARKER__",
+    "contains_marker": true,
+    "contains_source": true,
     "error": null,
+    "limitations": [],
+    "location": "register:rdi",
     "marker_observed": true,
-    "source_var_in_sink_arg": true
+    "method": "register_pointer_memory_string",
+    "register": "rdi",
+    "source_var_in_sink_arg": true,
+    "value_repr": "127.0.0.1__NS_AEG_MARKER__"
   },
   "sink_reached": true,
   "source_bound": true,

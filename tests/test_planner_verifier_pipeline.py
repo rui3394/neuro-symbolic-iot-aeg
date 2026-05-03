@@ -52,6 +52,24 @@ def test_planner_verifier_pipeline_llm_offline_dry_run(tmp_path: Path) -> None:
     assert (out_dir / "summary.json").exists()
 
 
+def test_planner_verifier_pipeline_handles_zero_rule_candidates(tmp_path: Path) -> None:
+    out_dir = tmp_path / "toy_03_rule_symbolic"
+
+    summary = run_pipeline(
+        task_path="examples/dangerous_tasks/toy_03_task.real.json",
+        planner="rule",
+        mode="symbolic",
+        out_dir=str(out_dir),
+    )
+
+    assert summary["total_candidates"] == 0
+    assert summary["status_counts"] == {}
+    assert summary["best_candidate_id"] is None
+    assert summary["rejected_count"] >= 1
+    assert summary["planner_diagnostics"]["sanitizer_types"] == ["length_window"]
+    assert list((out_dir / "verifications").glob("*.json")) == []
+
+
 def test_planner_verifier_pipeline_reads_existing_llm_candidates(tmp_path: Path) -> None:
     candidate_set = generate_candidate_set_for_task_path(
         "examples/dangerous_tasks/toy_01_task.example.json",

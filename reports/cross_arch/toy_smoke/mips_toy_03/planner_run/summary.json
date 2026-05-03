@@ -1,0 +1,107 @@
+{
+  "best_candidate_id": null,
+  "best_status": null,
+  "candidate_count": 0,
+  "candidate_source": "reports/cross_arch/toy_smoke/mips_toy_03/candidates.rule.json",
+  "direct_main_evidence_count": 0,
+  "evidence_strength": null,
+  "format_flow_inconclusive_count": 0,
+  "format_flow_negative_count": 0,
+  "format_flow_positive_count": 0,
+  "full_startup_proof_count": 0,
+  "generated_at": "2026-05-03T13:01:09.629920+00:00",
+  "inconclusive_count": 0,
+  "limitations": [
+    "rule planner is a benign deterministic baseline, not an exploit generator",
+    "candidate verification does not concretely execute target binaries or system/popen",
+    "symbolic mode is currently scoped to local toy argv-based CGI binaries"
+  ],
+  "marker_observed_count": 0,
+  "memcpy_positive_count": 0,
+  "memcpy_truncation_negative_count": 0,
+  "mode": "symbolic",
+  "planner": {
+    "mode": "sanitizer_aware_benign_baseline",
+    "name": "rule_based_planner",
+    "version": "0.1"
+  },
+  "planner_diagnostics": {
+    "marker_len": 17,
+    "notes": [
+      "benign marker length is incompatible with length_window sanitizer (marker_len=17, requires_nul_within=16)",
+      "no valid candidates generated because sanitizer constraints are incompatible with the benign marker strategy"
+    ],
+    "rejected_count": 4,
+    "sanitizer_count": 1,
+    "sanitizer_types": [
+      "length_window"
+    ]
+  },
+  "rejected_candidates": [
+    {
+      "details": {
+        "marker_len": 17,
+        "requires_nul_within": 16
+      },
+      "reason": "marker_length_exceeds_required_window",
+      "sanitizer": "length_window",
+      "source": "ip",
+      "strategy": "benign_marker_direct"
+    },
+    {
+      "details": {
+        "marker_len": 17,
+        "requires_nul_within": 16
+      },
+      "reason": "marker_length_exceeds_required_window",
+      "sanitizer": "length_window",
+      "source": "ip",
+      "strategy": "marker_only"
+    },
+    {
+      "details": {
+        "marker_len": 17,
+        "requires_nul_within": 16
+      },
+      "reason": "marker_length_exceeds_required_window",
+      "sanitizer": "length_window",
+      "source": "ip",
+      "strategy": "prefix_with_marker"
+    },
+    {
+      "details": {
+        "marker_len": 17,
+        "requires_nul_within": 16
+      },
+      "reason": "marker_length_exceeds_required_window",
+      "sanitizer": "length_window",
+      "source": "ip",
+      "strategy": "length_boundary_safe"
+    }
+  ],
+  "rejected_count": 4,
+  "safe_negative_count": 0,
+  "sat_count": 0,
+  "selected_sink": null,
+  "selected_startup_mode": null,
+  "sink_policy_inconclusive_count": 0,
+  "sink_policy_positive_count": 0,
+  "sink_policy_unsupported_count": 0,
+  "sink_reached_count": 0,
+  "source_bound_count": 0,
+  "status_counts": {},
+  "task_id": "dangerous_path:toy_03_length_limit:toy_03",
+  "timeout_count": 0,
+  "total_candidates": 0,
+  "truncation_false_positive_count": 0,
+  "truncation_negative_count": 0,
+  "unsupported_count": 0,
+  "validation": {
+    "candidate_count": 0,
+    "candidates": [],
+    "validation_failed_count": 0,
+    "validation_passed_count": 0
+  },
+  "validation_failed_count": 0,
+  "validation_passed_count": 0
+}

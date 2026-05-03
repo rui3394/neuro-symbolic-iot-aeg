@@ -1,7 +1,9 @@
 {
   "best_candidate_id": "toy_01_rule_001",
   "best_status": "sat",
-  "generated_at": "2026-05-02T08:24:40.308816+00:00",
+  "candidate_count": 4,
+  "candidate_source": "generated",
+  "generated_at": "2026-05-02T15:59:14.346706+00:00",
   "limitations": [
     "rule planner is a benign deterministic baseline, not an exploit generator",
     "candidate verification does not concretely execute target binaries or system/popen",
@@ -14,6 +16,15 @@
     "name": "rule_based_planner",
     "version": "0.1"
   },
+  "planner_diagnostics": {
+    "marker_len": 17,
+    "notes": [],
+    "rejected_count": 0,
+    "sanitizer_count": 0,
+    "sanitizer_types": []
+  },
+  "rejected_candidates": [],
+  "rejected_count": 0,
   "sat_count": 4,
   "selected_sink": {
     "address": "0x4011f9",
@@ -34,5 +45,62 @@
   "task_id": "dangerous_path:toy_01_basic_cmd:toy_01",
   "timeout_count": 0,
   "total_candidates": 4,
-  "unsupported_count": 0
+  "unsupported_count": 0,
+  "validation": {
+    "candidate_count": 4,
+    "candidates": [
+      {
+        "candidate_id": "toy_01_rule_001",
+        "checks": {
+          "contains_benign_marker": true,
+          "contains_dangerous_chars": false,
+          "covers_all_sources": true,
+          "weaponized_false": true,
+          "within_max_len": true
+        },
+        "errors": [],
+        "validation_passed": true
+      },
+      {
+        "candidate_id": "toy_01_rule_002",
+        "checks": {
+          "contains_benign_marker": true,
+          "contains_dangerous_chars": false,
+          "covers_all_sources": true,
+          "weaponized_false": true,
+          "within_max_len": true
+        },
+        "errors": [],
+        "validation_passed": true
+      },
+      {
+        "candidate_id": "toy_01_rule_003",
+        "checks": {
+          "contains_benign_marker": true,
+          "contains_dangerous_chars": false,
+          "covers_all_sources": true,
+          "weaponized_false": true,
+          "within_max_len": true
+        },
+        "errors": [],
+        "validation_passed": true
+      },
+      {
+        "candidate_id": "toy_01_rule_004",
+        "checks": {
+          "contains_benign_marker": true,
+          "contains_dangerous_chars": false,
+          "covers_all_sources": true,
+          "weaponized_false": true,
+          "within_max_len": true
+        },
+        "errors": [],
+        "validation_passed": true
+      }
+    ],
+    "validation_failed_count": 0,
+    "validation_passed_count": 4
+  },
+  "validation_failed_count": 0,
+  "validation_passed_count": 4
 }

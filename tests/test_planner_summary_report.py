@@ -18,6 +18,14 @@ def test_planner_summary_report_contains_core_fields(tmp_path: Path) -> None:
     assert "symbolic" in markdown
     assert "Planner provider" in markdown
     assert "Validation passed" in markdown
+    assert "Planner Diagnostics" in markdown
+    assert "Rejected candidates" in markdown
+    assert "Evidence Strength" in markdown
+    assert "Format-flow positive count" in markdown
+    assert "Truncation negative count" in markdown
+    assert "Memcpy positive count" in markdown
+    assert "direct_main_symbolic" in markdown
+    assert "Direct-main evidence bypasses startup/loader modeling" in markdown
     assert "toy_01_rule_001" in markdown
     assert "No target binary was concretely executed." in markdown
     assert "No system/popen command was executed." in markdown
@@ -63,6 +71,22 @@ def _sample_summary() -> dict:
         "candidate_count": 4,
         "validation_passed_count": 4,
         "validation_failed_count": 0,
+        "rejected_count": 1,
+        "planner_diagnostics": {
+            "sanitizer_count": 1,
+            "sanitizer_types": ["length_window"],
+            "marker_len": 17,
+            "rejected_count": 1,
+            "notes": ["benign marker length is incompatible with length_window sanitizer"],
+        },
+        "rejected_candidates": [
+            {
+                "strategy": "marker_only",
+                "source": "ip",
+                "sanitizer": "length_window",
+                "reason": "marker_length_exceeds_required_window",
+            }
+        ],
         "validation": {
             "candidate_count": 4,
             "validation_passed_count": 4,
@@ -84,5 +108,28 @@ def _sample_summary() -> dict:
         "sink_reached_count": 4,
         "source_bound_count": 4,
         "marker_observed_count": 4,
+        "safe_negative_count": 0,
+        "sink_policy_positive_count": 1,
+        "sink_policy_inconclusive_count": 0,
+        "sink_policy_unsupported_count": 0,
+        "format_flow_positive_count": 1,
+        "format_flow_negative_count": 0,
+        "format_flow_inconclusive_count": 0,
+        "truncation_negative_count": 0,
+        "truncation_false_positive_count": 0,
+        "memcpy_positive_count": 0,
+        "memcpy_truncation_negative_count": 0,
+        "inconclusive_count": 3,
+        "selected_startup_mode": "direct_main",
+        "evidence_strength": {
+            "startup_mode": "direct_main",
+            "level": "direct_main_symbolic",
+            "scope": "toy_benchmark",
+            "description": "Symbolic reachability began at main.",
+            "can_claim_full_startup_proof": False,
+            "requires_explicit_opt_in": False,
+        },
+        "full_startup_proof_count": 0,
+        "direct_main_evidence_count": 4,
         "limitations": ["rule planner is a benign deterministic baseline"],
     }

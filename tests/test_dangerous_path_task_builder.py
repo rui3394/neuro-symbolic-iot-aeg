@@ -129,6 +129,31 @@ def test_task_builder_prefers_sink_callsite_address(tmp_path: Path) -> None:
             "arg_index": 0,
             "callers": ["main"],
             "external_address": "0x3",
+            "callsites": [
+                {
+                    "address": "0x4011f9",
+                    "caller": "main",
+                    "caller_entry": "0x401176",
+                }
+            ],
+        }
+    ]
+    assert basic_validate_dangerous_path_task(task) == []
+
+
+def test_task_builder_carries_target_sanitizers() -> None:
+    task = build_dangerous_path_task(
+        "examples/ghidra_exports/toy_02_facts.real.json",
+        "configs/toy_02.yaml",
+    )
+
+    assert task["sanitizers"] == [
+        {
+            "sanitizer_id": "sanitizer_1:semicolon_blacklist",
+            "type": "blacklist",
+            "source": "ip",
+            "chars": [";"],
+            "description": "rejects semicolon before command formatting",
         }
     ]
     assert basic_validate_dangerous_path_task(task) == []

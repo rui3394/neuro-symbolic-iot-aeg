@@ -1,0 +1,109 @@
+{
+  "backend": "angr",
+  "benign_marker": "__NS_AEG_MARKER__",
+  "binary": {
+    "arch": "x86",
+    "name": "toy_02",
+    "path": "/home/kali/projects/neuro-symbolic-iot-aeg/datasets/toy_cgi/build/toy_02"
+  },
+  "candidate_id": "toy_02_rule_004",
+  "checked_sinks": [
+    {
+      "address": "0x40126b",
+      "arg_index": 2,
+      "callers": [
+        "main"
+      ],
+      "external_address": "0x5",
+      "function": "snprintf",
+      "sink_id": "sink_1:snprintf"
+    },
+    {
+      "address": "0x40127a",
+      "arg_index": 0,
+      "callers": [
+        "main"
+      ],
+      "external_address": "0x4",
+      "function": "system",
+      "sink_id": "sink_2:system"
+    }
+  ],
+  "checked_sources": [
+    {
+      "carrier": "argv[1]",
+      "name": "ip",
+      "source_id": "source_1:ip",
+      "symbolic": "sym_ip"
+    }
+  ],
+  "constraints_summary": {
+    "candidate_input_len": 32,
+    "candidate_value_truncated": false,
+    "constraints_added": 32,
+    "symbolic_bytes": 32
+  },
+  "entry": {
+    "address": "0x401196",
+    "function": "main"
+  },
+  "executed": false,
+  "found_states": 1,
+  "limitations": [
+    "task symbolic mode is currently scoped to local toy argv-based CGI binaries",
+    "sink argument inspection uses ABI register mapping; stack arguments and some architectures are partial/unsupported",
+    "snprintf is modeled with a minimal local SimProcedure for toy source propagation",
+    "this is source-to-sink reachability evidence, not exploit verification"
+  ],
+  "marker_observed": true,
+  "mode": "symbolic_task",
+  "oracle": "source_reaches_sink",
+  "path_status": "sat",
+  "provenance": {
+    "candidate_id": "toy_02_rule_004",
+    "planner": "rule",
+    "task_path": "examples/dangerous_tasks/toy_02_task.real.json"
+  },
+  "reason": "selected sink reached and benign marker/source evidence observed in sink argument",
+  "selected_entry": {
+    "address": "0x401196",
+    "function": "main"
+  },
+  "selected_sink": {
+    "address": "0x40127a",
+    "arg_index": 0,
+    "callers": [
+      "main"
+    ],
+    "external_address": "0x4",
+    "function": "system",
+    "sink_id": "sink_2:system",
+    "type": "command_execution"
+  },
+  "sink_argument": {
+    "arch": "AMD64",
+    "arg_index": 0,
+    "arg_register": "rdi",
+    "arg_symbolic": true,
+    "arg_variables": [
+      "mem_7ffffffefe11_19_1784",
+      "sym_ip_15_256"
+    ],
+    "concrete_preview": "AAAAAAAAAAAAAAA__NS_AEG_MARKER__",
+    "contains_marker": true,
+    "contains_source": true,
+    "error": null,
+    "limitations": [],
+    "location": "register:rdi",
+    "marker_observed": true,
+    "method": "register_pointer_memory_string",
+    "register": "rdi",
+    "source_var_in_sink_arg": true,
+    "value_repr": "AAAAAAAAAAAAAAA__NS_AEG_MARKER__"
+  },
+  "sink_reached": true,
+  "source_bound": true,
+  "status": "sat",
+  "steps": 608,
+  "task_id": "dangerous_path:toy_02_filter_chars:toy_02"
+}

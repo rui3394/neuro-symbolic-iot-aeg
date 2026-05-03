@@ -26,6 +26,17 @@ def main(argv: list[str] | None = None) -> int:
         default="dry-run",
         help="Verifier mode. Defaults to dry-run for backward compatibility.",
     )
+    parser.add_argument(
+        "--startup-mode",
+        choices=["auto", "full-init", "direct-main"],
+        default="auto",
+        help="symbolic startup mode. Used only with --mode symbolic.",
+    )
+    parser.add_argument(
+        "--allow-direct-main-for-non-toy",
+        action="store_true",
+        help="allow direct-main symbolic startup for non-toy/unknown tasks. Use only for explicit debugging.",
+    )
     parser.add_argument("--out", required=True, help="output verification result JSON path.")
     args = parser.parse_args(argv)
 
@@ -34,7 +45,12 @@ def main(argv: list[str] | None = None) -> int:
             task = load_dangerous_path_task(args.task)
             candidate = load_candidate(args.candidate)
             config = task_to_verifier_config(task)
-            result = run_symbolic_task_verification(config, candidate)
+            result = run_symbolic_task_verification(
+                config,
+                candidate,
+                startup_mode=args.startup_mode,
+                allow_direct_main_for_non_toy=args.allow_direct_main_for_non_toy,
+            )
             result["provenance"] = {
                 "task_path": args.task,
                 "candidate_path": args.candidate,

@@ -1,0 +1,535 @@
+{
+  "binary": {
+    "arch": "AARCH64",
+    "name": "toy_11",
+    "path": "/home/kali/projects/neuro-symbolic-iot-aeg/datasets/toy_cgi/build_cross/aarch64/toy_11"
+  },
+  "entry": {
+    "address": "0x400704",
+    "function": "main"
+  },
+  "evidence": {
+    "decompiled_snippets": [
+      {
+        "entry": "0x400704",
+        "function": "main",
+        "text": "\nint main(int argc,char **argv)\n\n{\n  long lVar1;\n  char **argv_local;\n  int argc_local;\n  char *ip;\n  char cmd [16];\n  \n  lVar1 = __stack_chk_guard;\n  if (1 < argc) {\n    memcpy(cmd,argv[1],8);\n    cmd[8] = '\\0';\n    system(cmd);\n  }\n  if (lVar1 - __stack_chk_guard == 0) {\n    return (int)(argc < 2);\n  }\n                    /* WARNING: Subroutine does not return */\n  __stack_chk_fail(&__stack_chk_guard,argc < 2,0,lVar1 - __stack_chk_guard);\n}\n\n"
+      },
+      {
+        "entry": "0x400530",
+        "function": "_init",
+        "text": "\nint _init(EVP_PKEY_CTX *ctx)\n\n{\n  int iVar1;\n  \n  iVar1 = call_weak_fn((int)ctx);\n  return iVar1;\n}\n\n"
+      },
+      {
+        "entry": "0x400550",
+        "function": "FUN_00400550",
+        "text": "\nvoid FUN_00400550(void)\n\n{\n  (*(code *)PTR_00410ff8)();\n  return;\n}\n\n"
+      },
+      {
+        "entry": "0x400570",
+        "function": "memcpy",
+        "text": "\n/* WARNING: Unknown calling convention -- yet parameter storage is locked */\n\nvoid * memcpy(void *__dest,void *__src,size_t __n)\n\n{\n  void *pvVar1;\n  \n  pvVar1 = (void *)(*(code *)PTR_memcpy_00411000)();\n  return pvVar1;\n}\n\n"
+      },
+      {
+        "entry": "0x400580",
+        "function": "__libc_start_main",
+        "text": "\nvoid __libc_start_main(void)\n\n{\n  (*(code *)PTR___libc_start_main_00411008)();\n  return;\n}\n\n"
+      },
+      {
+        "entry": "0x400590",
+        "function": "system",
+        "text": "\n/* WARNING: Unknown calling convention -- yet parameter storage is locked */\n\nint system(char *__command)\n\n{\n  int iVar1;\n  \n  iVar1 = (*(code *)PTR_system_00411010)((int)__command);\n  return iVar1;\n}\n\n"
+      },
+      {
+        "entry": "0x4005a0",
+        "function": "__stack_chk_fail",
+        "text": "\nvoid __stack_chk_fail(void)\n\n{\n  (*(code *)PTR___stack_chk_fail_00411018)();\n  return;\n}\n\n"
+      },
+      {
+        "entry": "0x4005b0",
+        "function": "__gmon_start__",
+        "text": "\nvoid __gmon_start__(void)\n\n{\n  (*(code *)PTR___gmon_start___00411020)();\n  return;\n}\n\n"
+      },
+      {
+        "entry": "0x4005c0",
+        "function": "abort",
+        "text": "\n/* WARNING: Unknown calling convention -- yet parameter storage is locked */\n\nvoid abort(void)\n\n{\n  (*(code *)PTR_abort_00411028)();\n  return;\n}\n\n"
+      },
+      {
+        "entry": "0x400600",
+        "function": "_start",
+        "text": "\nvoid _start(undefined8 param_1)\n\n{\n  undefined8 in_stack_00000000;\n  \n  __libc_start_main(&__wrap_main,in_stack_00000000,&stack0x00000008,0,0,param_1);\n                    /* WARNING: Subroutine does not return */\n  abort();\n}\n\n"
+      },
+      {
+        "entry": "0x400640",
+        "function": "_dl_relocate_static_pie",
+        "text": "\nvoid _dl_relocate_static_pie(void)\n\n{\n  return;\n}\n\n"
+      },
+      {
+        "entry": "0x400644",
+        "function": "call_weak_fn",
+        "text": "\nvoid call_weak_fn(void)\n\n{\n  if (PTR___gmon_start___00410fe0 != (undefined *)0x0) {\n    __gmon_start__();\n    return;\n  }\n  return;\n}\n\n"
+      },
+      {
+        "entry": "0x400660",
+        "function": "deregister_tm_clones",
+        "text": "\n/* WARNING: Removing unreachable block (ram,0x00400678) */\n/* WARNING: Removing unreachable block (ram,0x00400684) */\n\nvoid deregister_tm_clones(void)\n\n{\n  return;\n}\n\n"
+      },
+      {
+        "entry": "0x400690",
+        "function": "register_tm_clones",
+        "text": "\n/* WARNING: Removing unreachable block (ram,0x004006b4) */\n/* WARNING: Removing unreachable block (ram,0x004006c0) */\n\nvoid register_tm_clones(void)\n\n{\n  return;\n}\n\n"
+      },
+      {
+        "entry": "0x4006cc",
+        "function": "FUN_004006cc",
+        "text": "\nvoid FUN_004006cc(void)\n\n{\n  if (completed_0 == '\\0') {\n    deregister_tm_clones();\n    completed_0 = '\\x01';\n  }\n  return;\n}\n\n"
+      },
+      {
+        "entry": "0x4006d0",
+        "function": "__do_global_dtors_aux",
+        "text": "\nvoid __do_global_dtors_aux(void)\n\n{\n  if (completed_0 == '\\0') {\n    deregister_tm_clones();\n    completed_0 = '\\x01';\n  }\n  return;\n}\n\n"
+      },
+      {
+        "entry": "0x400700",
+        "function": "frame_dummy",
+        "text": "\n/* WARNING: Removing unreachable block (ram,0x004006b4) */\n/* WARNING: Removing unreachable block (ram,0x004006c0) */\n\nvoid frame_dummy(void)\n\n{\n  return;\n}\n\n"
+      },
+      {
+        "entry": "0x4007a0",
+        "function": "_fini",
+        "text": "\nvoid _fini(void)\n\n{\n  return;\n}\n\n"
+      },
+      {
+        "entry": "0x412000",
+        "function": "memcpy",
+        "text": "\n/* WARNING: Control flow encountered bad instruction data */\n/* WARNING: Unknown calling convention -- yet parameter storage is locked */\n\nvoid * memcpy(void *__dest,void *__src,size_t __n)\n\n{\n                    /* WARNING: Bad instruction - Truncating control flow here */\n                    /* memcpy@GLIBC_2.17 */\n  halt_baddata();\n}\n\n"
+      },
+      {
+        "entry": "0x412008",
+        "function": "__libc_start_main",
+        "text": "\n/* WARNING: Control flow encountered bad instruction data */\n\nvoid __libc_start_main(void)\n\n{\n                    /* WARNING: Bad instruction - Truncating control flow here */\n                    /* __libc_start_main@GLIBC_2.34 */\n  halt_baddata();\n}\n\n"
+      }
+    ],
+    "strings": [
+      {
+        "address": "0x400238",
+        "value": "/lib/ld-linux-aarch64.so.1"
+      },
+      {
+        "address": "0x400381",
+        "value": "__libc_start_main"
+      },
+      {
+        "address": "0x400393",
+        "value": "system"
+      },
+      {
+        "address": "0x40039a",
+        "value": "abort"
+      },
+      {
+        "address": "0x4003a0",
+        "value": "memcpy"
+      },
+      {
+        "address": "0x4003a7",
+        "value": "__stack_chk_fail"
+      },
+      {
+        "address": "0x4003b8",
+        "value": "__stack_chk_guard"
+      },
+      {
+        "address": "0x4003ca",
+        "value": "libc.so.6"
+      },
+      {
+        "address": "0x4003d4",
+        "value": "ld-linux-aarch64.so.1"
+      },
+      {
+        "address": "0x4003ea",
+        "value": "GLIBC_2.17"
+      },
+      {
+        "address": "0x4003f5",
+        "value": "GLIBC_2.34"
+      },
+      {
+        "address": "0x400400",
+        "value": "__gmon_start__"
+      },
+      {
+        "address": "0x400821",
+        "value": "zR"
+      },
+      {
+        "address": "0x0",
+        "value": "GCC: (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0"
+      },
+      {
+        "address": "0x0",
+        "value": "/home/kali/projects/neuro-symbolic-iot-aeg"
+      },
+      {
+        "address": "0x0",
+        "value": "long long int"
+      },
+      {
+        "address": "0x1",
+        "value": ".symtab"
+      },
+      {
+        "address": "0x9",
+        "value": ".strtab"
+      },
+      {
+        "address": "0x11",
+        "value": ".shstrtab"
+      },
+      {
+        "address": "0x1b",
+        "value": ".interp"
+      },
+      {
+        "address": "0x23",
+        "value": ".note.gnu.build-id"
+      },
+      {
+        "address": "0x36",
+        "value": ".note.ABI-tag"
+      },
+      {
+        "address": "0x44",
+        "value": ".gnu.hash"
+      },
+      {
+        "address": "0x4e",
+        "value": ".dynsym"
+      },
+      {
+        "address": "0x56",
+        "value": ".dynstr"
+      },
+      {
+        "address": "0x5e",
+        "value": ".gnu.version"
+      },
+      {
+        "address": "0x6b",
+        "value": ".gnu.version_r"
+      },
+      {
+        "address": "0x7a",
+        "value": ".rela.dyn"
+      },
+      {
+        "address": "0x84",
+        "value": ".rela.plt"
+      },
+      {
+        "address": "0x8e",
+        "value": ".init"
+      },
+      {
+        "address": "0x94",
+        "value": ".text"
+      },
+      {
+        "address": "0x9a",
+        "value": ".fini"
+      },
+      {
+        "address": "0xa0",
+        "value": ".rodata"
+      },
+      {
+        "address": "0xa8",
+        "value": ".eh_frame_hdr"
+      },
+      {
+        "address": "0xb6",
+        "value": ".eh_frame"
+      },
+      {
+        "address": "0xc0",
+        "value": ".init_array"
+      },
+      {
+        "address": "0xcc",
+        "value": ".fini_array"
+      },
+      {
+        "address": "0xd8",
+        "value": ".data.rel.ro"
+      },
+      {
+        "address": "0xe5",
+        "value": ".dynamic"
+      },
+      {
+        "address": "0xee",
+        "value": ".got"
+      },
+      {
+        "address": "0xf3",
+        "value": ".got.plt"
+      },
+      {
+        "address": "0xfc",
+        "value": ".data"
+      },
+      {
+        "address": "0x102",
+        "value": ".bss"
+      },
+      {
+        "address": "0x107",
+        "value": ".comment"
+      },
+      {
+        "address": "0x110",
+        "value": ".debug_aranges"
+      },
+      {
+        "address": "0x11f",
+        "value": ".debug_info"
+      },
+      {
+        "address": "0x12b",
+        "value": ".debug_abbrev"
+      },
+      {
+        "address": "0x139",
+        "value": ".debug_line"
+      },
+      {
+        "address": "0x145",
+        "value": ".debug_str"
+      },
+      {
+        "address": "0x150",
+        "value": ".debug_line_str"
+      },
+      {
+        "address": "0x1",
+        "value": "crt1.o"
+      },
+      {
+        "address": "0x8",
+        "value": "$d"
+      },
+      {
+        "address": "0xb",
+        "value": "__abi_tag"
+      },
+      {
+        "address": "0x15",
+        "value": "$x"
+      },
+      {
+        "address": "0x18",
+        "value": "__wrap_main"
+      },
+      {
+        "address": "0x24",
+        "value": "crti.o"
+      },
+      {
+        "address": "0x2b",
+        "value": "call_weak_fn"
+      },
+      {
+        "address": "0x38",
+        "value": "crtn.o"
+      },
+      {
+        "address": "0x3f",
+        "value": "crtstuff.c"
+      },
+      {
+        "address": "0x4a",
+        "value": "deregister_tm_clones"
+      },
+      {
+        "address": "0x5f",
+        "value": "__do_global_dtors_aux"
+      },
+      {
+        "address": "0x75",
+        "value": "completed.0"
+      },
+      {
+        "address": "0x81",
+        "value": "__do_global_dtors_aux_fini_array_entry"
+      },
+      {
+        "address": "0xa8",
+        "value": "frame_dummy"
+      },
+      {
+        "address": "0xb4",
+        "value": "__frame_dummy_init_array_entry"
+      },
+      {
+        "address": "0xd3",
+        "value": "toy_11_memcpy_truncation_negative.c"
+      },
+      {
+        "address": "0xf7",
+        "value": "__FRAME_END__"
+      },
+      {
+        "address": "0x105",
+        "value": "_DYNAMIC"
+      },
+      {
+        "address": "0x10e",
+        "value": "__GNU_EH_FRAME_HDR"
+      },
+      {
+        "address": "0x121",
+        "value": "_GLOBAL_OFFSET_TABLE_"
+      },
+      {
+        "address": "0x137",
+        "value": "memcpy@GLIBC_2.17"
+      },
+      {
+        "address": "0x149",
+        "value": "__libc_start_main@GLIBC_2.34"
+      },
+      {
+        "address": "0x166",
+        "value": "__bss_start__"
+      },
+      {
+        "address": "0x174",
+        "value": "_edata"
+      },
+      {
+        "address": "0x17b",
+        "value": "_fini"
+      },
+      {
+        "address": "0x181",
+        "value": "__bss_end__"
+      },
+      {
+        "address": "0x18d",
+        "value": "__data_start"
+      },
+      {
+        "address": "0x19a",
+        "value": "system@GLIBC_2.17"
+      },
+      {
+        "address": "0x1ac",
+        "value": "__stack_chk_fail@GLIBC_2.17"
+      },
+      {
+        "address": "0x1c8",
+        "value": "__gmon_start__"
+      },
+      {
+        "address": "0x1d7",
+        "value": "__stack_chk_guard@GLIBC_2.17"
+      },
+      {
+        "address": "0x1f4",
+        "value": "__dso_handle"
+      },
+      {
+        "address": "0x201",
+        "value": "abort@GLIBC_2.17"
+      },
+      {
+        "address": "0x212",
+        "value": "_IO_stdin_used"
+      },
+      {
+        "address": "0x221",
+        "value": "_end"
+      },
+      {
+        "address": "0x226",
+        "value": "_dl_relocate_static_pie"
+      },
+      {
+        "address": "0x23e",
+        "value": "__end__"
+      },
+      {
+        "address": "0x246",
+        "value": "__bss_start"
+      },
+      {
+        "address": "0x252",
+        "value": "__TMC_END__"
+      },
+      {
+        "address": "0x25e",
+        "value": "_init"
+      }
+    ]
+  },
+  "expected": {
+    "benign_marker": "__NS_AEG_MARKER__",
+    "oracle": "source_reaches_sink"
+  },
+  "provenance": {
+    "facts_path": "reports/cross_arch/toy_smoke_full_init/aarch64_toy_11/facts.real.json",
+    "target_path": "configs/toy_11.yaml"
+  },
+  "sanitizers": [],
+  "sinks": [
+    {
+      "address": "0x400758",
+      "arg_index": 1,
+      "callers": [
+        "main"
+      ],
+      "callsites": [
+        {
+          "address": "0x400758",
+          "caller": "main",
+          "caller_entry": "0x400704"
+        }
+      ],
+      "external_address": "0x1",
+      "function": "memcpy",
+      "sink_id": "sink_1:memcpy",
+      "type": "memory_copy"
+    },
+    {
+      "address": "0x400764",
+      "arg_index": 0,
+      "callers": [
+        "main"
+      ],
+      "callsites": [
+        {
+          "address": "0x400764",
+          "caller": "main",
+          "caller_entry": "0x400704"
+        }
+      ],
+      "external_address": "0x3",
+      "function": "system",
+      "sink_id": "sink_2:system",
+      "type": "command_execution"
+    }
+  ],
+  "sources": [
+    {
+      "carrier": "argv[1]",
+      "max_len": 32,
+      "name": "ip",
+      "source_id": "source_1:ip",
+      "symbolic": "sym_ip",
+      "type": "http_param"
+    }
+  ],
+  "task_id": "dangerous_path:toy_11_memcpy_truncation_negative:toy_11"
+}

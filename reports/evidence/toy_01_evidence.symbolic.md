@@ -60,6 +60,16 @@
 - constraints_added: `64`
 - symbolic_bytes: `64`
 
+## Evidence Strength
+
+- Startup mode: `full_init`
+- Level: `full_program_startup_symbolic`
+- Scope: `toy_benchmark`
+- Can claim full startup proof: `true`
+- Requires explicit opt-in: `false`
+- Description: Symbolic reachability began from the program initialization path.
+- This is symbolic reachability evidence from the program initialization path.
+
 ## Candidate Input Summary
 
 - Source `ip`: input_present=`not available`, benign_marker_present=`not available`, input_len=`not available`
@@ -72,7 +82,7 @@ selected sink reached and benign marker/source evidence observed in sink argumen
 
 - This is angr-based symbolic reachability evidence.
 - task symbolic mode is currently scoped to local toy argv-based CGI binaries
-- sink argument inspection currently supports AMD64 first-argument register rdi
+- sink argument inspection uses ABI register mapping; stack arguments and some architectures are partial/unsupported
 - snprintf is modeled with a minimal local SimProcedure for toy source propagation
 - this is source-to-sink reachability evidence, not exploit verification
 

@@ -12,6 +12,9 @@ http:
 
 analysis:
   vulnerability_type: safe_path_observation
+  expected_behavior: unsat_expected
+  safe_negative:
+    description: system is reachable with a fixed benign command, but source/marker are not included in the sink argument
   sinks:
     - system
     - snprintf

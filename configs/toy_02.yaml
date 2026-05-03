@@ -15,6 +15,13 @@ analysis:
   sinks:
     - system
     - snprintf
+  sanitizers:
+    - sanitizer_id: sanitizer_1:semicolon_blacklist
+      type: blacklist
+      source: ip
+      chars:
+        - ";"
+      description: rejects semicolon before command formatting
 
 mode:
   dry_run: true

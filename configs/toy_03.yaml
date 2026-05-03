@@ -15,6 +15,13 @@ analysis:
   sinks:
     - system
     - snprintf
+  sanitizers:
+    - sanitizer_id: sanitizer_1:length_window
+      type: length_window
+      source: ip
+      max_prefix_len: 16
+      requires_nul_within: 16
+      description: requires input NUL terminator within the first 16 bytes
 
 mode:
   dry_run: true

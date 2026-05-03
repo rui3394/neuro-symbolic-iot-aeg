@@ -75,3 +75,29 @@ def test_rule_planner_write_candidate_set(tmp_path: Path) -> None:
     assert data["planner"]["version"] == "0.1"
     assert data["candidates"][0]["inputs"]["ip"]
 
+
+def test_rule_planner_records_blacklist_sanitizer_diagnostics() -> None:
+    task = load_json("examples/dangerous_tasks/toy_02_task.real.json")
+
+    candidate_set = generate_candidate_set(task)
+
+    assert candidate_set["planner"]["mode"] == "sanitizer_aware_benign_baseline"
+    assert candidate_set["planning_diagnostics"]["sanitizer_count"] == 1
+    assert candidate_set["planning_diagnostics"]["sanitizer_types"] == ["blacklist"]
+    assert len(candidate_set["candidates"]) >= 1
+    assert candidate_set["rejected_candidates"] == []
+
+
+def test_rule_planner_rejects_marker_incompatible_length_window() -> None:
+    task = load_json("examples/dangerous_tasks/toy_03_task.real.json")
+
+    candidate_set = generate_candidate_set(task)
+
+    assert candidate_set["planner"]["mode"] == "sanitizer_aware_benign_baseline"
+    assert candidate_set["candidates"] == []
+    assert candidate_set["planning_diagnostics"]["sanitizer_types"] == ["length_window"]
+    assert candidate_set["planning_diagnostics"]["rejected_count"] >= 1
+    assert {
+        rejected["reason"]
+        for rejected in candidate_set["rejected_candidates"]
+    } == {"marker_length_exceeds_required_window"}

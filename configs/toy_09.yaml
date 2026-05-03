@@ -1,0 +1,23 @@
+name: toy_09_snprintf_truncation_positive
+binary: datasets/toy_cgi/build/toy_09
+arch: auto
+
+http:
+  method: GET
+  path: /cgi-bin/ping
+  params:
+    ip:
+      source: true
+      max_len: 32
+
+analysis:
+  vulnerability_type: command_path_observation
+  expected_behavior: sat_expected
+  format_flow:
+    description: snprintf size is large enough for the benign marker to reach system
+  sinks:
+    - system
+    - snprintf
+
+mode:
+  dry_run: true

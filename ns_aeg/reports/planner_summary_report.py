@@ -11,6 +11,9 @@ NO_CONCRETE_EXECUTION_NOTICE = "No target binary was concretely executed."
 NO_COMMAND_EXECUTION_NOTICE = "No system/popen command was executed."
 NO_EXPLOIT_NOTICE = "No weaponized exploit was generated."
 CANDIDATE_SAFETY_NOTICE = "Candidates are benign source-to-sink verification inputs."
+DIRECT_MAIN_CAUTION = (
+    "Direct-main evidence bypasses startup/loader modeling and must not be used as a standalone real-firmware claim."
+)
 
 
 class PlannerSummaryReportError(ValueError):
@@ -57,6 +60,7 @@ def generate_summary_markdown(summary: dict[str, Any]) -> str:
         f"- Candidate count: `{_display(summary.get('candidate_count'))}`",
         f"- Validation passed: `{_display(summary.get('validation_passed_count'))}`",
         f"- Validation failed: `{_display(summary.get('validation_failed_count'))}`",
+        f"- Rejected candidates: `{_display(summary.get('rejected_count'))}`",
         "",
         "## Status Counts",
         "",
@@ -65,11 +69,41 @@ def generate_summary_markdown(summary: dict[str, Any]) -> str:
     lines.extend(
         [
             "",
+            "## Planner Diagnostics",
+            "",
+        ]
+    )
+    lines.extend(_render_planner_diagnostics(summary))
+    lines.extend(
+        [
+            "",
             "## Evidence Counts",
             "",
             f"- Sink reached count: `{_display(summary.get('sink_reached_count'))}`",
             f"- Source bound count: `{_display(summary.get('source_bound_count'))}`",
             f"- Marker observed count: `{_display(summary.get('marker_observed_count'))}`",
+            f"- Safe negative count: `{_display(summary.get('safe_negative_count'))}`",
+            f"- Sink policy positive count: `{_display(summary.get('sink_policy_positive_count'))}`",
+            f"- Sink policy inconclusive count: `{_display(summary.get('sink_policy_inconclusive_count'))}`",
+            f"- Sink policy unsupported count: `{_display(summary.get('sink_policy_unsupported_count'))}`",
+            f"- Format-flow positive count: `{_display(summary.get('format_flow_positive_count'))}`",
+            f"- Format-flow negative count: `{_display(summary.get('format_flow_negative_count'))}`",
+            f"- Format-flow inconclusive count: `{_display(summary.get('format_flow_inconclusive_count'))}`",
+            f"- Truncation negative count: `{_display(summary.get('truncation_negative_count'))}`",
+            f"- Truncation false positive count: `{_display(summary.get('truncation_false_positive_count'))}`",
+            f"- Memcpy positive count: `{_display(summary.get('memcpy_positive_count'))}`",
+            f"- Memcpy truncation negative count: `{_display(summary.get('memcpy_truncation_negative_count'))}`",
+            f"- Inconclusive count: `{_display(summary.get('inconclusive_count'))}`",
+            f"- Full startup proof count: `{_display(summary.get('full_startup_proof_count'))}`",
+            f"- Direct-main evidence count: `{_display(summary.get('direct_main_evidence_count'))}`",
+            "",
+            "## Evidence Strength",
+            "",
+        ]
+    )
+    lines.extend(_render_evidence_strength(summary))
+    lines.extend(
+        [
             "",
             "## Selected Sink",
             "",
@@ -132,6 +166,44 @@ def _render_status_counts(value: Any) -> list[str]:
     return [f"- {_display(status)}: `{_display(count)}`" for status, count in sorted(counts.items())]
 
 
+def _render_planner_diagnostics(summary: dict[str, Any]) -> list[str]:
+    diagnostics = summary.get("planner_diagnostics")
+    diagnostics = diagnostics if isinstance(diagnostics, dict) else {}
+    rejected = summary.get("rejected_candidates")
+    rejected = rejected if isinstance(rejected, list) else []
+    lines = [
+        f"- Sanitizer count: `{_display(diagnostics.get('sanitizer_count'))}`",
+        f"- Sanitizer types: `{_display(', '.join(diagnostics.get('sanitizer_types', [])) if isinstance(diagnostics.get('sanitizer_types'), list) else diagnostics.get('sanitizer_types'))}`",
+        f"- Marker length: `{_display(diagnostics.get('marker_len'))}`",
+        f"- Rejected count: `{_display(summary.get('rejected_count'))}`",
+    ]
+    notes = diagnostics.get("notes")
+    if isinstance(notes, list) and notes:
+        lines.append("- Notes: " + "; ".join(_display(note) for note in notes))
+    elif summary.get("total_candidates") == 0:
+        lines.append("- Notes: no candidates were generated for this planner run")
+    if rejected:
+        lines.append("")
+        lines.append("| Strategy | Source | Sanitizer | Reason |")
+        lines.append("| --- | --- | --- | --- |")
+        for item in rejected:
+            if not isinstance(item, dict):
+                continue
+            lines.append(
+                "| "
+                + " | ".join(
+                    [
+                        _display(item.get("strategy")),
+                        _display(item.get("source")),
+                        _display(item.get("sanitizer")),
+                        _display(item.get("reason")),
+                    ]
+                )
+                + " |"
+            )
+    return lines
+
+
 def _render_selected_sink(value: Any) -> list[str]:
     sink = value if isinstance(value, dict) else {}
     if not sink:
@@ -145,6 +217,19 @@ def _render_selected_sink(value: Any) -> list[str]:
     ]
 
 
+def _render_evidence_strength(summary: dict[str, Any]) -> list[str]:
+    strength = summary.get("evidence_strength")
+    strength = strength if isinstance(strength, dict) else {}
+    lines = [
+        f"- Selected startup mode: `{_display(summary.get('selected_startup_mode') or strength.get('startup_mode'))}`",
+        f"- Evidence level: `{_display(strength.get('level'))}`",
+        f"- Can claim full startup proof: `{_display_bool(strength.get('can_claim_full_startup_proof'))}`",
+    ]
+    if strength.get("level") == "direct_main_symbolic" or int(summary.get("direct_main_evidence_count") or 0) > 0:
+        lines.append(f"- Caution: {DIRECT_MAIN_CAUTION}")
+    return lines
+
+
 def _render_limitations(value: Any) -> list[str]:
     limitations = value if isinstance(value, list) else []
     if not limitations:
@@ -156,6 +241,12 @@ def _display(value: Any) -> str:
     if value is None or value == "":
         return NOT_AVAILABLE
     return str(value).replace("|", "\\|").replace("\n", " ")
+
+
+def _display_bool(value: Any) -> str:
+    if isinstance(value, bool):
+        return "true" if value else "false"
+    return NOT_AVAILABLE
 
 
 if __name__ == "__main__":

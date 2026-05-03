@@ -1,0 +1,281 @@
+{
+  "backend": "angr",
+  "benign_marker": "__NS_AEG_MARKER__",
+  "binary": {
+    "arch": "MIPS",
+    "name": "toy_05",
+    "path": "/home/kali/projects/neuro-symbolic-iot-aeg/datasets/toy_cgi/build_cross/mips/toy_05"
+  },
+  "candidate_id": "toy_05_rule_001",
+  "checked_sinks": [
+    {
+      "address": "0x400848",
+      "arg_index": 2,
+      "callers": [
+        "main"
+      ],
+      "callsites": [
+        {
+          "address": "0x400848",
+          "caller": "main",
+          "caller_entry": "0x4007b0"
+        }
+      ],
+      "external_address": "0x2",
+      "function": "snprintf",
+      "sink_id": "sink_1:snprintf"
+    },
+    {
+      "address": "0x400864",
+      "arg_index": 0,
+      "callers": [
+        "main"
+      ],
+      "callsites": [
+        {
+          "address": "0x400864",
+          "caller": "main",
+          "caller_entry": "0x4007b0"
+        }
+      ],
+      "external_address": "0x3",
+      "function": "system",
+      "sink_id": "sink_2:system"
+    }
+  ],
+  "checked_sources": [
+    {
+      "carrier": "argv[1]",
+      "name": "ip",
+      "source_id": "source_1:ip",
+      "symbolic": "sym_ip"
+    }
+  ],
+  "constraints_summary": {
+    "candidate_input_len": 26,
+    "candidate_value_truncated": false,
+    "constraints_added": 32,
+    "symbolic_bytes": 32
+  },
+  "entry": {
+    "address": "0x4007b0",
+    "function": "main"
+  },
+  "evidence_strength": {
+    "can_claim_full_startup_proof": true,
+    "description": "Symbolic reachability began from the program initialization path.",
+    "level": "full_program_startup_symbolic",
+    "requires_explicit_opt_in": false,
+    "scope": "toy_benchmark",
+    "startup_mode": "full_init"
+  },
+  "executed": false,
+  "found_states": 0,
+  "limitations": [
+    "task symbolic mode is currently scoped to local toy argv-based CGI binaries",
+    "sink argument inspection uses ABI register mapping; stack arguments and some architectures are partial/unsupported",
+    "snprintf/sprintf/memcpy are modeled with minimal local SimProcedures for toy source propagation",
+    "this is source-to-sink reachability evidence, not exploit verification"
+  ],
+  "marker_observed": "unknown",
+  "match_reason": null,
+  "matched_sink_address": null,
+  "mode": "symbolic_task",
+  "oracle": "source_reaches_sink",
+  "path_status": "unsat",
+  "provenance": {
+    "candidate_id": "toy_05_rule_001",
+    "planner": "rule",
+    "task_path": "reports/cross_arch/toy_smoke_full_init/mips_toy_05/task.real.json"
+  },
+  "reachability_debug": {
+    "active_state_count": 0,
+    "arch": "MIPS32",
+    "binary_path": "/home/kali/projects/neuro-symbolic-iot-aeg/datasets/toy_cgi/build_cross/mips/toy_05",
+    "deadended_state_count": 0,
+    "delay_slot_adjusted": false,
+    "entry_address": "0x4007b0",
+    "errored_state_count": 1,
+    "errored_state_details": [
+      {
+        "address": "0x500014",
+        "error": "Claripy threw an error",
+        "recent_bbl_addrs": [
+          "0x60104c",
+          "0x4007b0",
+          "0x4007f0",
+          "0x400808"
+        ]
+      }
+    ],
+    "full_init_repair_applied": true,
+    "loader_external_symbols": [
+      {
+        "address": "0x500018",
+        "name": "__libc_start_main"
+      },
+      {
+        "address": "0x500000",
+        "name": "snprintf"
+      },
+      {
+        "address": "0x500004",
+        "name": "system"
+      },
+      {
+        "address": "0x500008",
+        "name": "__stack_chk_fail"
+      }
+    ],
+    "main_address": "0x4007b0",
+    "match_reason": null,
+    "matched_sink_address": null,
+    "mips_delay_slot_candidates": [
+      {
+        "address": "0x400860",
+        "reason": "mips_branch_instruction_candidate"
+      },
+      {
+        "address": "0x400868",
+        "reason": "mips_delay_slot_candidate"
+      },
+      {
+        "address": "0x40086c",
+        "reason": "mips_after_delay_slot_candidate"
+      }
+    ],
+    "plt_or_stub_candidates": [
+      {
+        "address": "0x500004",
+        "name": "system",
+        "source": "loader_symbol"
+      },
+      {
+        "address": "0x500018",
+        "name": "__libc_start_main",
+        "source": "loader_symbol"
+      }
+    ],
+    "reached_addresses_near_sink": [
+      "0x500014"
+    ],
+    "reached_main": true,
+    "reason": "no active states remain before reaching sink candidates",
+    "recent_bbl_addrs": [
+      "0x4006a8",
+      "0x4006ec",
+      "0x4005e4",
+      "0x4005ec",
+      "0x4006ec",
+      "0x4005e4",
+      "0x4005ec",
+      "0x4008c0",
+      "0x4005e4",
+      "0x4005ec",
+      "0x4008c0",
+      "0x400910",
+      "0x4005ec",
+      "0x4008c0",
+      "0x400910",
+      "0x400604",
+      "0x4008c0",
+      "0x400910",
+      "0x400604",
+      "0x60104c",
+      "0x400910",
+      "0x400604",
+      "0x60104c",
+      "0x4007b0",
+      "0x400604",
+      "0x60104c",
+      "0x4007b0",
+      "0x4007f0",
+      "0x60104c",
+      "0x4007b0",
+      "0x4007f0",
+      "0x400808"
+    ],
+    "repair_reason": "mips_full_init_block_level_stepping_for_bal_delay_slot_startup_stub",
+    "selected_sink_address": "0x400864",
+    "selected_sink_callsites": [
+      {
+        "address": "0x400864",
+        "caller": "main",
+        "caller_entry": "0x4007b0"
+      }
+    ],
+    "selected_sink_external_address": "0x3",
+    "sink_address_candidates": [
+      {
+        "address": "0x400860",
+        "reason": "mips_branch_instruction_candidate"
+      },
+      {
+        "address": "0x400864",
+        "reason": "selected_sink_address"
+      },
+      {
+        "address": "0x400868",
+        "reason": "mips_delay_slot_candidate"
+      },
+      {
+        "address": "0x40086c",
+        "reason": "mips_after_delay_slot_candidate"
+      },
+      {
+        "address": "0x500004",
+        "reason": "loader_external_symbol_address"
+      }
+    ],
+    "startup_failure_reason": "errored_state_before_sink",
+    "steps": 20,
+    "thumb_adjusted": false
+  },
+  "reason": "selected sink callsite was not reached",
+  "selected_entry": {
+    "address": "0x4007b0",
+    "function": "main"
+  },
+  "selected_sink": {
+    "address": "0x400864",
+    "arg_index": 0,
+    "callers": [
+      "main"
+    ],
+    "callsites": [
+      {
+        "address": "0x400864",
+        "caller": "main",
+        "caller_entry": "0x4007b0"
+      }
+    ],
+    "external_address": "0x3",
+    "function": "system",
+    "sink_id": "sink_2:system",
+    "type": "command_execution"
+  },
+  "sink_reached": false,
+  "source_bound": "unknown",
+  "startup_debug": {
+    "argv_model_summary": {
+      "argc": 2,
+      "argv0": "/home/kali/projects/neuro-symbolic-iot-aeg/datasets/toy_cgi/build_cross/mips/toy_05",
+      "mode": "full_init",
+      "symbolic_argv_index": 1
+    },
+    "attempted_modes": [
+      "full_init"
+    ],
+    "direct_main_policy_reason": null,
+    "direct_main_status": null,
+    "fallback_reason": null,
+    "full_init_status": "unsat",
+    "limitations": [],
+    "main_address": "0x4007b0",
+    "requested_startup_mode": "full_init",
+    "selected_startup_mode": "full_init"
+  },
+  "status": "unsat",
+  "steps": 20,
+  "task_id": "dangerous_path:toy_05_safe_case:toy_05"
+}
